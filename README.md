@@ -1,6 +1,4 @@
-<div style="text-align:center">
-  ![Alt Text](assets/newton.jpg)
-</div>
+![Alt Text](assets/newtonlogo.jpg)
 
 # Newton
 Graphical calculator for Atari
@@ -17,3 +15,13 @@ Originally coded by me in C in 1998, then developed off and to for a couple of y
 ## Installation
 
 The latest release is contained in the .lzh archive. The latest build is the newton.app 
+
+## Manual
+There is a manual in the form of an ST Guide HYP file. HYP files can be openened in Windows using WinGuide.
+
+## Still to do
+- Memory leaks
+- Cleaner redraw
+- Settings in windows
+- Improvements to the function plotting
+- Cleaning code and comments for the public
