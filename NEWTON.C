@@ -1,10 +1,8 @@
 
-/* Newton. Grafisk minir„knare, (c) 1997-2005 Mikael Folkesson.
- * Alla funktioner som har med redraw att g”ra b”r vara
- * kvar i denna filen, annars blir uppdateringen mycket
- * l†ngsammare.
+/* Newton. Graphical calculator, (c) 1997-2005 Mikael Folkesson.
+ * Since 2023 GPL 3. All functions to do with redraw should
+ * remain in this file, otherwise the redraw gets a lot slower
  ***********************************************/
-
 
 #include <aes.h>
 #include <vdi.h>
@@ -24,97 +22,97 @@
 #include "graf.h"
 #include "dev\w_xgem.h"
 
-/*extern int _app; */						 /* Startad som applikation ell. acc?*/
-/*extern GEMPARBLK _GemParBlk;*/	/* Dessa finns att tillg† „nd† */
+/*extern int _app; */						 /* Started as an app or an acc?*/
+/*extern GEMPARBLK _GemParBlk;*/	/* These are available even if not imported */
 
-char	 *Version="v 0.994ž of ";
-int	 whandle=0;							/* Handle f”r det ”ppnade f”nstret.	*/
-char	 *title=NULL;		 				/* F”nstrets titelrad.					*/
-int	 gl_wchar=0,						/* En bokstavs storlek och bredd 	*/
-		 gl_hchar=0,						/* (viktigt om man arbetar i olika 	*/
-		 gl_wbox=0,							/* uppl”sningar eller typsnitt)	 	*/
-		 gl_hbox=0;							/* respektive en box storlek.			*/
-int posi=0,									/* Position i str„ng					  */
-		undoPosi=0;
+char	 *Version="v 0.994ï¿½ of ";
+int whandle = 0;                      /* Handle for the opened window. */
+char* title = NULL;                   /* Window title bar. */
+int gl_wchar = 0,                     /* Character size and width. */
+    gl_hchar = 0,                     /* (important when working in different resolutions or fonts) */
+    gl_wbox = 0,                      /* Width of a box. */
+    gl_hbox = 0;                      /* Height of a box. */
+int posi = 0,                          /* String position. */
+    undoPosi = 0;
 
-int x=0,y=0,w=0,h=0;
-int hor=0,ver=0, dummy=0, font=5031, fontsize=10, text_colour=BLACK, bg_colour=LWHITE, cursor_colour=12, icon_size=0, note_id=30;
-double answer=0;
-int msg[8], number_of_fonts=0;
-char *bubbletext_pointer=NULL;
-int monochrome=0;
-int bubble_open=0, syntax_error=0;
-int iconified=0;
-int quit=0;
+int x = 0, y = 0, w = 0, h = 0;
+int hor = 0, ver = 0, dummy = 0, font = 5031, fontsize = 10, text_colour = BLACK, bg_colour = LWHITE, cursor_colour = 12, icon_size = 0, note_id = 30;
+double answer = 0;
+int msg[8], number_of_fonts = 0;
+char* bubbletext_pointer = NULL;
+int monochrome = 0;
+int bubble_open = 0, syntax_error = 0;
+int iconified = 0;
+int quit = 0;
 int clip[4];
-int fulled=0,resized=1;  				/* Resized. */
-int cursor=0,								/* Om den visas f”r tillf„llet		*/
-	 cursor_blink=1,						/* Om den ska blinka eller vara fast*/
-	 moral_check=1,
-	 save_work=1,
-	 show_intro=1,
-	 rad=1,									/* B”rja alltid r„kna i radianer.	*/
-	 sendkey=1,
-	 hex=0,
-	 bin=0,
-	 dec=1,
-	 play_sample=1,
-	 linewidth=1,
-	 fontpi=1,
-	 boxes=1;								/* Om grow_boxar skall ritas ut vid D&D */
+int fulled = 0, resized = 1;             /* Resized. */
+int cursor = 0,                         /* Whether it's currently visible. */
+    cursor_blink = 1,                  /* Whether it should blink or be steady. */
+    moral_check = 1,
+    save_work = 1,
+    show_intro = 1,
+    rad = 1,                            /* Always start counting in radians. */
+    sendkey = 1,
+    hex = 0,
+    bin = 0,
+    dec = 1,
+    play_sample = 1,
+    linewidth = 1,
+    fontpi = 1,
+    boxes = 1;                          /* Whether grow boxes should be drawn during D&D. */
 
-int first=1;								/* Om man skall visa introt 				*/
-int tmp_x=0,tmp_y=0,tmp_w=0,tmp_h=0, fulled_x=0,fulled_y=0,fulled_w=0,fulled_h=0;
-char s[RADER][TECKEN],					/* Str„ngen som skall ber„knas.			*/
-		undo[RADER][TECKEN];			  /* Undobuffert							  	*/
-int scrollVector[RADER];				/* S„ger vilka rader som h”r ihop. 	 */
-int scrollVectorBak[RADER];			/* F”r undobuffer.							*/
-int	 n=0, 								/* S„ger vilken rad man „r p†.			*/
-		undoN=0;
-int teckenbredd=0, teckenhojd=0; 	/* Teckenh”jd/bredd hos font i rutan	*/
-int synliga_rader=0;
-int antal_konstanter=0; 				/* Konstanter l„sta fr†n newton.cnf.	*/
+int first = 1;                          /* Whether to show the intro. */
+int tmp_x = 0, tmp_y = 0, tmp_w = 0, tmp_h = 0, fulled_x = 0, fulled_y = 0, fulled_w = 0, fulled_h = 0;
+char s[RADER][TECKEN],                  /* The string to be calculated. */
+    undo[RADER][TECKEN];                /* Undo buffer. */
+int scrollVector[RADER];                /* Indicates which rows are linked. */
+int scrollVectorBak[RADER];             /* For undo buffer. */
+int n = 0,                              /* Current row. */
+    undoN = 0;
+int teckenbredd = 0, teckenhojd = 0;   /* Character height/width of the font in the box. */
+int synliga_rader = 0;
+int antal_konstanter = 0;               /* Constants loaded from newton.cnf. */
 
-int	 phys_handle=0,					/* Handles f”r GEM och VDI.				*/
-		 handle=0;
-int	 max_x=0,max_y=0,max_w=0,max_h=0;	/* Maximal Arbetsyta							*/
+int phys_handle = 0,                    /* GEM and VDI handles. */
+    handle = 0;
+int max_x = 0, max_y = 0, max_w = 0, max_h = 0; /* Maximum workspace size. */
 
-int	 appl_id=0,							/* Programmets Identifikationsnummer	*/
-		 menu_id=0;							/* Id.-nummer i Desk-menyn. 		  	*/
-int	 box_done=0;						/* Om WM_REDRAW, annat f”nster dras.	*/
-UWORD  nvdi=0; 							/* Om vdi har v_ftext. (nvdi>=3) 		*/
-int gs_partnerid=-1, gs_id=-1;		/* GEMScript partner ID & ID msg[7] 	*/ /* B”r vara en array f”r att para ihop id med partner, f”r att d„rmed kunna k”ra flera parallellt. */
-GS_PARTNER *gs_partner[8];
-GS_INFO gs_info;			 				/* GEMScript info-struktur 				*/
-FNT_DIALOG* fnt_dialog=NULL;				  /* F”r MagiC fontv„ljaren, skall ropas upp innan */
+int appl_id = 0,                        /* Program identification number. */
+    menu_id = 0;                        /* ID number in the Desk menu. */
+int box_done = 0;                       /* If WM_REDRAW, another window is drawn. */
+UWORD nvdi = 0;                         /* If VDI has v_ftext (nvdi >= 3). */
+int gs_partnerid = -1, gs_id = -1;      /* GEMScript partner ID & ID msg[7] */
+GS_PARTNER* gs_partner[8];
+GS_INFO gs_info;                        /* GEMScript info structure. */
+FNT_DIALOG* fnt_dialog = NULL;          /* For MagiC font selector, should be invoked before. */
 
-double xmin=4038, xmax=0, ymin=0, ymax=0;		/* F”r grafen d†r† */
-char* ekv=NULL;
-int graph_mode=0, draw_grid=0, linethgraph=0;
-long grid_distx=0, grid_disty=0;
-int grafarray[2560];						/* 2560 s† klarar den rita med bredd 1280 */
+double xmin = 4038, xmax = 0, ymin = 0, ymax = 0; /* For the graph. */
+char* ekv = NULL;
+int graph_mode = 0, draw_grid = 0, linethgraph = 0;
+long grid_distx = 0, grid_disty = 0;
+int grafarray[2560];                   /* Can handle drawing with width 1280. */
 double coordarray[2560];
 
-char *errortmpstring=NULL; 			/* Str„ng f”r ber„kning av position 
-													p† hj„lpbubbla 							*/
-char*	uttryck=NULL;						/* Till cuttryck.c							*/
+char* errortmpstring = NULL;            /* String for calculating the position of the help bubble. */
+char* uttryck = NULL;                   /* For cuttryck.c */
 char konstant_lista[ANTAL_ENHETER][MAX_TECKEN];
 double konstant_storhet[ANTAL_ENHETER];
-int MiNT=FALSE, MagX=FALSE;
-char* insert_tmp=NULL, *insert_tmp2=NULL;		/* M†ste reservera minne h„r, annars reserverar den varje g†ng insert() ropas upp. */
+int MiNT = FALSE, MagX = FALSE;
+char* insert_tmp = NULL, *insert_tmp2 = NULL; /* Memory must be allocated here, otherwise, it allocates every time insert() is called. */
 
-extern char *file_startup, *path_startup;	/* Dessa „r till samplingarna   */
-extern char *strptr_startup,*tmp_startup;	/* Allts† i samples.c			  */
-extern char *file_trashcan, *path_trashcan;
-extern char *strptr_trashcan,*tmp_trashcan;	
-extern char *file_language, *path_language;
-extern char *strptr_language,*tmp_language;	
-extern char *file_quit, *path_quit;
-extern char *strptr_quit,*tmp_quit;  
+extern char* file_startup, *path_startup;   /* These are for samples. */
+extern char* strptr_startup, *tmp_startup;   /* In samples.c */
+extern char* file_trashcan, *path_trashcan;
+extern char* strptr_trashcan, *tmp_trashcan;
+extern char* file_language, *path_language;
+extern char* strptr_language, *tmp_language;
+extern char* file_quit, *path_quit;
+extern char* strptr_quit, *tmp_quit;
 
-int extraRedrawWorkaround=0; 	/* En ritning i on”dan under magic, men inte under TOS verkar det som. */
+int extraRedrawWorkaround = 0;          /* Unnecessary drawing under magic but not under TOS, it seems. */
 
-OBJECT *tree=NULL;							  /* Objekt i resursfilen. 			  */
+OBJECT* tree = NULL;                    /* Objects in the resource file. */
+
 OBJECT *icon=NULL;
 OBJECT *icon_small=NULL;
 OBJECT *titlebarIcon=NULL;
@@ -134,44 +132,42 @@ OBJECT *graph_dial=NULL;
 TEDINFO *x_obspec=NULL, *y_obspec=NULL;	
 char* xcoordinate=NULL, *ycoordinate=NULL;
 
-/* Funktionsdeklarationer. H„r deklareras „ven de funktioner
- * som ligger i andra k„llkodsfiler.
- ****************************************************/
+/* Function declarations. Here, functions declared in other source code files are also declared. */
 
-void	open_window( void );
-int	rc_intersect( GRECT *r1, GRECT *r2 );
-void	mouse_on( void );
-void	mouse_off( void );
-void	redraw_window( int all );
-void	handle_message( void );
-void	handle_button( int mx, int my, int state, int kstate );
-void	handle_keybd( int key, int kstate, int mx, int my );
-void	event_loop( void );
-char* calculate ( char *string );
-int	choose_font(void);
-int	Get_cookie( long target, long *p_value ); /* Inte specifik */
-int	get_NVDI_cookie(long *p_value );				/* F”r NVDI */
-int	get_cookie(long cookie, xFSL *cval);		/* F”r xFSL */
-int	bubble_help(int mx, int my, int exitobj);
-void	stguide_help(void);
-void	save_settings( int fontid );
-void	load_settings( void );
-void	scrap_read(void);
-void	scrap_write( int cut );
-void	av_sendmesg(int key, int kstate, int message);
-int	bad_language(char *string);
-void	show_info(void);
-void	change_settings(void);
-void	position_objects(void);
-int	do_dialog(OBJECT *dialog);
+void open_window(void);
+int rc_intersect(GRECT *r1, GRECT *r2);
+void mouse_on(void);
+void mouse_off(void);
+void redraw_window(int all);
+void handle_message(void);
+void handle_button(int mx, int my, int state, int kstate);
+void handle_keybd(int key, int kstate, int mx, int my);
+void event_loop(void);
+char* calculate(char* string);
+int choose_font(void);
+int Get_cookie(long target, long* p_value); /* Not specific */
+int get_NVDI_cookie(long* p_value); /* For NVDI */
+int get_cookie(long cookie, xFSL* cval); /* For xFSL */
+int bubble_help(int mx, int my, int exitobj);
+void stguide_help(void);
+void save_settings(int fontid);
+void load_settings(void);
+void scrap_read(void);
+void scrap_write(int cut);
+void av_sendmesg(int key, int kstate, int message);
+int bad_language(char* string);
+void show_info(void);
+void change_settings(void);
+void position_objects(void);
+int do_dialog(OBJECT* dialog);
 extern void hex_it(long value, char* result);
 extern void bin_it(long value, char* result);
-void colour_select( void );
-TEDINFO* whichcolour( TEDINFO* obspec); /* S„tter bitarna p† bakgrunden */
-void send_dragndrop(int mx, int my, int kstate); /* Startar D&D med pipes */
+void colour_select(void);
+TEDINFO* whichcolour(TEDINFO* obspec); /* Sets the bits on the background */
+void send_dragndrop(int mx, int my, int kstate); /* Starts D&D with pipes */
 void receive_dragndrop(void);
-void error_sound( int sound );
-void insert_dragged_text(int my, int kstate, char *text);
+void error_sound(int sound);
+void insert_dragged_text(int my, int kstate, char* text);
 void read_constants(void);
 void formulas(int mx, int my);
 void addtomenu_request(void);
@@ -180,189 +176,192 @@ void initSampleDialogue(void);
 void choose_samples(void);
 void andragradare(void);
 int economy_calc(void);
-extern char* preprocess(char *string);
+extern char* preprocess(char* string);
 
-void (*print)(int vwk, int x, int y, char *text); /* symbol f”r antingen v_ftext eller v_gtext */
-void (*vqt_ex)(int handle, char* string, int* extent); /* symbol f”r antingen vqt_f_extent eller vqt_extent */
+void (*print)(int vwk, int x, int y, char* text); /* Symbol for either v_ftext or v_gtext */
+void (*vqt_ex)(int handle, char* string, int* extent); /* Symbol for either vqt_f_extent or vqt_extent */
 
-/* H„r b”rjar sj„lva programmet.
- *************************/
+/* The program starts here. */
 
-int main( void )
+int main(void)
 {
-	int i=0, code=0, dummy=0;
-	long val=0L;
-	int work_in[11];
-	int work_out[57];
-	const char name[] = "Newton\0XDSC\01Calculator\0\0";
-	char *ExampleString=NULL;
-	static char RSCnamn[] = "newton.rsc";
-	static char RSCnamn_stor[] = "NEWTON.RSC"; /* Ifall den startas fr†n en case-sensitive partition */
+    int i = 0, code = 0, dummy = 0;
+    long val = 0L;
+    int work_in[11];
+    int work_out[57];
+    const char name[] = "Newton\0XDSC\01Calculator\0\0";
+    char* ExampleString = NULL;
+    static char RSCnamn[] = "newton.rsc";
+    static char RSCnamn_stor[] = "NEWTON.RSC"; /* If started from a case-sensitive partition */
+    static char* No_RSC = "[3][Cannot find newton.rsc.|If run as an accessory under|TOS, should be in root of|boot drive!][   OK	 ]";
+    char* XBRA_Destroyed = NULL;
 
-	static char *No_RSC = "[3][Cannot find newton.rsc.|If run as an accesory under|TOS, should be in root of|boot drive!][   OK	 ]";
-	char *XBRA_Destroyed = NULL;
+    appl_id = appl_init();
+    if (appl_id != -1)
+    {
+        if (!rsrc_load(RSCnamn))
+        {
+            if (!rsrc_load(RSCnamn_stor))
+            {
+                form_alert(1, No_RSC);
+                appl_exit();
+                return 1;
+            }
+        }
 
+        MagX = Get_cookie(MagX_COOKIE, &val); /* Check cookies once for all */
+        MiNT = Get_cookie(MiNT_COOKIE, &val);
 
-	appl_id = appl_init( );
-	if ( appl_id != -1 )
-	{
-			if(!rsrc_load(RSCnamn))
-			{
-			if(!rsrc_load(RSCnamn_stor))
-			{
-				form_alert( 1, No_RSC );
-				appl_exit();
-				return 1;
-			}
-		}
+        if (MagX || MiNT)
+            Pdomain(1); /* Can use long filenames, but it's not just that. This might be dangerous? No, check longfnam.txt. */
+        strcat(Version, __DATE__);
+        wind_get(0, WF_CURRXYWH, &max_x, &max_y, &max_w, &max_h);
+        rsrc_gaddr(R_TREE, MAIN, &tree);
+        rsrc_gaddr(R_TREE, ICONIFIED, &icon);
+        rsrc_gaddr(R_TREE, SMALL_ICONIFIED, &icon_small);
+        rsrc_gaddr(R_TREE, POPUP, &popup_tree);
+        rsrc_gaddr(R_TREE, SAMPLES, &samples_tree);
+        rsrc_gaddr(R_TREE, FORMULAS, &popup_tree_formulas);
+        rsrc_gaddr(R_STRING, XBRA_DESTROYED, &XBRA_Destroyed);
+        rsrc_gaddr(0, SMALLICON, &titlebarIcon); /* Request address of the icon for xgem-titlebar */
 
-		MagX = Get_cookie (MagX_COOKIE, &val); /* Kollar kakorna en g†ng f”r alla */
-		MiNT = Get_cookie (MiNT_COOKIE, &val);
+        x_obspec = tree[XCOORDINATE].ob_spec.tedinfo;
+        y_obspec = tree[YCOORDINATE].ob_spec.tedinfo;
+        xcoordinate = x_obspec->te_ptext;
+        ycoordinate = y_obspec->te_ptext;
 
-		if(MagX || MiNT)
-			Pdomain( 1 ); /* kan l†nga filnamn, men det „r inte bara det. Den h„r kanske „r farlig? Nej, kolla longfnam.txt .*/
-		strcat(Version, __DATE__);
-		wind_get( 0, WF_CURRXYWH, &max_x,&max_y,&max_w,&max_h );
-		rsrc_gaddr( R_TREE, MAIN, &tree );
-		rsrc_gaddr( R_TREE, ICONIFIED, &icon );
-		rsrc_gaddr( R_TREE, SMALL_ICONIFIED, &icon_small );
-		rsrc_gaddr( R_TREE, POPUP, &popup_tree );
-		rsrc_gaddr( R_TREE, SAMPLES, &samples_tree );
-		rsrc_gaddr( R_TREE, FORMULAS, &popup_tree_formulas );
-		rsrc_gaddr( R_STRING, XBRA_DESTROYED, &XBRA_Destroyed );
-		rsrc_gaddr (0, SMALLICON, &titlebarIcon);		/* Demander adresse ic“ne till xgem-titlebar */
+        strcpy(xcoordinate, "x: ");
+        strcpy(ycoordinate, "y: ");
+        tree[COORDINATEBOX].ob_flags |= HIDETREE; /* Hide the coordinate box. */
 
-		x_obspec = tree[XCOORDINATE].ob_spec.tedinfo;
-		y_obspec = tree[YCOORDINATE].ob_spec.tedinfo;
-		xcoordinate = x_obspec->te_ptext;
-		ycoordinate = y_obspec->te_ptext;
+        s[0][0] = (char)(char*)Malloc(sizeof(s));
+        undo[0][0] = (char)(char*)Malloc(sizeof(undo));
+        konstant_lista[0][0] = (char)(char*)Malloc(sizeof(konstant_lista));
+        konstant_storhet[0] = (long)Malloc(ANTAL_ENHETER); /* Should ideally be (double) */
+        errortmpstring = (char*)Malloc(20 * TECKEN); /* Should be the number of lines in the current expression */
+        ekv = (BYTE*)Malloc(TECKEN);
+        grafarray[0] = (int)Malloc(sizeof(grafarray));
+        coordarray[0] = (double)(int)Malloc(sizeof(coordarray));
+        scrollVector[0] = (int)Malloc(sizeof(scrollVector));
+        scrollVectorBak[0] = (int)Malloc(sizeof(scrollVector));
+        insert_tmp = (char*)Malloc(TECKEN);
+        insert_tmp2 = (char*)Malloc(TECKEN);
+        if (MagX || MiNT)
+            gs_info.len = (long)Mxalloc(sizeof(gs_info), 0 | MGLOBAL);
+        else
+            gs_info.len = (long)Malloc(sizeof(gs_info));
+        i = 0;
+        while (i < 8)
+        {
+            gs_partner[i] = (GS_PARTNER*)Malloc(sizeof(gs_partner));
+            i++;
+        }
 
-		strcpy(xcoordinate,"x: ");
-		strcpy(ycoordinate,"y: ");
-		tree[COORDINATEBOX].ob_flags |= HIDETREE;	/* G”mmer koordinatboxen. */
+        uttryck = (char*)Malloc(20 * TECKEN); /* An expression can have 20 lines */
 
-		s[0][0]=(char)(char*)Malloc( sizeof(s) );
-		undo[0][0]=(char)(char*)Malloc( sizeof(undo) );
-		konstant_lista[0][0]=(char)(char*)Malloc( sizeof(konstant_lista) );
-		konstant_storhet[0]=(long)Malloc( ANTAL_ENHETER ); /* Borde egentligen vara (double) */
-		errortmpstring = (char *) Malloc (20*TECKEN);	/* Borde vara antal rader i nuvarande uttryck */
-		ekv = (BYTE *) Malloc (TECKEN);
-		grafarray[0]=(int)Malloc( sizeof(grafarray));
-		coordarray[0]=(double)(int)Malloc( sizeof(coordarray));
-		scrollVector[0]=(int)Malloc( sizeof(scrollVector));
-		scrollVectorBak[0]=(int)Malloc( sizeof(scrollVector));
-		insert_tmp = (char *) Malloc (TECKEN);
-		insert_tmp2 = (char *) Malloc (TECKEN);
-		if(MagX || MiNT)
-			gs_info.len = (long) Mxalloc(sizeof(gs_info), 0 | MGLOBAL);
-		else
-			gs_info.len = (long) Malloc(sizeof(gs_info));
-		i=0;
-		while(i<8){
-			gs_partner[i] = (GS_PARTNER *) Malloc(sizeof(gs_partner));
-			i++;
-		}
+        if (!uttryck) /* Out of memory */
+            return 1;
 
-		uttryck = (char *) Malloc( 20*TECKEN);	/* 20 rader kan ett uttryck vara */
+        memset(s, 0, RADER * TECKEN); /* Reset it so you can read it as it was */
+        memset(undo, 0, RADER * TECKEN); /* Reset it so you can read it as it was */
+        memset(konstant_lista, 0, sizeof(konstant_lista));
+        memset(konstant_storhet, 0, sizeof(konstant_storhet));
+        memset(errortmpstring, 0, sizeof(errortmpstring));
+        memset(uttryck, 0, sizeof(uttryck));
+        memset(scrollVector, 0, sizeof(scrollVector));
+        memset(scrollVectorBak, 0, sizeof(scrollVector));
+        memset(&(gs_info.len), 0, sizeof(gs_info)); /* This might cause some issues */
+        
+        if (is_xtitle()) /* Recent Windframe Xgem? */
+        {
+            title = (char*)Mxalloc(256, 0 | MGLOBAL);
+            sprintf(title, "\xFF\xFF\xFF\xFF%08lX%s", titlebarIcon, "Newton"); /* Insert the title with an icon */
+        }
+        else
+        {
+            if (MagX || MiNT)
+                title = (char*)Mxalloc(8, 0 | MGLOBAL);
+            else
+                title = (char*)Malloc(8);
+            strcpy(title, "Newton"); /* Text only */
+        }
 
-		if(!uttryck) /* Slut p† minne */
-			return 1;
+        nvdi = get_NVDI_cookie(&val);
+        /* nvdi = get_NVDI_cookie(); */ /* This cookie check crashed other computers, check mille_testar.txt */
 
-		memset(s, 0, RADER*TECKEN); /* Nolla den innan, s† man kan l„sa in som det var */
-		memset(undo, 0, RADER*TECKEN); /* Nolla den innan, s† man kan l„sa in som det var */
-		memset(konstant_lista, 0, sizeof(konstant_lista));
-		memset(konstant_storhet, 0, sizeof(konstant_storhet));
-		memset(errortmpstring,0,sizeof(errortmpstring));
-		memset(uttryck,0,sizeof(uttryck));
-		memset(scrollVector,0,sizeof(scrollVector));
-		memset(scrollVectorBak,0,sizeof(scrollVector));
-		memset(&(gs_info.len),0,sizeof(gs_info));	/* Den h„r kan ju orsaka en del skojj kan man t„nka */
+        if (nvdi && (val >= 0x0300))
+        {
+            print = v_ftext; /* Vector exists after version 3 */
+            vqt_ex = vqt_f_extent;
+        }
+        else
+        {
+            print = v_gtext;
+            vqt_ex = vqt_extent;
+        }
+        xacc_init(-1, name, (WORD)(ULONG)sizeof(name), 0x0001); /* The last 1 comes from the fact that you can send text or keycode to it */
 
-		if (is_xtitle ())						/* Windframe Xgem r‚cent ? */
-		{
-			title=(char*)Mxalloc( 256, 0 | MGLOBAL );
-			sprintf (title, "\xFF\xFF\xFF\xFF%08lX%s", titlebarIcon, "Newton");	/* inscrire le titre avec ic“ne */
-		}
-		else
-		{
-			if(MagX || MiNT)
-				title=(char*)Mxalloc( 8, 0 | MGLOBAL );
-			else
-				title=(char*)Malloc( 8 );
-			strcpy (title, "Newton");	/* texte seulement */
-		}
-		
-		nvdi=get_NVDI_cookie(&val);
-	/*	nvdi=get_NVDI_cookie(); */ /* Det var denna kak-koll som kraschade andra datorer, kolla mille_testar.txt */
+        gs_info.msgs = 0 | GSM_COMMAND; /* GEMScript stuff */
+        gs_info.version = 0x0100;
+        gs_info.ext = '.SIC';
+        gs_info.len = sizeof(gs_info);
 
-		if( nvdi && (val>=0x0300) ) {
-			print=v_ftext; /* vektor finns efter version 3 */
-			vqt_ex=vqt_f_extent;
-		}
-		else {
-			print=v_gtext;
-			vqt_ex=vqt_extent;
-		}
-		xacc_init( -1, name, (WORD)(ULONG)sizeof( name ), 0x0001 ); /* Sista ettan kommer av att man kan skicka text eller keycode till den */
+        for (i = 0; i < 8; i++)
+        { /* Initialize so that the entire structure is set to -1 */
+            gs_partner[i]->gs_partnerid = -1;
+            gs_partner[i]->gs_id = -1;
+        }
 
-		gs_info.msgs= 0|GSM_COMMAND; /* GEMScript-grejjor */
-		gs_info.version=0x0100;
-		gs_info.ext='.SIC';
-		gs_info.len=sizeof(gs_info);
+        for (i = 0; i < 10; i++)
+            work_in[i] = 1;
+        work_in[10] = 2;
+        phys_handle = graf_handle(&gl_wchar, &gl_hchar, &gl_wbox, &gl_hbox);
+        handle = phys_handle;
+        v_opnvwk(work_in, &handle, work_out);
+        if (handle != 0)
+        {
+            max_x = work_out[0];
+            max_y = work_out[1];
+            if (work_out[13] < 16)
+                monochrome = 1; /* Check if running in mono or not */
+            if (monochrome)
+                bg_colour = WHITE;
 
-		for (i = 0; i<8 ; i++ ){	/* Initialiserar s† att hela strukten st†r p† -1 */
-			gs_partner[i]->gs_partnerid=-1;
-			gs_partner[i]->gs_id=-1;
-		}
+            form_center(tree, &tree[MAIN].ob_x, &tree[MAIN].ob_y, &dummy, &dummy);
+            tree[MAIN].ob_y = tree[MAIN].ob_y + 12; /* The window ends up in the menu otherwise */
+            initSampleDialogue();
+            load_settings(); /* Read screen position and settings */
+            read_constants();
+            wind_calc(WC_BORDER, NAME | CLOSER | MOVER | FULLER | ICONIFIER, tree[MAIN].ob_x, tree[MAIN].ob_y, tree[MAIN].ob_width, tree[MAIN].ob_height, &x, &y, &w, &h);
+            position_objects();
+            av_sendmesg(0, 0, AV_PROTOKOLL); /* Notify the AV Server that it exists */
 
-		for ( i = 0; i < 10; i++ )
-			work_in[i]	= 1;
-		work_in[10] = 2;
-		phys_handle = graf_handle( &gl_wchar, &gl_hchar, &gl_wbox, &gl_hbox );
-		handle = phys_handle;
-		v_opnvwk( work_in, &handle, work_out );
-		if ( handle != 0 )
-		{
-			max_x = work_out[0];
-			max_y = work_out[1];
-			if(work_out[13]<16)
-				monochrome=1; 	 /* H„r kollas om man k”r i mono eller inte */
-			if(monochrome)
-				bg_colour=WHITE;
+            if (!_app || MiNT)
+                menu_id = menu_register(appl_id, "  Newton");
+            if (vq_gdos())
+                number_of_fonts = vst_load_fonts(handle, 0);
 
-			form_center(tree, &tree[MAIN].ob_x, &tree[MAIN].ob_y, &dummy, &dummy);
-			tree[MAIN].ob_y=tree[MAIN].ob_y+12; /* F”nstret hamnar i menyn annars */
-			initSampleDialogue();
-			load_settings(); /* L„s in position p† sk„rmen, och inst„llningar */
-			read_constants();
-			wind_calc( WC_BORDER, NAME|CLOSER|MOVER|FULLER|ICONIFIER, tree[MAIN].ob_x, tree[MAIN].ob_y, tree[MAIN].ob_width, tree[MAIN].ob_height, &x, &y, &w, &h );
-			position_objects();
-			av_sendmesg(0,0,AV_PROTOKOLL); /* Meddela AV-Servern att man finns */
+            ExampleString = (char*)Mxalloc(16, 0 | MGLOBAL); /* Um... */
+            if ((Get_cookie('xFSL', &val) == FALSE) && (Get_cookie('UFSL', &val) == FALSE) && (MagX))
+            { /* If no font selector but Magic */
+                strcpy(ExampleString, "M/(ï¿½(1-(V/C)ï¿½))");
+                fnt_dialog = fnts_create(handle, number_of_fonts, 0 | FNTS_BTMP | FNTS_OUTL | FNTS_MONO | FNTS_PROP, 1, ExampleString, 0L);
+            }
 
-			if( !_app || MiNT )
-				menu_id = menu_register( appl_id, "  Newton" );
-			if(vq_gdos())
-				number_of_fonts=vst_load_fonts(handle,0);
-
-			ExampleString = (char*) Mxalloc (16, 0 | MGLOBAL ); /* Emh.. */
-			if((Get_cookie('xFSL',&val)==FALSE) && (Get_cookie('UFSL',&val)==FALSE) && (MagX)){ /* Om ingen fontv„ljare men Magic */
-				strcpy(ExampleString,"M/(û(1-(V/C)ý))");
-				fnt_dialog=fnts_create(handle,number_of_fonts,0|FNTS_BTMP|FNTS_OUTL|FNTS_MONO|FNTS_PROP,1,ExampleString,0L);
-			}
 			if( _app )
 			{
 				graf_mouse( ARROW, NULL );
 				vst_point( handle, fontsize, &dummy, &dummy, &teckenbredd, &teckenhojd );
-				wind_update(BEG_UPDATE);	/* Vid varenda grej som „ndrar p† ett f”nster m†ste detta ropas upp. */
+				wind_update(BEG_UPDATE);	/* Vid varenda grej som ï¿½ndrar pï¿½ ett fï¿½nster mï¿½ste detta ropas upp. */
 				open_window( );
 				wind_update(END_UPDATE);
 			}
 
 			if (MiNT || MagX)
-				msg[0] = (int) Mxalloc (sizeof(msg), 0 | MGLOBAL ); /* Globalt minne s† andra kan skriva och l„sa. */
+				msg[0] = (int) Mxalloc (sizeof(msg), 0 | MGLOBAL ); /* Globalt minne sï¿½ andra kan skriva och lï¿½sa. */
 			else
 				msg[0] = (int) Malloc (sizeof(msg));
-			if (!msg)		 /* Om det inte finns tillr„ckligt med minne*/
+			if (!msg)		 /* Om det inte finns tillrï¿½ckligt med minne*/
 				 return 1;
 
 			memset(msg, 0, sizeof(msg));
@@ -375,14 +374,14 @@ int main( void )
 		   if(vq_gdos())
 				vst_unload_fonts(handle,0);
 			code=nkc_kstate();
-			if(!(code&NKF_ALT)) /* Om inte alt „r tryckt sparas infofilen */
+			if(!(code&NKF_ALT)) /* Om inte alt ï¿½r tryckt sparas infofilen */
 				save_settings(font);
 			v_clsvwk( handle );
 		}
-		if((Get_cookie('xFSL',&val)==FALSE) && (Get_cookie('UFSL',&val)==FALSE) && (MagX) ) /* Om ingen fontv„ljare men Magic */
+		if((Get_cookie('xFSL',&val)==FALSE) && (Get_cookie('UFSL',&val)==FALSE) && (MagX) ) /* Om ingen fontvï¿½ljare men Magic */
 			fnts_delete( fnt_dialog, 0 );
 		rsrc_free();
-		wind_update(BEG_UPDATE);	/* M†ste ropas upp „ven n„r f”nster ska st„ngas. wind_new() fixar END_UPDATE */
+		wind_update(BEG_UPDATE);	/* Mï¿½ste ropas upp ï¿½ven nï¿½r fï¿½nster ska stï¿½ngas. wind_new() fixar END_UPDATE */
 		wind_new();
 		av_sendmesg(0,0, AV_ACCWINDCLOSED );
 		av_sendmesg(0,0, AV_EXIT );
@@ -399,7 +398,7 @@ int main( void )
 		appl_exit();
 	}
 	Mfree(msg);Mfree(s);Mfree(undo);Mfree(ExampleString);Mfree(errortmpstring);Mfree(uttryck);Mfree(title);Mfree(ekv);
-	Mfree(file_startup);Mfree(path_startup);Mfree(strptr_startup);Mfree(tmp_startup);Mfree(file_trashcan);Mfree(path_trashcan);	/* Alla dessa „r samplingsgrejjer */
+	Mfree(file_startup);Mfree(path_startup);Mfree(strptr_startup);Mfree(tmp_startup);Mfree(file_trashcan);Mfree(path_trashcan);	/* Alla dessa ï¿½r samplingsgrejjer */
 	Mfree(strptr_trashcan);Mfree(tmp_trashcan);Mfree(file_language);Mfree(path_language);Mfree(strptr_language);Mfree(tmp_language);Mfree(&(gs_info.len));
 	Mfree(file_quit);Mfree(path_quit);Mfree(strptr_quit);Mfree(tmp_quit);Mfree(insert_tmp);Mfree(insert_tmp2);Mfree(grafarray);Mfree(coordarray);Mfree(scrollVector);Mfree(scrollVectorBak);
 	i=0;
@@ -445,10 +444,10 @@ int rc_intersect( GRECT *r1, GRECT *r2 )
 
 /* -------------------------------------------------------------------- */
 /* 		void redraw_window( int all );											*/
-/* 			if( all==0)	rita bara ut str„ngen, if(all==2) textf”nstret 	*/
-/* 			if( all==1 ) hela f”nstret.			 	 						  */
+/* 			if( all==0)	rita bara ut strï¿½ngen, if(all==2) textfï¿½nstret 	*/
+/* 			if( all==1 ) hela fï¿½nstret.			 	 						  */
 /* 			if( all==3) rita eller ta bort cursorn 							*/
-/* 			if( all>3 ) rita inte, r„kna bara ut clipping.					*/
+/* 			if( all>3 ) rita inte, rï¿½kna bara ut clipping.					*/
 /* 			if( all==5 ) rita graf. 												*/
 /* -------------------------------------------------------------------- */
 
@@ -464,9 +463,9 @@ void redraw_window( int all )
 	double x=0, x_bak=0, x_bak2=0,temp=0;
 	unsigned linestyle=23690;
 
-	linestyle+=20000;	/* F†r g”ra s† h„r annars klagar den dumme j„veln p† att det „r en long */
+	linestyle+=20000;	/* Fï¿½r gï¿½ra sï¿½ hï¿½r annars klagar den dumme jï¿½veln pï¿½ att det ï¿½r en long */
 
-	if( whandle <= 0 )						/* Om inget f”nster „r ”ppet */
+	if( whandle <= 0 )						/* Om inget fï¿½nster ï¿½r ï¿½ppet */
 		return;
 
 	vswr_mode( handle, MD_TRANS );					 /* set transp mode */
@@ -478,7 +477,7 @@ void redraw_window( int all )
 	obspec=tree[RUTAN].ob_spec.tedinfo;
 	obspec=whichcolour(obspec);
 
-	if(n>synliga_rader-1) /* S„krast, n b”rjar p† 0 och inte 1. */
+	if(n>synliga_rader-1) /* Sï¿½krast, n bï¿½rjar pï¿½ 0 och inte 1. */
 		n=synliga_rader-1;
 	if(n<0)
 		n=0;
@@ -486,7 +485,7 @@ void redraw_window( int all )
 	wind_get( whandle, WF_WORKXYWH, &work.g_x, &work.g_y, &work.g_w, &work.g_h );
 	wind_get( whandle, WF_FIRSTXYWH, &box.g_x, &box.g_y, &box.g_w, &box.g_h );
 
-	if(box.g_w==0 && box.g_h==0) /* F”nstret „r helt t„ckt */
+	if(box.g_w==0 && box.g_h==0) /* Fï¿½nstret ï¿½r helt tï¿½ckt */
 		return;
 
 	work.g_w = min( work.g_w, max_x - work.g_x );
@@ -498,7 +497,7 @@ void redraw_window( int all )
 	wind_update(BEG_UPDATE);
 	while ( box.g_w > 0 && box.g_h > 0 )
 	{
-		clip[0] = box.g_x;	/* Clipping f”r AES */
+		clip[0] = box.g_x;	/* Clipping fï¿½r AES */
 		clip[1] = box.g_y;
 		clip[2] = box.g_w;
 		clip[3] = box.g_h;
@@ -510,7 +509,7 @@ void redraw_window( int all )
 				if ( all==0 && !graph_mode)
 				{
 					clip[2] = box.g_x + box.g_w -22;
-					clip[3] = box.g_y + box.g_h - tree[MAIN].ob_height +16 +tree[RUTAN].ob_height; /* Enbart textrutan f†r skrivas till */
+					clip[3] = box.g_y + box.g_h - tree[MAIN].ob_height +16 +tree[RUTAN].ob_height; /* Enbart textrutan fï¿½r skrivas till */
 					vs_clip( handle, 1, clip );
 					mouse_off( );
 					print( handle, tree[MAIN].ob_x + (tree[MAIN].ob_width / 2) - (tree[RUTAN].ob_width / 2) +2, tree[MAIN].ob_y + (n*teckenhojd)+tree[RUTAN].ob_y+teckenhojd, s[n] );
@@ -550,7 +549,7 @@ void redraw_window( int all )
 						for ( i=18; extent[2]-extent[0] < tree[RUTAN].ob_width-30; i+=1)
 						{
 							vst_arbpt( handle, i, &teckenbredd, &teckenhojd, &dummy, &dummy );
-							vqt_ex( handle, tmp, extent ); /*Symbol f”r vqt_f_extent eller vqt_extent*/
+							vqt_ex( handle, tmp, extent ); /*Symbol fï¿½r vqt_f_extent eller vqt_extent*/
 						}
 
 						vs_clip( handle, 1, clip );
@@ -558,7 +557,7 @@ void redraw_window( int all )
 
 						print( handle, XMIN+10, YMIN+HEIGHT/2+extent[3]+teckenhojd/2.5, tmp );
 						Mfree(tmp);
-						if(appl_find( "MLTISTRP" )<0)	/* F”r detta tar lite tid, visas f”r kort tid annars */
+						if(appl_find( "MLTISTRP" )<0)	/* Fï¿½r detta tar lite tid, visas fï¿½r kort tid annars */
 							evnt_timer(1000,0);
 						else
 							evnt_timer(500,0);
@@ -588,11 +587,11 @@ void redraw_window( int all )
 				}
 
 				if(all==3 && !graph_mode) {
-					if(strlen(s[n])==0)	/* Om raden „r tom */
-						vqt_ex( handle, s[n], extent ); /*Symbol f”r vqt_f_extent eller vqt_extent*/
+					if(strlen(s[n])==0)	/* Om raden ï¿½r tom */
+						vqt_ex( handle, s[n], extent ); /*Symbol fï¿½r vqt_f_extent eller vqt_extent*/
 					else {
 						tmp = (BYTE *) Malloc (TECKEN);
-						if (!tmp)		 /* Om det inte finns tillr„ckligt med minne*/
+						if (!tmp)		 /* Om det inte finns tillrï¿½ckligt med minne*/
 							 return;
 						memset(tmp, 0, TECKEN);
 						strcpy(tmp,s[n]);
@@ -627,14 +626,14 @@ void redraw_window( int all )
 					vs_clip( handle, 0, clip );
 				}
 
-				if(all==5) { /* Grafbj„fset */
+				if(all==5) { /* Grafbjï¿½fset */
 					if(extraRedrawWorkaround){
 						extraRedrawWorkaround=0;
 						wind_update(END_UPDATE);
 						return;
 					}
 					if(draw_grid) { /* Rita ut grid */
-						vsl_udsty(handle, linestyle); /* Svag punktstr„ckad linje */
+						vsl_udsty(handle, linestyle); /* Svag punktstrï¿½ckad linje */
 						vsl_type(handle, 7);
 						if(monochrome)
 							vsl_color( handle, BLACK );
@@ -646,7 +645,7 @@ void redraw_window( int all )
 						clip[2] = box.g_x + box.g_w -20;
 						clip[3] = box.g_y + box.g_h - tree[MAIN].ob_height +16 +tree[RUTAN].ob_height;
 
-						grafarray[0]=XMIN;	/* Ritar ut f”rsta gridgrejjen bara */
+						grafarray[0]=XMIN;	/* Ritar ut fï¿½rsta gridgrejjen bara */
 						grafarray[1]=YMIN;
 						grafarray[2]=XMIN;
 						grafarray[3]=YMAX;
@@ -659,7 +658,7 @@ void redraw_window( int all )
 
 						for ( k=0, x=xmin, x_bak=xmin, j=abs(WIDTH); k<j; k++, x+= ((xmax-xmin)/(double)abs(WIDTH)) ) /* Rita vertikal grid */
 						{
-						/*	if(x_bak<=0 && x>=0){ /* Hitta nollan, problem synka med grid d† nollan inte alltid med */
+						/*	if(x_bak<=0 && x>=0){ /* Hitta nollan, problem synka med grid dï¿½ nollan inte alltid med */
 								nollan=k;
 								break;
 							} */
@@ -676,11 +675,11 @@ void redraw_window( int all )
 								vs_clip( handle, 0, clip );
 								x_bak=x;
 							}
-							x_bak2=x; /* F”r att se n„r den g†r mellan minus och plus */
+							x_bak2=x; /* Fï¿½r att se nï¿½r den gï¿½r mellan minus och plus */
 						}
 
 						memset(grafarray, 0, sizeof(grafarray));
-						grafarray[0]=XMIN;	/* Ritar ut f”rsta gridgrejjen bara */
+						grafarray[0]=XMIN;	/* Ritar ut fï¿½rsta gridgrejjen bara */
 						grafarray[1]=YMIN;
 						grafarray[2]=XMAX;
 						grafarray[3]=YMIN;
@@ -705,19 +704,19 @@ void redraw_window( int all )
 								vs_clip( handle, 0, clip );
 								x_bak=x;
 							}
-							x_bak2=x; /* F”r att se n„r den g†r mellan minus och plus */
+							x_bak2=x; /* Fï¿½r att se nï¿½r den gï¿½r mellan minus och plus */
 						}
 
-						vsl_color( handle, BLACK ); /* St„ll tillbaka */
+						vsl_color( handle, BLACK ); /* Stï¿½ll tillbaka */
 						vsl_ends(handle, 0, 0);
 					}
 					
-					/* Rita ut sj„lva grafen */
+					/* Rita ut sjï¿½lva grafen */
 												  
-					tmp2 = (BYTE *) Malloc (TECKEN); /* Skummt, om Mxalloc s† totalkrasch vid ritning av graf 2 ggr, men om bara Malloc s† s„ger Newton "something is wrong, i suggest a reboot". Detta s„gs n„r det inte g†r att skicka bubbelhj„lp. */
-					tmpekv = (BYTE *) Malloc (TECKEN); /* Dessutom s„ger den att "there's something wrong in this position hela tiden", samtidigt som bubbelhj„lpen hela tiden g†r upp†t. */
+					tmp2 = (BYTE *) Malloc (TECKEN); /* Skummt, om Mxalloc sï¿½ totalkrasch vid ritning av graf 2 ggr, men om bara Malloc sï¿½ sï¿½ger Newton "something is wrong, i suggest a reboot". Detta sï¿½gs nï¿½r det inte gï¿½r att skicka bubbelhjï¿½lp. */
+					tmpekv = (BYTE *) Malloc (TECKEN); /* Dessutom sï¿½ger den att "there's something wrong in this position hela tiden", samtidigt som bubbelhjï¿½lpen hela tiden gï¿½r uppï¿½t. */
 					chdummy = (BYTE *) Malloc (TECKEN);
-					if (!chdummy)		 /* Om det inte finns tillr„ckligt med minne*/
+					if (!chdummy)		 /* Om det inte finns tillrï¿½ckligt med minne*/
 					 	return;
 
 					memset(chdummy, 0, TECKEN);
@@ -727,13 +726,13 @@ void redraw_window( int all )
 					graf_mouse( BUSYBEE, NULL );
 					mouse_on( );
 
-					for ( j=0, k=0, x=xmin; k<WIDTH+1; j+=2, k++, x+= ((xmax-xmin)/(double)WIDTH) )/* Fyll alla pixlar i x-led, i r„tt skala */
+					for ( j=0, k=0, x=xmin; k<WIDTH+1; j+=2, k++, x+= ((xmax-xmin)/(double)WIDTH) )/* Fyll alla pixlar i x-led, i rï¿½tt skala */
 					{
 						memset(tmpekv, 0, TECKEN);
 						strcpy(tmpekv,ekv);
-						strcpy(tmpekv,preprocess(tmpekv));	/* S† att den „ven hanterar 2x till exempel */
+						strcpy(tmpekv,preprocess(tmpekv));	/* Sï¿½ att den ï¿½ven hanterar 2x till exempel */
 						
-						for ( currpos=0 ; currpos<strlen(tmpekv) ; currpos++ ) /* Byt ut alla 'x' med aktuellt x-v„rde */
+						for ( currpos=0 ; currpos<strlen(tmpekv) ; currpos++ ) /* Byt ut alla 'x' med aktuellt x-vï¿½rde */
 						{
 							if( *(tmpekv+currpos)=='x' )
 							{
@@ -742,28 +741,28 @@ void redraw_window( int all )
 								memset(tmpekv+currpos,0,TECKEN-currpos-1);
 								strcat(tmpekv,gcvt(x,15,chdummy));
 								strcat(tmpekv,tmp2);
-								if(x_bak<=0 && x>=0)	/* S„ger var y-axeln skall ritas ut */
+								if(x_bak<=0 && x>=0)	/* Sï¿½ger var y-axeln skall ritas ut */
 									yaxis=XMIN+k;
 								x_bak=x;
 							}
 						}
 
-						temp = (strtod(calculate(preprocess(tmpekv)),NULL)) * ((double)HEIGHT/(ymax-ymin)); /* Y-v„rde p† sk„rmen */
+						temp = (strtod(calculate(preprocess(tmpekv)),NULL)) * ((double)HEIGHT/(ymax-ymin)); /* Y-vï¿½rde pï¿½ skï¿½rmen */
 						grafarray[j] = XMIN+k;
-						coordarray[j]=x;	/* X-v„rdet p† koordinaten */
-						coordarray[j+1]=temp / ((double)HEIGHT/(ymax-ymin));	/* Y-v„rdet */
-						if(temp>32000)	/* F”r att den inte ska balla ur n„r den konverteras till int */
+						coordarray[j]=x;	/* X-vï¿½rdet pï¿½ koordinaten */
+						coordarray[j+1]=temp / ((double)HEIGHT/(ymax-ymin));	/* Y-vï¿½rdet */
+						if(temp>32000)	/* Fï¿½r att den inte ska balla ur nï¿½r den konverteras till int */
 							temp=32000;
 						if(temp<-32000)
 							temp=-32000;
-						grafarray[j+1]= YMIN /* H„r „r b”rjan p† f”nstret */
-							- (int)( ymin * ((double)HEIGHT/(ymax-ymin)) ) /* undre gr„nsen f”r det som f†r vara p† sk„rmen */
-							+ (int)( temp ); /* Det „r h„r i calculate(preprocess(tmpekv)) som minnesf”rlusten „r. St”rsta delen „r i preprocess(), men 16K „ven i calculate(). */
+						grafarray[j+1]= YMIN /* Hï¿½r ï¿½r bï¿½rjan pï¿½ fï¿½nstret */
+							- (int)( ymin * ((double)HEIGHT/(ymax-ymin)) ) /* undre grï¿½nsen fï¿½r det som fï¿½r vara pï¿½ skï¿½rmen */
+							+ (int)( temp ); /* Det ï¿½r hï¿½r i calculate(preprocess(tmpekv)) som minnesfï¿½rlusten ï¿½r. Stï¿½rsta delen ï¿½r i preprocess(), men 16K ï¿½ven i calculate(). */
 
-						if(grafarray[j+1]<YMAX) /* Koll s† siffran inte „r f”r stor, verkar bli knas */
+						if(grafarray[j+1]<YMAX) /* Koll sï¿½ siffran inte ï¿½r fï¿½r stor, verkar bli knas */
 							grafarray[j+1]=YMAX-10;
 						if(grafarray[j+1]>YMIN)
-							grafarray[j+1]=YMIN+10; /* Detta hj„lpte dock inte helt, f†r kolla s† kurvan h„nger ihop p† n†t s„tt */
+							grafarray[j+1]=YMIN+10; /* Detta hjï¿½lpte dock inte helt, fï¿½r kolla sï¿½ kurvan hï¿½nger ihop pï¿½ nï¿½t sï¿½tt */
 					}
 
 					vsf_color( handle, text_colour );
@@ -777,7 +776,7 @@ void redraw_window( int all )
 					vs_clip( handle, 1, clip );
 					vsl_width(handle,linethgraph);
 					mouse_off( );
-					v_pline( handle, j/2, grafarray ); /* Rita ut nyutr„knade */
+					v_pline( handle, j/2, grafarray ); /* Rita ut nyutrï¿½knade */
 					vs_clip( handle, 0, clip );
 					vsl_width(handle,1);
 					graf_mouse( ARROW, NULL );
@@ -786,8 +785,8 @@ void redraw_window( int all )
 					
 					for ( k=0, x=ymin, j=abs(HEIGHT); k<j; k++, x+= ((ymax-ymin)/(double)abs(HEIGHT)) ) /* Hitta x-axeln */
 					{
-						if(x_bak<=0 && x>=0){	/* S„ger var x-axeln skall ritas ut */
-							xaxis=YMIN-k+1; 			/* H„r „r ocks† l„mpligt att rita ut horisontell grid, kanske. Nollan och det. */
+						if(x_bak<=0 && x>=0){	/* Sï¿½ger var x-axeln skall ritas ut */
+							xaxis=YMIN-k+1; 			/* Hï¿½r ï¿½r ocksï¿½ lï¿½mpligt att rita ut horisontell grid, kanske. Nollan och det. */
 							break;
 						}
 						x_bak=x;
@@ -803,10 +802,10 @@ void redraw_window( int all )
 					clip[3] = box.g_y + box.g_h - tree[MAIN].ob_height +16 +tree[RUTAN].ob_height;
 					vs_clip( handle, 1, clip );
 					vsl_color( handle, cursor_colour );
-					vsl_ends(handle, 0, 1); /* Pil p† slutet */
+					vsl_ends(handle, 0, 1); /* Pil pï¿½ slutet */
 					vsl_width(handle,1);
 					mouse_off( );
-					if(xaxis!=-1) /* Om -1 s† „r 0 inte med p† bilden */
+					if(xaxis!=-1) /* Om -1 sï¿½ ï¿½r 0 inte med pï¿½ bilden */
 						v_pline( handle, 2, grafarray );
 					mouse_on( );
 					vs_clip( handle, 0, clip );
@@ -817,7 +816,7 @@ void redraw_window( int all )
 					grafarray[2]=grafarray[0];
 					grafarray[3]=YMAX;
 
-					strcpy(tmpekv, "Ÿ(x)=");
+					strcpy(tmpekv, "ï¿½(x)=");
 					strcat(tmpekv, ekv);
 					vs_clip( handle, 1, clip );
 					mouse_off( );
@@ -889,7 +888,7 @@ void redrawWindow( int winhandle, GRECT *dirty ) /* Test */
 	TEDINFO *obspec;
 	int i;
 
-	if( winhandle <= 0 )						/* Om inget f”nster „r ”ppet */
+	if( winhandle <= 0 )						/* Om inget fï¿½nster ï¿½r ï¿½ppet */
 		return;
 
 	vswr_mode( winhandle, MD_TRANS );					 /* set transp mode */
@@ -901,7 +900,7 @@ void redrawWindow( int winhandle, GRECT *dirty ) /* Test */
 	obspec=tree[RUTAN].ob_spec.tedinfo;
 	obspec=whichcolour(obspec);
 
-	if(n>synliga_rader-1) /* S„krast, n b”rjar p† 0 och inte 1. */
+	if(n>synliga_rader-1) /* Sï¿½krast, n bï¿½rjar pï¿½ 0 och inte 1. */
 		n=synliga_rader-1;
 	if(n<0)
 		n=0;
@@ -959,7 +958,7 @@ void position_objects(void)
 
 TEDINFO* whichcolour( TEDINFO* obspec)
 {
-	obspec->te_color &= -16; /* Nollar de fyra f”rsta bitarna i byten */
+	obspec->te_color &= -16; /* Nollar de fyra fï¿½rsta bitarna i byten */
 	obspec->te_color=obspec->te_color |= bg_colour;
 
 	return obspec;

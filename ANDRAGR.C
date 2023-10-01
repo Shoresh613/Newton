@@ -53,9 +53,9 @@ void andragradare(void)
 		} 
 		else
 		{
-			scroll();     /* Scrollar om det beh”vs */
+			scroll();     /* Scroll if necessary */
 
-			do{           /* S† flyttar den ner s† l†ngt det beh”vs */
+			do{           /* Move down as much as needed */
 				if(s[n][0]!=0)
 					n++;
 				scroll();

@@ -1,0 +1,11 @@
+{
+    "C_Cpp.default.compilerPath": "",
+    "files.associations": {
+        "COORDUPD.C": "cpp",
+        "ADDMENU.C": "cpp",
+        "ANDRAGR.C": "cpp",
+        "COOKIE.C": "cpp",
+        "CONSTANT.C": "cpp",
+        "NEWTON.C": "cpp"
+    }
+}

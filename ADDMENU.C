@@ -33,8 +33,8 @@ void addtomenu_request(void)
 		msg[6]=0;
 		msg[7]=ADDTOMENU;
 
-		if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* Om det inte funkade */
-			return;                                   /* G”r ingenting.      */
+		if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* In case it didn't work */
+			return;                                   /* Do nothing.      */
 	}
 }
 
@@ -94,8 +94,8 @@ void addtomenusend(char* commandline)
 	msg[6]=0;
 	msg[7]=ADDTOMENU;
 
-	if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* Om det inte funkade */
-		return;                                     /* Avbryt.             */	
+	if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* If it didn't work */
+		return;                                     /* Abort.             */	
 
 	evnt_timer(100,0);
 }

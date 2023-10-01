@@ -1,0 +1,56 @@
+;>>>>>>> DEFAULT.PRJ for use with single module programs <<<<<<<<
+
+newton.app         ; name of executable program
+.C [ -Y -P ]
+.L [ -L -Y -S=56000 ]
+.S [ -Y ]
+=                  ; list of modules follows...
+
+PCSTARBB.S         ; startup code av Behnebr”derna utan FPU
+
+newton.c           ; compile all files in the project
+keybd.c
+button.c
+message.c
+bubble.c
+settings.c
+scrap.c
+sendmesg.c
+st-guide.c
+cuttryck.c
+cookie.c
+event.c
+language.c
+precalc.c
+dodialog.c
+xacc.c
+hex_it.c
+nvdicook.c
+colour.c
+dragdrop.c
+sound.c
+constant.c
+internet.c
+addmenu.c
+samples.c
+andragr.c
+insert.c
+economy.c
+graf.c
+coordupd.c
+font.c
+dev\w_xgem.c
+cookie.o
+nkcc.o
+
+MAGXLIB.LIB
+;PCBGILIB.LIB       ; BGI library
+PCFLTLIB.LIB       ; floating point library
+PCSTDLIB.LIB       ; standard library
+
+PCEXTLIB.LIB       ; extended library
+PCTOSLIB.LIB       ; TOS library
+MT_AES.LIB
+PCGEMLIB.LIB       ; AES and VDI library
+
+;>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

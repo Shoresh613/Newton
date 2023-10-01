@@ -1,5 +1,4 @@
-
-/* Uppdaterar x- och y-koordinaterna n„r musen r”r sig ”ver sk„rmen i
+/* Updates the x and y coordinates when the mouse hovers over the graph in
    graph mode. */
 
 #include <string.h>
