@@ -16,6 +16,9 @@ Originally coded by me in C in 1998, then developed off and to for a couple of y
 
 The latest release is contained in the .lzh archive. The latest build is the newton.app 
 
+## "IDE"
+Written using Purce C 1.1 from 1993.
+
 ## Manual
 There is a manual in the form of an ST Guide HYP file. HYP files can be openened in Windows using WinGuide.
 
