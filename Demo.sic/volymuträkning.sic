@@ -1,0 +1,17 @@
+proc main(...) { 
+ 
+	if (address("Newton")) 
+	{ 
+		InsertExpression("Kyl= (0.8ъ0.27ъ0.76) +(0.65ъ0.52ъ0.36) + (2.05ъ0.57ъ0.55)");
+		CursorDown(2);
+		InsertExpression("Spis= (0.15ъ0.52ъ0.65)+(0.65ъ0.57ъ.56)+(.74ъ.58ъ.58)");
+		CursorDown(2);
+		InsertExpression("Hall= 2.6ъ.72ъ.57");
+		CursorDown(2);
+		InsertExpression("Ecke= 2ъ1.14ъ.57+(1.02-.57)ъ.6ъ2");
+		CursorDown(2);
+		InsertExpression("Sovrumm= (.8ъ.57ъ2.6-(((.35ъ.41)/2)ъ2.6)-(((гъ.17э)/4)ъ2.6)) + (2.04ъ.57ъ1.11) + Ecke");
+		CursorDown(2);
+		InsertExpression("Totalt= Kyl + Spis + Hall + Sovrumm");
+	}
+}

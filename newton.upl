@@ -1,0 +1,18 @@
+Newton v 0.993ž  Graphical calculator with some bells and
+whistles. xFSL support, FONT-protocoll, Xacc2 and AV-
+protocoll, GEMScript, function plotting, resizable, clipboard,
+many functions, variables, formulae, constants etc.
+
+New: Newton runs again on original Atari hardware! A major bug
+     upsetting computers with MMU's has been removed.
+     Finally function plotting has been rudimentary implemented.
+     Some memory leakage has been resolved. Should now handle
+     up to 8 GEMScript partners at the same time. Calculates
+     the fraction or reasonably best fraction of the decimal
+     part of a number (Ctrl+R). New info file format, for sample
+     file names and expressions with spaces in them.
+
+
+
+Original author: Mikael Folkesson
+.

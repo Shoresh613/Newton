@@ -1,0 +1,166 @@
+/* Newton Demo Script v.1
+*  ------------------
+*
+*  Shows a couple of Newtons features.
+****************************************/
+
+proc main(...) {
+
+	if (address("Newton"))
+	{
+		SaveUndoBuffer();													/* Save screen for later restoration */
+		Delete();Delete();												/* Efface l'‚cran */
+		InsertExpression("Newton peut faire ");
+		wait(60);
+		InsertExpression(".");
+		wait(100);
+		InsertExpression(".");
+		wait(100);
+		InsertExpression(".");
+		wait(200);
+
+		InsertExpression(" beaucoup !");
+		wait(60);
+		
+		CursorDown(2);														/* Expressions logiques */
+		InsertExpression("Par exemple : ");
+		wait(100);
+		InsertExpression("Evaluer des expressions logiques");
+		wait(400);
+		CursorDown(1);
+		InsertExpression("~((true&false)|false)");
+		wait(500);
+		Calculate();
+		wait(500);
+		CursorUp(2);
+		Delete();
+
+		InsertExpression("Par exemple: ");							/* Differentes bases */
+		wait(100);
+		InsertExpression("Utiliser diff‚rentes bases");
+		wait(400);
+		CursorDown(2);
+		Delete();
+		CursorUp(1);
+		Delete();
+		InsertExpression("((0xF3C");
+		wait(400);
+		InsertExpression("-0b100101)");
+		wait(400);
+		InsertExpression(" / 0o746)");
+		wait(400);
+		InsertExpression(" % 12");
+		wait(500);
+		Calculate();
+		wait(500);
+		CursorUp(2);
+		Delete();
+
+		InsertExpression("Par exemple : ");							/* Tests de comparaison */
+		wait(100);
+		InsertExpression("Des tests de comparaison");
+		wait(400);
+		CursorDown(2);
+		Delete();
+		CursorUp(1);
+		Delete();
+		InsertExpression("cos(-ã)ý");
+		wait(400);
+		InsertExpression("==");
+		wait(400);
+		InsertExpression("1");
+		wait(500);
+		Calculate();
+		wait(500);
+		CursorUp(2);
+		Delete();
+
+		InsertExpression("Par exemple : ");							/* Allocation de variables */
+		wait(100);
+		InsertExpression("Allouer des variables");
+		wait(400);
+		CursorDown(2);
+		Delete();
+		CursorUp(1);
+		Delete();
+		InsertExpression("Volume= ");
+		wait(400);
+		InsertExpression("(4ãRþ)/3");
+		wait(500);
+		Calculate();
+		wait(400);
+		CursorDown(1);
+		InsertExpression("Volume");
+		wait(500);
+		Calculate();
+		wait(500);
+		CursorUp(4);
+		Delete();
+
+		InsertExpression("Par exemple : ");							/* Utiliser des constantes */
+		wait(100);
+		InsertExpression("Utiliser les constantes de newton.cnf");
+		wait(400);
+		CursorDown(4); CursorDown();CursorDown(); CursorDown();
+		Delete();
+		CursorUp(1);
+		Delete();
+		CursorUp(1);
+		Delete();
+		CursorUp(1);
+		Delete();
+		InsertExpression("Day/Hour");
+		wait(500);
+		Calculate();
+		wait(800);
+
+		Delete();Delete();												/* Efface l'‚cran */
+
+		InsertExpression("Il y a plus.");							/* Liste fonctionnalit‚s */
+		wait(500);
+		CursorDown(1);
+		InsertExpression("Comme :");
+		wait(400);
+		CursorDown(1);
+		InsertExpression("ú Autolocator");
+		wait(400);
+		CursorDown(1);
+		InsertExpression("ú Trac‚ de fonction");
+		wait(400);
+		CursorDown(1);
+		InsertExpression("ú Support de GEMScript");
+		wait(400);
+		CursorDown(1);
+		InsertExpression("ú Contr“le moral ;-)");
+		wait(400);
+		CursorDown(1);
+		InsertExpression("ú Drag & Drop");
+		wait(400);
+		CursorDown(1);
+		InsertExpression("ú Aide Bubble et ST Guide");
+		wait(400);
+		CursorDown(1);
+		InsertExpression("ú Protocoles FONT, VA, COLOR");
+		CursorDown(1);
+		InsertExpression("  etc.");
+		wait(1000);
+
+		Delete();Delete();												/* Efface l'‚cran */
+		InsertExpression("Pour un apper‡u complet");				/* Liste fonctionnalit‚s complŠte */
+		CursorDown(1);
+		InsertExpression("des fonctionnalit‚s:");
+		wait(500);
+		CursorDown(2);
+		InsertExpression("Veuillez consulter l'aide en ligne");
+		CursorDown(1);
+		InsertExpression("ST-Guide.");
+		wait(800);
+		CursorDown(2);
+		InsertExpression("Fin du script de d‚mo");
+		wait(500);
+		CursorDown(2);
+		InsertExpression("Effacement de l'‚cran");
+		wait(800);
+		RestoreUndoBuffer();												/* Restores display to previous state */
+	}
+}

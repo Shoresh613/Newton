@@ -1,0 +1,13 @@
+proc main(...) {
+
+	if (address("Newton"))
+	{
+		InsertExpression("Sara=(Hyra+)/2");
+		CursorDown(2);
+		InsertExpression("Mikael=(BBB+)/2");
+		CursorDown(2);
+		InsertExpression("Sara-Mikael");
+		CursorUp(4);
+		SetCursorPosition(11);
+	}
+}

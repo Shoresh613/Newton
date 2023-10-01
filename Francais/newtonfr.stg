@@ -1,0 +1,1696 @@
+@database "Newton - Calculateur graphique"
+@hostname "JINNEE  "
+@author "Mikael Folkesson, trad. Didier Briel"
+@$VER: Newton.HYP v 0.993ž  (@:"__DATE__")
+@subject "Newton - Calculateur graphique "
+@width 75
+
+@node "Titre" "Newton - Titre"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+
+
+@limage newton.img 27 %0010000000000000
+
+                         Calculateur graphique
+
+
+                                @{"A propos" link "Contents"}
+@endnode
+
+
+@node "Contents" "Sommaire"
+@alias "Sommaire"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+ 1  Titre
+
+ 2  Introduction
+ 3  Besoins logiciels
+ 4  Param‚trage
+
+@image iconifid.img 43
+ 5  Utilisation du programme
+    5.1  Touches sp‚ciales
+    5.2  Fonctions support‚es
+    5.3  Constantes
+    5.4  Variables
+    5.5  Syntaxe
+      5.5.1  Assigner des variables
+      5.5.2  Tests de comparaison
+      5.5.3  Autres bases num‚riques
+      5.5.4  Op‚randes num‚riques
+      5.5.5  Utiliser des op‚randes num‚riques
+      5.5.6  Op‚randes logiques
+      5.5.7  Utiliser des op‚randes logiques
+    5.6  Formules
+    5.7  Drag 'n Drop
+    5.8  Formulaires
+      5.8.1  Calculs ‚conomiques
+      5.8.2  Entrez valeur variable
+      5.8.3  R‚glages
+      5.8.4  Menu surgissant
+      5.8.5  Formulaire d'information
+      5.8.6  Formulaire des ‚chantillons
+      5.8.7  Equation du second degr‚
+      5.8.8  Fonction de trac‚
+    5.9  Changer de police
+    5.10 Changer de couleurs
+
+ 6  Commandes GEMScript
+ 7  Auteur
+ 8  Remerciements
+
+ 9  Historique
+10  Reste … faire
+
+
+@line 2 30 0 0 1
+
+ Appendice I   Protocoles
+ Appendice II  Variables d'environnement
+
+@endnode
+
+
+@node "Introduction"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Introduction@{0}
+
+Newton est un calculateur graphique (il le sera un jour, en tout cas ;). 
+Pourquoi, me demanderez-vous ? Ma r‚ponse : parce que c'est plus joli ! Et 
+plus utile. Le jour o— Newton sera capable d'afficher des graphiques 
+l'avantage sera encore bien plus important.
+
+La v‚ritable motivation pour programmer Newton est venue du besoin de 
+faire un document pour un examen. Tant qu'… faire, me dis-je, pourquoi ne 
+pas apprendre … programmer des programmes GEM ? Et c'est ce que j'ai 
+fait ! ;)
+
+Mais n'oubliez pas : Ceci est encore une Beta, donc pas encore finie !
+
+
+@endnode
+
+
+@node "Besoins logiciels"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Besoins logiciels@{0}
+
+Les seules choses vraiment indispensables sont un systŠme d'exploitation 
+compatible TOS et une r‚solution d'environ 400*400 pixels ou plus.
+
+Let'em Fly! ne devrait pas ˆtre install‚. S'il l'est, les raccourcis 
+clavier dans le formulaire des r‚glages ne fonctionneront pas.
+
+Pour pr‚senter son meilleur visage, Newton a besoin de MagiC (pour les 
+boutons AES ‚tendus dans le formulaire des r‚glages), NVDI v3 ou sup‚rieur 
+(l'approche ou "kerning" sera prise en compte), un s‚lecteur de polices 
+compatible xFSL (ou UFSL) et une r‚solution ‚gale ou sup‚rieure … 640*400 
+16 couleurs. Les logos ont ‚t‚ anticr‚n‚l‚s ("antialias‚s") pour la 
+nouvelle palette Jinnee/NVDI.
+
+Pour le menu surgissant, MagiC ou WDialog sont n‚cessaires.
+La police par d‚faut est la police Speedo Baskerville (ID 5031). Si elle 
+n'est pas install‚e, la police systŠme sera utilis‚e … la place.
+
+Pour lire la documentation, et pour que l'aide en ligne puisse ˆtre 
+utilis‚e, vous devez poss‚der ST-Guide v 1.5 ou sup‚rieure. Vous l'avez 
+d‚j…, sinon vous ne seriez pas en train de lire ce document !
+
+Newton utilise ‚galement les bulles d'aide. Pour en b‚n‚ficier, il vous 
+faut soit BubbleGEM (de pr‚f‚rence version 5 ou sup‚rieure), soit avoir 
+l'EPX Trouble Bubble de Freedom2 (version 2.04 ou sup‚rieure) install‚. 
+Les deux en mˆme temps ne marcheront pas !
+
+Un s‚lecteur de couleurs est utilis‚ pour changer la couleur du curseur.
+
+GEMJing est appel‚ lorsqu'un ‚chantillon doit ˆtre jou‚, par exemple lors 
+d'une erreur de "mauvais langage".
+
+@endnode
+
+
+@node "Param‚trage"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Param‚trage@{0}
+
+Presser Alt+S ouvre un formulaire de @{"r‚glages" link "R‚glages"}. C'est 
+l'endroit o— vous pouvez choisir, entre autres, si vous voulez compter en 
+radians ou en degr‚s.
+
+Newton essaye d'abord de sauver les r‚glages dans $HOME\defaults\, ensuite 
+dans $HOME. Si tout cela ‚choue, Newton les sauvera dans le r‚pertoire 
+courant.
+
+Les variables d'environnement $GEMJINGPATH et $COLOUR_SELECT sont 
+utilis‚es pour appeler respectivement GEMJing et le s‚lecteur de couleurs. 
+Si ces variables ne sont pas d‚j… install‚es, faites-le maintenant. ;)
+Avant d'‚valuer la variable $GEMJINGPATCH, Newton v‚rifie si GEMJing est 
+d‚j… lanc‚. Si oui, un message VA-START est envoy‚ … l'application.
+Afin que GEMJing puisse jouer les ‚chantillons, qui seront jou‚s lors 
+d'une erreur de "mauvais langage" ou lorsqu'une ligne est effac‚e en 
+utilisant le D&D (Drag and Drop), les sons du r‚pertoire Home doivent ˆtre 
+plac‚s dans votre r‚pertoire $HOME.
+
+Si vous d‚sirez utiliser Newton en tant qu'accessoire, copier newton.app 
+l… ou r‚sident vos accessoires (en g‚n‚ral … la racine du disque C:\) et 
+renommez-le en newton.acc. Copiez ensuite le fichier ressource … la racine 
+de votre disque de d‚marrage.
+
+Comme il est toujours agr‚able d'avoir des ic“nes pour chaque chose, 
+installez donc les ic“nes fournies. Il y en a une grande pour les bureaux 
+compatibles avec ce genre d'ic“nes, une d'une taille habituelle et une 
+petite. Celle-ci est pr‚vue pour ˆtre utilis‚e avec StIc, le serveur 
+d'ic“nes.
+
+
+@limage stic.img 23
+              Utiliser StIc fait surgir ces ic“nes sexy
+                          un peu partout ;)
+
+
+@endnode
+
+@node "Utilisation du programme"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Utilisation du programme@{0}
+
+L'utilisation du programme devrait ˆtre assez ‚vidente. Si vous d‚sirez 
+des explications sur quelque chose, les bulles d'aide sont toujours 
+disponibles. Quoiqu'il en soit, voici une aide suppl‚mentaire sur ce qui 
+n'est pas forc‚ment ‚vident.
+
+  5.1  Touches sp‚ciales
+  5.2  Fonctions support‚es
+  5.3  Constantes
+  5.4  Variables
+  5.5  Syntaxe
+    5.5.1  Assigner des variables
+    5.5.2  Tests de comparaison
+    5.5.3  Autres bases num‚riques
+    5.5.4  Op‚randes num‚riques
+    5.5.5  Utiliser des op‚randes num‚riques
+    5.5.6  Op‚randes logiques
+    5.5.7  Utiliser des op‚randes logiques
+  5.6  Formules
+  5.7  Drag 'n Drop
+  5.8  Formulaires
+    5.8.1  Calculs ‚conomiques
+    5.8.2  Entrez valeur variable
+    5.8.3  R‚glages
+    5.8.4  Menu surgissant
+    5.8.5  Formulaire d'information
+    5.8.6  Formulaire des ‚chantillons
+    5.8.7  Equation du second degr‚
+    5.8.8  Plot function
+  5.9  Changer de police
+  5.10 Changer de couleurs
+
+@endnode
+
+@node "Touches sp‚ciales"
+@toc "Utilisation du programme"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Voici une liste des touches sp‚ciales :@{0}
+
+   Ctrl+Q  Quitte Newton
+   Ctrl+U  -"-
+   Alt +Z  Permet de choisir la police utilis‚e
+   Ctrl+I  Affiche la boŒte d'information
+   Ctrl+S  Sauve les r‚glages dans newton.inf
+   Alt +S  R‚glages
+   Alt +G  Formulaire des ‚chantillons
+   Alt +E  R‚soud les ‚quations du second degr‚
+   Ctrl+E  Economy calculation
+   Alt +F  Menu surgissant des formules
+   Ctrl+F  Fonction de trac‚
+   Alt +C  S‚lecteur de couleurs
+
+   Ctrl+X  Couper  (+Shift : Coupe toutes les expressions)
+   Ctrl+C  Copier  (+Shift : Copie toutes les expressions)
+   Ctrl+V  Coller
+
+   Alt+R   Arrondit … l'entier le plus proche
+   Ctrl+R  Finds the best rational approximation of the decimal
+           part of a number
+   Alt+A   Calcul la valeur absolue
+   Alt+B   Inverse le nombre (B comme dans "Backwards")
+
+   Ctrl+2  InsŠre «  (moiti‚)
+   Ctrl+4  InsŠre ¬  (quart)
+   Alt+2   InsŠre ý  (carr‚)
+   Alt+3   InsŠre þ  (cube)
+   Alt+I   InsŠre un op‚rande logique "Ü" (if...then)
+   Alt+P   InsŠre la lettre grecque "ã" (pi)
+   Alt+M   InsŠre la lettre grecque "æ" (mu)
+   Alt+O   InsŠre la lettre grecque "ê" (Omega)
+   Alt+(   InsŠre seulement '(' au lieu de "()"
+   Ctrl+<  InsŠre ó (inf‚rieur ou ‚gal)
+   Ctrl+>  InsŠre ò (sup‚rieur ou ‚gal)
+
+   HELP    Lance ST-Guide, si celui-ci est install‚
+   UNDO    Annule la derniŠre action
+
+   Tab     Autolocateur. Si par exemple vous avez une constante appel‚ 
+           RevenuAnn‚eDerniŠre, tapez seulement Rev et appuyez sur Tab. Le 
+           nom complet de la constante s'ins‚rera dans l'expression. Si 
+           vous aviez ‚cris Inc, Inch serait apparu. La mˆme chose est 
+           valable pour le nom des fonctions.
+
+   Gauche       D‚place le curseur … gauche
+   Droite       D‚place le curseur … droite
+   Ctrl+Gauche  D‚place le curseur un "mot" … gauche
+   Ctrl+Droite  D‚place le curseur un "mot" … droite
+   Shift+Gauche D‚place le curseur au d‚but de la ligne
+   Shift+Droite D‚place le curseur … la fin de la ligne
+   Shift+Haut   D‚place le curseur au d‚but
+   Shift+Bas    D‚place le curseur en bas
+
+   Ctrl+Backspace   Supprime le "mot" … gauche
+   Ctrl+Delete      Supprime "mot" … droite
+   Shift+Backspace  Supprime tout … gauche du curseur
+   Shift+Delete     Supprime tout … droite du curseur
+
+   Si Alternate est press‚ lors de la sortie du programme, le fichier 
+   d'information ne sera pas sauv‚.
+
+           Normal      Alternate      Control
+@line 4 43 0 0 1
+@line 7 0 11 0 1
+@line 19 0 11 0 1
+@line 34 0 11 0 1
+@line 47 0 11 0 1
+
+   F1      sin         asin           sinh
+   F2      cos         acos           cosh
+   F3      tan         atan           tanh
+   F4      exp
+   F5      ln          log
+   F6      abs         floor         ceil
+   F7      heav
+   F8      ^2          sqrt
+   F9      rand
+   F10     ndist
+
+   ( Ctrl+Alt+Espace   [D‚]Iconifie )
+
+
+@endnode
+
+@node "Fonctions support‚es"
+@toc "Utilisation du programme"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Les fonctions suivantes sont support‚es actuellement :@{0}
+
+
+@line 4 30 0 0 1
+@line 4  0 11 0 1
+@line 14 0 11 0 1
+@line 24 0 11 0 1
+@line 34 0 11 0 1
+      abs       floor    ceil
+      sin       cos       tan
+      asin      acos      atan 
+      sinh      cosh      tanh 
+      exp
+      ln        log
+      sqrt
+      heav
+      rand
+      ! (fak)
+      ~ (neg)
+      ndist
+@line 4 30 0 0 1
+
+Les valeurs pass‚es aux fonctions doivent toujours ˆtre entour‚es de 
+parenthŠses. ex : sin(3.14)
+
+Note : !(1754) est la factorielle maximum qui peut ˆtre calcul‚e par 
+       Newton. Si un nombre plus grand est utilis‚, cette fonction renvoie 
+       - 1
+
+      ndist calcul la distribution normalis‚e depuis -eternit‚ jusqu'… la 
+      valeur pass‚e entre parenthŠses. Comme cette fonction est un peu 
+      lente, seules les neufs premiŠres d‚cimales sont calcul‚es.
+
+
+@endnode
+
+@node "Constantes"
+@toc "Utilisation du programme"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Constantes :@{0}
+
+Les constantes sont lues dans newton.cnf, qui peut ˆtre stock‚ dans 
+$HOME\defaults, $HOME ou dans le mˆme r‚pertoire que newton.app. Il est 
+possible d'entrer vos propres constantes, … condition de respecter la 
+syntaxe. Newton ne fera pas de la correction de cette syntaxe.
+
+Deux constantes font exception … cette rŠgle ; true et false, qui 
+repr‚sentent respectivement 1 et 0.
+
+Le nom de la variable doit comprendre un maximum de 16 caractŠres, dont le 
+premier doit ˆtre une lettre majuscule. Le nombre total de constantes et 
+de variables ne doit pas d‚passer 63. Les noms peuvent comprendre des 
+lettres aussi bien que des chiffres. Les valeurs doivent commencer par un 
+chiffre, ainsi .25 n'est pas autoris‚ alors que 0.25 est licite.
+
+Il est possible d'utiliser tous les symboles math‚matiques et expressions 
+utilisables dans Newton. Mˆme 2úã (2*Pi) est possible, si Pi a d‚j… ‚t‚ 
+d‚fini dans newton.cnf.
+
+Les constantes suivantes sont pr‚d‚finies dans newton.cnf :
+
+Toutes les constantes pr‚d‚finies dans newton.cnf sont mesur‚es en unit‚s 
+SI. Voici les constantes :
+                                                           
+  Acre     4046.87260987          (Acre)                   mý
+  Atm      101325                 (Atmosphere)             kg/(m*sý)
+  Au       1.495979e11            (Unit‚ Astronomique)     m
+  Bbl      0.158987294928         (Baril)                  mþ
+  C        299792500              (Vitesse de la lumiŠre)  m/s
+  Cal      4.1868                 (Calorie)                (kg*mý)/sý
+  Ci       3.7e10                 (Curie)                  1/s
+  Ct       0.0002                 (Carat)                  kg
+  Day      86400                  (Jour)                   s
+  E        2.718281828459045      (Base naturelle)
+  Ev       1.60217733e-19         (Electron volt)          (kg*mý)/sý
+  Fdy      96487                  (Faraday)                A*s
+  Foot     0.3048                 (Pied international)     m
+  G        9.80665                (Pesanteur standard)     m/sý
+  GalC     0.00454609             (Gallon canadien)        mþ
+  GalUK    0.004546092            (Gallon UK)              mþ
+  GalUS    0.003785411784         (Gallon US)              mþ
+  Hour     3600                   (Heure)                  s
+  Hp       745.699871582          (Cheval Vapeur)          (kg*mý)/sþ
+  Inch     0.0254                 (Pouce)                  m
+  Kel      274.15                 (Kelvin)                 øC
+  Knot     0.514444444444         (Noeud nautique)         m/s
+  Kph      0.277777777778         (Km/Heure)               m/s
+  Lyr      9.46052840488          (Ann‚e lumiŠre)          m
+  Mile     1609.34721869          (Mile)                   m
+  Mph      0.44704                (Miles par heure)        m/s
+  Nmile    1852                   (Mile nautique)         m
+  Ounze    0.028349523125         (Ounce)                  kg
+  Pi       3.14159265358979323846 (Pi ou ã)
+  Pint     0.000473176473         (Pinte)                  mþ  
+  Planck   6.6262e-27             (Constante de Planck)    (kg*mý)/s
+  Psi      6894.75729317          (Livre/pouce carr‚)      kg/(m*sý)
+  Quart    0.000946352946         (Quart)                  mþ
+  Rpm      0.016666666667         (Tour par minute)        1/s
+  Tbsp     1.47867647813e-5       (CuilliŠre … soupe)      mþ
+  Tsp      4.92892159375e-6       (cuilliŠre … caf‚)       mþ
+  U        1.6605402e-27          (Masse atomique unifi‚e) kg
+  Yard     0.9144                 (Yard international)     m
+  Year     31556925.9747          (Ann‚e)                  s
+
+
+@endnode
+
+@node "Variables"
+@toc "Utilisation du programme"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Variables@{0}
+
+Dans les expressions il est possible, pour les simplifier, d'entrer vos 
+propres variables. Elles doivent commencer par une lettre majuscule, et 
+ne doivent pas comprendre plus de 16 caractŠres.
+
+Lors de l'introduction de "3úFou", Newton demandera la valeur de la 
+variable "Fou", et effectuera ensuite le calcul.
+Si vous aviez introduit "3úfou", Newton aurait affich‚ une boŒte 
+d'information expliquant que fou n'‚tait pas une fonction standard, etc.
+
+Si vous entrez un juron courant, et que l'option "Contr“le moral" est 
+active dans les @{"r‚glages" link "R‚glages"}, Newton annulera le calcul de l'expression, 
+et vous informera … la place qu'il y a une "Bad language error" (Erreur de 
+mauvais langage). Si vous constatez que Newton ne reconnaŒt pas un juron 
+courant dans votre langue, n'h‚sitez pas … @{"me" link "Auteur"} le faire savoir !
+
+
+@endnode
+
+@node "Syntaxe"
+@toc "Utilisation du programme"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Syntax@{0}
+
+  5.5.1  Assigner des variables
+  5.5.2  Tests de comparaison
+  5.5.3  Autres bases num‚riques
+  5.5.4  Op‚randes num‚riques
+  5.5.5  Utiliser des op‚randes num‚riques
+  5.5.6  Op‚randes logiques
+  5.5.7  Utiliser des op‚randes logiques
+@endnode
+
+@node "Assigner des variables"
+@toc "Syntaxe"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Assigner des variables@{0}
+
+Les variables, sous la forme de constantes temporaires, peuvent ˆtre 
+introduites durant l'utilisation du programme. Ceci s'effectue de la fa‡on 
+suivante.
+
+@limage assign.img 1
+Si vous d‚sirez r‚assigner une variable, aucune difficult‚.
+Il est mˆme possible d'utiliser la mˆme variable durant une r‚assignation.
+
+@limage assign2.img 1
+Si vous avez des noms de variable longs vous d‚sirerez peut-ˆtre utiliser 
+l'autolocateur. Entrez seulement les premiers caractŠres et appuyez sur 
+Tab. Voir @{"Touches sp‚ciales" link "Touches sp‚ciales" 40}.
+
+Les variables introduites de cette fa‡on ne sont pas sauvegard‚es … la fin 
+du programme. Si vous d‚sirez qu'elles soient accessibles de fa‡on 
+permanente, entrez les dans newton.cnf. Voir Constantes.
+
+Rapellez-vous que les noms de variable sont limit‚s … 16 caractŠres.
+
+
+@endnode
+
+@node "Tests de comparaison"
+@toc "Syntaxe"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Test de comparaison@{0}
+
+Il y a cinq op‚randes diff‚rentes pour les tests.
+Quelques exemples :
+
+@limage equ.img 1
+Voir @{"Touches sp‚ciales" link "Touches sp‚ciales" 34} pour savoir 
+comment introduire les caractŠres. Utiliser <= ou >= fonctione 
+parfaitement ‚galement. 
+
+Le r‚sultat d'un test de comparaison est soit "true" soit "false", qui 
+repr‚sentent respectivement 1 ou 0.
+
+@endnode
+
+@node "Autres bases num‚riques"
+@toc "Syntaxe"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Autres bases num‚riques@{0}
+
+Newton gŠre … pr‚sent les calculs dans diff‚rentes bases num‚riques. En 
+plus des nombres d‚cimaux, il est possible d'entrer des nombres en 
+haxad‚cimal, binaire et octal.
+
+Ceci s'effectue en utilisant des pr‚fixes. On utilise 0x devant un nombre 
+hexad‚cimal, 0b devant un nombre binaire et 0o devant un nombre octal.
+
+Des nombres en diff‚rentes bases peuvent ˆtre utilis‚s dans la mˆme 
+expression, tel que ci-dessous :
+
+@limage numbases.img 1
+
+Lors de l'introduction de nombre hexad‚cimaux, il n'y a pas de diff‚rences 
+entre majuscules et minuscules. Assurez-vous seulement que le pr‚fixe est 
+en minuscules.
+
+Si vous voulez que le r‚sultat soit en d‚cimal, hexad‚cimal ou binaire, 
+ceci se rŠgle dans le formulaire des @{"r‚glages" link "R‚glages"}.
+
+
+@endnode
+
+@node "Op‚randes num‚riques"
+@toc "Syntaxe"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Op‚randes num‚riques@{0}
+
+Newton comprend les op‚randes num‚riques suivantes :
+
+ú  X + Y     Ajoute X et Y
+ú  X - Y     Soustrait Y de X
+ú  X * Y     Multiplie X et Y
+ú  X ú Y     Multiplie X et Y
+ú  X / Y     Divise X par Y
+ú  X ^ Y     Retourne X … la puissance de Y
+ú  X % Y     Retourne X modulo Y
+
+
+@endnode
+
+@node "Utiliser des op‚randes num‚riques"
+@toc "Syntaxe"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Utiliser des op‚randes num‚riques@{0}
+
+Ce qu'il n'est pas possible de faire, est d'entrer plusieurs op‚randes … 
+la suite, sauf s'il s'agit de moins. Vous devez ins‚rer un "ú" ou un 
+"*" devant un nom de variable, autrement Newton ne saura pas ce que vous 
+voulez vraiment faire, puisque les nombres peuvent aussi faire partie d'un 
+nom de variable.
+
+Voici quelques fa‡ons valides d'entrer des expressions :
+
+@limage numop.img 1
+
+Voici quelques expressions invalides :
+
+@limage numop2.img 1
+
+
+@endnode
+
+@node "Op‚randes logiques"
+@toc "Syntaxe"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Op‚randes logiques@{0}
+
+Newton comprend les op‚randes logiques suivants :
+
+ú  X & Y     Retourne vrai si X et Y sont tous les deux vrais (c.a.d., dif‚rents de 0), 
+             sinon renvoie faux.
+ú  X | Y     Retourne vrai si au moins un parmi X ou Y est vrai,  
+             sinon renvoie faux.
+ú  ~(X)      Impl‚ment‚ comme une fonction dans Newton, effectue une 
+             n‚gation logique de X. Si X est vrai, le r‚sultat est faux. 
+             Si X est faux, le r‚sultat est vrai. A la place de ~(), vous 
+             pouvez ‚crire neg(). ~ est le signe tilde. 
+ú X Ü Y      Si ... alors logique. Retourne faux si X est vrai et Y est 
+             faux. Le symbole (une flŠche point‚e vers la droite) est 
+             ins‚r‚ avec le raccourci Alt+I.
+
+@endnode
+
+@node "Utiliser des op‚randes logiques"
+@toc "Syntaxe"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Utiliser des op‚randes logiques@{0}
+
+Il n'est pas possible d'utiliser &, | et Ü c“te … c“te. Il n'est ‚galement 
+pas possible de mettre ~ directement devant & ou |. Il peut n‚anmoins ˆtre 
+mis aprŠs.
+
+Voil… des utilisations valides des op‚randes logiques :
+
+@limage logop.img 1
+
+Et voil… des utilisations invalides :
+
+@limage logop2.img 1
+
+
+@endnode
+@node "Formules"
+@toc "Utilisation du programme"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Formules@{0}
+
+@image formulae.img 3
+                                 Afin de vous ˆtre agr‚able (bla bla bla ;)
+                                 Newton connaŒt quelques formules que vous 
+                                 pouvez ins‚rer facilement grƒce … un menu 
+                                 surgissant.
+
+                                 Ce menu peut ˆtre obtenu soit en pressant 
+                                 Alt+F, soit en cliquant sur l'entr‚e 
+                                 formule dans le @{"menu surgissant" link "Menu surgissant"}
+                                 qui … son tour peut ˆtre atteint en 
+                                 pressant le bouton droit de la souris sur 
+                                 une zone non utilis‚e de la fenˆtre de 
+                                 Newton.
+
+
+@endnode
+
+@node "Drag 'n Drop"
+@toc "Utilisation du programme"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Drag 'n Drop (Glisser-D‚placer)@{0}
+
+Pour faire glisser une ligne d'un endroit … un autre, traŒnez-la 
+simplement … l'endroit d‚sir‚. Les touches de modification suivantes 
+affecteront le r‚sultat :
+
+
+@line 8 0 5 0 1
+Alt       La ligne traŒn‚e sera ajout‚e … la ligne de destination, plut“t 
+          que de la remplacer.
+
+Ctrl      La ligne traŒn‚e sera d‚plac‚e plut“t que copi‚e.
+
+
+@limage dragdrop.img 0
+
+Il est possible ‚galement de traŒner une expression depuis et vers la 
+fenˆtre de Newton. Par exemple, une expression traŒn‚e vers Jinnee 
+deviendra une note sur le bureau, ou bien une expression peut ˆtre amen‚e 
+depuis un ‚diteur. Newton calculera le r‚sultat, que vous pourrez ensuite 
+remettre dans l'‚diteur.
+
+Il est ‚galement possible de traŒner une expression sur la poubelle ou le 
+broyeur pour l'effacer, ou sur le presse-papier pour la couper ou la 
+coller.
+
+Lorsqu'une expression est amen‚e sur la fenˆtre de Newton depuis un autre 
+programme, maintenir une touche Shift enfonc‚e modifiera l'action de la 
+mˆme fa‡on que ce qui a ‚t‚ mentionn‚ pr‚c‚demment, en fonction des 
+r‚actions de l'application ‚mettrice aux touches Shift.
+Par exemple, maintenir Shift enfonc‚e en amenant une expression depuis 
+Jinnee transmettra ‚galement les attributs de la note. Par cons‚quent, 
+rien ne se passera.  Si rien ne se passe lorsque Shift n'est pas 
+maintenue, maintenez-la ou bien  
+@{"modifiez les r‚glages" RX "#OptionHelp Notizzettel|Attribut-Tags bei Drag&Drop"} dans Jinnee.
+(Version allemande : Einstellungen->Notizzettel->Attribut-Tags bei D&D)
+
+
+Si une expression est traŒn‚e vers une application qui ne comprend pas le 
+protocole D&D, un d‚lai d'interruption (time out) de 3 … 4 secondes 
+surviendra.
+
+Il est ‚galement possible de traŒner des expressions depuis des 
+applications qui sont compatibles avec le D&D au travers du protocole 
+XACC2. De telles applications sont rares, mais pourquoi pas.
+
+TraŒner … l'int‚rieur de Newton ou vers d'autres programmes ne 
+fonctionnera que si le systŠme supporte wind_get(WF_OWNER ... ). Pour 
+cela, il faut un AES >= v4.0, ce que MagiC supporte depuis la v2. 
+
+
+@endnode
+
+@node "Formulaires"
+@toc "Utilisation du programme"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Formulaires@{0}
+
+  5.8.1  Calculs ‚conomiques
+  5.8.2  Entrez valeur variable
+  5.8.3  R‚glages
+  5.8.4  Menu surgissant
+  5.8.5  Formulaire d'information
+  5.8.6  Formulaire des ‚chantillons
+  5.8.7  Equation du second degr‚
+  5.8.8  Fonction de trac‚
+
+@endnode
+
+@node "Calculs ‚conomiques"
+@toc "Formulaires"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Calculs ‚conomiques@{0}
+
+@limage economy.img 0
+
+On obtient ce formulaire en appuyant sur Ctrl+E.
+Il peut ˆtre utilis‚ pour faciliter les calculs d'int‚rˆt compos‚s et 
+d'amortissement.
+
+Un int‚rˆt compos‚ survient lorsque l'int‚rˆt gagn‚ est ajout‚ au 
+principal … des p‚riodes sp‚cifi‚es, et qu'ainsi l'int‚rˆt compos‚ 
+rapporte … son tour des int‚rˆts. Beaucoup de calculs financiers sont des 
+calculs d'int‚rˆts compos‚s - par exemple les loyers, les fonds de pension, 
+les prˆts et les annuit‚s.
+
+
+ú Valeur de fin           La valeur de par exemple un Euro aprŠs n ann‚es 
+                          … un taux d'int‚rˆt de r par an.
+
+ú Valeur actuelle         La valeur actuelle de par exemple un Euro dans n 
+                          ans … un taux d'int‚rˆt de r par an.
+
+ú Valeur actuelle cumul‚e La valeur actuelle d'un paiement annuel 
+                          survenant … la fin de chaque n an … un taux 
+                          d'int‚rˆt de r par an.
+
+ú Annuit‚                 Vous prenez un prˆt de 100 000 Euros. Cette 
+                          m‚thode calcule ce que vous avez … amortir par 
+                          an pendant n ans … un taux d'int‚rˆt r.
+
+
+@endnode
+
+@node "Entrez valeur variable"
+@toc "Formulaires"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Entrez valeur variable@{0}
+
+Lors de l'introduction d'une expression, par exemple "(18*J1*J2)/5", 
+Newton demandera successivement les valeurs des variables "J1" et "J2".
+
+@limage variable.img 0
+
+
+@endnode
+
+@node "R‚glages"
+@toc "Formulaires"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}R‚glages@{0}
+
+Ce formulaire s'obtient en appuyant sur Alt+S.
+
+@limage settings.img 0
+
+ú "Curseur" - Active/D‚sactive le curseur clignotant.
+
+ú "Contr“le moral" - Ceci peut vous aider … devenir une personne 
+  meilleure, en particulier si vous savez que votre langage est loin 
+  d'ˆtre chƒti‚. ;-)
+
+ú "AV_SENDKEY" - Si vous voulez que les raccourcis clavier que Newton ne 
+   comprend pas soient transmis au serveur AV_SERVER, activez cette option.
+
+ú "Sauver travail" - Newton doit-il sauver toutes les expressions et les 
+   r‚sultats lors de la sortie du programme ?
+
+ú "Montrer Splash" - Si NVDI >=3 est install‚, vous pouvez choisir 
+  d'afficher une image d'accueil (Splash) au d‚marrage du programme.
+
+ú "Jouer ‚chantillons" - Assez ‚vident, n'est-ce pas ? ;-)
+   Ceci dit, les sons doivent ˆtre plac‚s dans votre r‚pertoire $HOME.
+
+ú "Police … symbole math." - Des symboles math‚matiques (ã, ý,...) seront 
+   ins‚r‚s dans les expressions … la place d'un simple texte lors de 
+   l'appui sur Alt+P, Alt+2, etc. Voir Touches sp‚ciales.
+
+ú "BoŒtes pour D&D" - Newton doit-il dessiner des boŒtes en 
+   extension/compression lors d'un Drag&Drop. C'est assez cool avec les 
+   boŒtes tournantes de Stewart.
+
+ú "Largeur ligne" - Cette option permet de d‚finir la largeur de ligne 
+   souhait‚e lorsqu'une expression est amen‚e sur le fond du bureau de 
+   Jinnee.
+
+En choisissant Degr‚s, Newton comptera en degr‚s plutot qu'en radians.
+
+Il est possible de choisir l'affichage des r‚sultats en d‚cimal, 
+hexad‚cimal ou binaire. Les r‚sultats binaires ne peuvent pas ˆtre 
+n‚gatifs. Que ce soit en hexad‚cimal ou en binaire, les r‚sultats ne 
+peuvent pas d‚passer 2^31 - 1. En d‚cimal, la limite sup‚rieure est 
+1*10^4932.
+
+@endnode
+
+@node "Menu surgissant"
+@toc "Formulaires"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Menu surgissant@{0}
+
+@limage popup.img 0
+
+Ce menu apparaŒt en appuyant sur le bouton droit de la souris sur le fond 
+de Newton, ou en laissant la souris sur le fond (si un "d‚mon" de bulle 
+d'aide est install‚).
+
+Cliquer sur "Formules" dans ce menu ouvre un formulaire, depuis lequel 
+vous pouvez ins‚rez facilement des formules de base dans vos calculs.
+
+@endnode
+
+@node "Formulaire d'information"
+@toc "Formulaires"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Formulaire d'information@{0}
+
+@limage info.img 0
+
+Ce formulaire s'obtient en pressant le bouton droit de la souris sur le 
+fond de Newton, et en choisissant ensuite "Info" dans le menu surgissant, 
+ou bien en pressant Ctrl+I sur le clavier. Ce formulaire permet de 
+connaŒtre la version de Newton que vous utilisez, ainsi que sa date de 
+compilation.
+
+Depuis ce formulaire, il est ‚galement possible de m'envoyer un message ou 
+de visiter ma page personnelle. Afin que ceci soit possible, les chemins 
+complets de votre programme de messagerie et de votre navigateur doivent 
+ˆtre install‚s respectivement dans les variables d'environnement $MAILER 
+et $BROWSER.
+
+
+@endnode
+
+@node "Formulaire des ‚chantillons"
+@toc "Formulaires"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Formulaire des ‚chantillons@{0}
+
+@limage samples.img 0
+
+Ce formulaire s'obtient en pressant le bouton droit de la souris sur le 
+fond de Newton, et en choisissant ensuite "Sons" dans le menu surgissant, 
+ou bien en pressant Ctrl+G sur le clavier.
+
+Ce formulaire permet de d‚finir quels sons seront jou‚s par Newton en 
+certaines occasions. Afin que ceci soit possible, GEMJing doit ˆtre 
+disponible, et sa variable GEMJINGPATH doit ˆtre install‚e.
+
+Si un ‚chantillon n'est pas d‚fini, de toute ‚vidence il ne pourra pas 
+ˆtre jou‚.
+
+Cliquer sur un champ fera apparaŒtre un s‚lecteur de fichiers, afin que 
+vous puissiez choisir un ‚chantillon.
+
+
+@endnode
+
+@node "Equation du second degr‚"
+@toc "Formulaires"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}R‚solution d'‚quation du second degr‚@{0}
+
+@limage andragr.img 0
+
+Cette fonction permet de calculer des ‚quations du second degr‚. Entrez 
+les valeurs de P et Q, et les r‚sultats seront affich‚s dans la fenˆtre 
+principale de Newton.
+
+Syntaxe : si vous voulez par exemple r‚soudre l'‚quation xý+3x-7, il 
+          suffit d'entrer 3 comme valeur de P et -7 comme valeur de Q.
+
+@endnode
+
+@node "Fonction de trac‚"
+@toc "Formulaires"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Fonction de trac‚@{0}
+
+@limage grafform.img 0
+
+Cette boŒte de dialogue s'ouvre soit en pressant Ctrl+G sur le clavier, 
+soit en pressant le bouton "f(x)" dans l'‚cran principal de Newton.
+
+A partir de cette boŒte, une fonction peut ˆtre trac‚e. Vous pouvez soit 
+taper la fonction sous cette forme ou, si vous pr‚f‚rez, taper dans 
+l'‚cran principal et Newton importera la fonction automatiquement dans le 
+formulaire.
+
+Le x (delta x) de la grille est l'espacement horizontal de la grille. 
+Pour le moment, seul des valeurs entiŠres peuvent ˆtre utilis‚es. Delta y 
+(x) est l'espacement vertical de la grille.
+Les ‚paisseurs de ligne valides sont 1, 3, 5, 7 et 9. Ceci est du … une 
+limitation de la VDI.
+
+Une fois la fonction trac‚e, vous pouvez zoomer … un emplacement pr‚f‚r‚ 
+simplement en cliquant et en traŒnant la souris comme dans l'image 
+ci-dessous. Vous pouvez aussi zoomer et d‚-zoomer en cliquant sur les 
+boutons plus ou moins sur l'‚cran, ou utiliser les touches correspondantes 
+du clavier.
+
+Les coordonn‚es x et y des fonctions trac‚es … la position courante de la 
+souris sont affich‚es automatiquement.
+
+@limage graf.img 0
+
+Vous pouvez quitter la fonction de trac‚ par un clic de souris ou en 
+appuyant sur une touche.
+
+@endnode
+
+@node "Changer de police"
+@toc "Utilisation du programme"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Changer de police@{0}
+
+Il y a principalement trois fa‡ons de changer de police :
+
+ú TraŒner une police sur la fenˆtre en utilisant un s‚lecteur de police 
+  compatible avec le protocole FONT.
+
+ú Presser Alt+Z si vous avez un s‚lecteur de police xFSL ou UFSL.
+  La variable d'environnement $FONT_SELECT est ‚galement prise en compte.
+  Si vous utilisez MagiC et qu'aucun des ‚l‚ments ci-dessus n'est 
+  install‚, le s‚lecteur de polices interne de MagiC sera appell‚.
+
+ú Choisir "Police" dans le @{"menu surgissant" link "Menu surgissant"}, et 
+  l'un des s‚lecteur de police vous permettra de choisir la police 
+  utilis‚e dans Newton.
+
+
+@endnode
+
+@node "Changer de couleurs"
+@toc "Utilisation du programme"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Changer de couleurs@{0}
+
+Si un s‚lecteur de police xFSL est install‚, appelez-le en pressant 
+Alt+Z. Il sera alors possible de modifier les couleurs d'avant et 
+d'arriŠre plan dans le s‚lecteur de police avant de presser sur OK pour 
+prendre en compte les r‚glages.
+
+Si un s‚lecteur de couleurs est install‚, il est possible de le lancer en 
+appuyant sur Alt+C. De cette fa‡on, il suffit de traŒner une couleur sur 
+le texte pour changer la couleur de texte, sur le fond pour changer la 
+couleur de fond, et sur le curseur pour modifier sa couleur.
+
+@limage colour.img 0
+
+Lƒcher une couleur sur le curseur peut s'av‚rer difficile. C'est pourquoi, 
+au lieu d'avoir besoin de lƒcher pr‚cis‚mment sur le curseur, il est 
+possible ‚galement de la lƒcher n'importe o— dans la fenˆtre, sauf sur le 
+texte ou le fond.
+
+La couleur de fond doit imp‚rativement ˆtre une des 16 premiŠres couleurs 
+systŠme. Si tout autre couleur est choisie elle deviendra noire. Ceci est 
+du … une limitation de l'AES. Par contre, la couleur de texte et celle de 
+curseur peuvent ˆtre n'importe laquelle des 256 couleurs index‚es.
+
+
+@endnode
+
+@node "Commandes GEMScript"
+@toc "Contents"
+@next "Auteur"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Commandes GEMScript@{0}
+
+Commandes GEMScript support‚es, et leur effet sur Newton :
+
+
+AppGetLongName     Newton renvoie "Newton".
+
+Close              Ferme la fenˆtre et quitte le programme.
+
+Quit               Ferme la fenˆtre et quitte le programme.
+
+Copy               Copie l'expression courante dans le presse-papier.
+
+Cut                Coupe l'expression courante dans le presse-papier.
+
+Paste              Colle l'expression contenue dans le presse-papier … la 
+                   position courante.
+
+Delete             Efface la ligne o— se trouve le curseur. Si celle-ci 
+                   est d‚j… effac‚e, tout l'affichage sera effac‚.
+
+Calculate          Calcul l'expression courante.
+
+InsertExpression   InsŠre l'expression ParamŠtre 1 … la position courante 
+                   du curseur.
+
+GetExpression      Newton renvoie l'expression courante dans ParamŠtre 1.
+
+CursorUp           Monte le curseur d'une ligne si celui-ci n'est pas en 
+                   haut de la fenˆtre.
+
+CursorDown         Descend le curseur d'une ligne si celui-ci n'est pas en 
+                   bas de la fenˆtre.
+
+
+Commandes envoy‚es par Newton :
+
+NoteOpen           Newton envoie cette commande … Jinnee quand une 
+                   expression est traŒn‚e et lach‚e sur le bureau afin de 
+                   cr‚er une note.
+@label "MultiStrip"
+
+AddToMenu          Cette commande est envoy‚e … MultiStrip pour ajouter 
+                   des entr‚es suppl‚mentaires dans le menu surgissant de 
+                   MS.
+
+
+@limage gemscrpt.img 0
+
+      GEMScript fournit, entre autres choses, un moyen d'afficher des 
+    noms de fichier "longs" sous MagiC, ainsi que d'ajouter des entr‚es 
+                      dans le menu de MultiStrip.
+
+
+@endnode
+
+@node "Auteur"
+@toc "Contents"
+@next "Remerciements"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Auteur@{0}
+
+@limage jag9an2.img 0
+
+                  Mikael Folkesson, G”teborg, SuŠde
+
+
+
+@line 2 69 0 0 7
+
+@image snail.img 2
+@image email.img 35
+      Mikael Folkesson                 EMail: mikael_f@@swipnet.se
+      Hisingsgatan 5A                  URL: home.swipnet.se/mikael_f
+      S-417 03 G”teborg
+      SWEDEN
+
+Traduction :
+      Didier Briel           email : d.briel@free.fr
+      TransAction            URL   : http://atari.transaction.free.fr/
+
+@endnode
+
+@node "Remerciements"
+@toc "Contents"
+@next "Historique"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Merci … :@{0}
+
+ú Per Erik "Pecka" Petersson pour l'id‚e initiale de programmation d'une 
+  calculatrice.
+
+ú Bengt Andersson pour le code c++ de calcul.
+
+ú Holger Weets pour les informations sur l'appel correct de ST-Guide, le 
+  beta test, etc.
+
+ú Karl Ashton pour le beta test.
+
+ú Erik H„ll pour les informations sur la v‚rification du cookie NVDI.
+
+ú Alfred Radauer pour les rapports de bug et les suggestions.
+
+ú Mille Babic pour le beta test.
+
+ú Holger Dammann et Wolfgang Simon pour les rapports de bug et le beta 
+  test.
+
+ú G”tz Hoffart pour m'avoir permis d'utiliser GEMJing, et pour les 
+  rapports de bug.
+
+ú Didier Briel pour la traduction fran‡aise, super travail (NdT : You're 
+  welcome).
+
+
+@endnode
+
+@node "Historique"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Historique@{0}
+
+v 0.2ž :  Compatibilit‚ xFSL, corrections de bugs.
+
+v 0.3ž :  Aide ST-Guide et ic“nification, d'autres corrections de bugs.
+
+v 0.4ž :  Il est … pr‚sent possible de choisir une police en appuyant sur 
+          Ctrl+F. Corrections de bug et am‚liorations g‚n‚rales. Support 
+          du presse-papier.
+
+v 0.5ž :  Comprend le protocole FONT, compatible avec les bulles d'aide, 
+          meilleure gestion des polices, correction de bugs mineurs.
+
+v 0.6ž :  Newton est capable de compter ! Affichage multilignes avec 
+          d‚filement, corrections de bugs. Commenc‚ la documentation. 
+          Sauvegarde ‚galement la position de la fenˆtre dans le fichier 
+          d'info.
+
+v 0.7ž :  Optimisation de la vitesse de r‚affichage. Restructuration du 
+          code. Si la touche Alt est maintenue lors de l'appui sur une des 
+          fonctions trigonom‚triques, son ‚quivalent "Arc" est obtenu … 
+          la place. Am‚liorations g‚n‚rales.
+
+v 0.72ž : Choses idiotes : contr“le moral de l'utilisateur, Alt+B inverse 
+          le nombre. Correction de bugs l‚gers. Fonctions appelables par 
+          les touches de fonction.
+
+v 0.75ž : La plupart des affichages se font dans un formulaire (modal). 
+          Corrections de bugs. Petites am‚liorations.
+
+v 0.8ž :  Le d‚filement fonctionne … nouveau. Les expressions peuvent ˆtre 
+          sur plusieurs lignes. Meilleur support des diff‚rentes polices 
+          et tailles.
+
+v 0.85ž : PremiŠre version diffus‚e. Taille de la fenˆtre modifiable. 
+          Corrections de bugs.
+
+v 0.87ž : Sur une erreur de syntaxe, la position est … pr‚sent affich‚e 
+          correctement. Les expressions … plusieurs lignes peuvent … 
+          nouveau ˆtre calcul‚es en utilisant les boutons.
+
+v 0.9ž :  Une ic“ne plus petite est affich‚e quand la surface de travail 
+          de la fenˆtre ic“nis‚e fait moins de 72 pixels de haut. L'ic“ne 
+          est ‚galement centr‚e. Le curseur montre la position. 
+          Corrections de bugs.
+
+v 0.91ž : Sauve les r‚glages dans $HOME\defaults\, s'il est disponible, 
+          sinon dans $HOME. Possibilit‚ de sauver le travail ajout‚e. 
+          Quelques pr‚parations pour l'affichage de graphiques. Meilleure 
+          gestion du changement de taille.
+
+v 0.92ž : L'attribut des objets dans le formulaire des r‚glages est mis … 
+          jour correctement lors d'un appui sur Abandon. Ne plante pas 
+          lorsque rien n'est entr‚ dans le formulaire de compte rendu 
+          d'erreur. Compatibilit‚ AV_SENDCLICK.
+
+v 0.93ž : Corrections de bugs. Ajout de certains boutons pour que les gens 
+          voient (en partie) ce qui est possible. ;) Si Newton ‚tait 
+          ic“nifi‚ lors de la fin du programme, la position de la fenˆtre 
+          n'‚tait pas sauv‚e correctement. Meilleure gestion du curseur. 
+          NKCC (NdT : librairie de gestion des codes clavier) incorpor‚, 
+          plus de problŠme avec les Powerbooks ;). Alt+Z pour choisir une 
+          police au lieu de Ctrl+F.
+
+v 0.94ž : La bulle d'aide ne sera plus affich‚e une centaine de fois si 
+          le bouton droit est press‚ et maintenu. Ajout du menu 
+          surgissant. Am‚lioration de l'aspect de l'affichage principal. 
+          Mise … jour des documentations, afin qu'il n'y ait plus autant 
+          de malentendus avec les utilisateurs de maus (NdT : r‚seau 
+          allemand du type usenet). ;)
+
+v 0.95ž : Plus d'avertissement si $HOME n'est pas install‚. AV_SENDKEY 
+          fonctionne … nouveau, cette fois ‚galement avec Gemini. Ce 
+          problŠme fait partie du parcours global des fenˆtres qui 
+          fonctionne correctement. Envoie AV_PATHUPDATE lors d'un Copier 
+          ou Coller. R‚assignation des touches de fonction pour avoir une 
+          structure plus logique. Corrections de bugs. (D‚)Iconification 
+          avec Ctrl+Alt+Espace fonctionne … pr‚sent mˆme sans WinCom. 
+          Dialogues flottants (Flydials) et raccourcis clavier dans les 
+          formulaires. La plupart des alertes sont … pr‚sent dans le 
+          fichier ressource pour permettre une traduction plus facile. 
+          Compatibilit‚ XACC2 (noms longs). Support binaire et 
+          hexad‚cimal. NVDI3 ou sup‚rieur n'est plus requis pour 
+          l'affichage.
+
+v 0.95ž2 : Mise … jour mineure. Si le r‚sultat est 0 il est vraiment 
+           affich‚. BoŒte d'info adapt‚e aux polices proportionnelles. 
+           Pr‚paration pour le D&D, le positionnement du curseur … la 
+           souris est possible.
+
+v 0.96ž : Plus besoin d'un s‚lecteur xFSL pour choisir une police. 
+          $FONTSELECT est maintenant ‚valu‚ correctement. Avec une police 
+          systŠme proportionnelle, le formulaire d'erreurs n'affiche plus 
+          une position erron‚e. C'est pourquoi le r‚glage "Police systŠme 
+          prop." a ‚t‚ ajout‚ dans le formulaire des r‚glages. Support 
+          GEMScript : AppGetLongName, Quitter, Copier, Couper, Coller, 
+          Effacer. Alt+C appelle le s‚lecteur de couleurs pour le curseur. 
+          F8=^2, Alt+F8=sqrt. Le nombre maximum de caractŠres pour une 
+          variable passe de 10 … 16. Newton comprend maintenant les 
+          messages XACC2 ACC_TEXT et ACC_KEY. Les polices bitmap n'‚taient 
+          pas lues, c'est maintenant chose faite. Ajout de la possibilit‚ 
+          de changer la couleur de texte et de fond. Newton dans le titre 
+          pour la r‚duction de fenˆtre (windowshading). Ajout de quelques 
+          jurons hollandais pour le contr“le moral ;) Corrections de bugs.
+         
+v 0.97ž : Taille de police variable. Nombre variable de lignes. A nouveau 
+          utilisable dans les r‚solutions noir et blanc. Un fichier d'info 
+          s‚par‚ est sauv‚ en noir et blanc : newtonbw.inf. V‚rification 
+          de la compatibilit‚ du fichier d'info. Nouvelles commandes 
+          GEMScript : Calcul, InsertExpression, GetExpression, CursorUp, 
+          CursorDown.
+          Ajout de constantes courantes : Pi (3.14...), C (2.99...*10^8).
+          Lorsque le slash de fin ‚tait absent de $HOME, newton.inf 
+          n'‚tait pas sauv‚ correctement sur un systŠme de fichiers 
+          supportant les noms longs. A l'initialisation, Newton s'assure 
+          de tenir dans la r‚solution courante. Ajout du bouton de pleine 
+          taille. Police par d‚faut modifi‚e en Speedo-font Courier SWA. 
+          SC_CHANGED envoy‚ … toutes les applications lors d'un Copier ou 
+          Couper. GEMJing joue un ‚chantillon lors d'une "Erreur de 
+          mauvais langage".
+          Si Newton est … l'‚tat d'ic“ne, un passage en avant-plan le 
+          d‚sic“nifie. FONT_ACK est envoy‚ au s‚lecteur de police si 
+          FONT_CHANGED est re‡u. D&D impl‚ment‚ … moiti‚ : du texte peut 
+          ˆtre traŒn‚ vers et … l'int‚rieur de Newton. Fonctionne 
+          ‚galement en accessoire. Le parcours global de fenˆtres devrait 
+          fonctionner … nouveau. Les constantes sont lues dans newton.cnf. 
+          Le formulaire des r‚glages est appel‚ par Alt+S au lieu de 
+          Alt+O. Interpr‚tation du protocole couleur plus maligne. Ajout du 
+          menu surgissant des formules. L‚gŠres corrections de bugs.
+
+v 0.98ž : Il est … pr‚sent possible de choisir si GEMJing doit jouer 
+          l'‚chantillon lors d'une Erreur de mauvais langage. L'appel du 
+          s‚lecteur de couleurs et de GEMJing fonctionne maintenant 
+          correctement sous tous les systŠmes d'exploitation. UFSL est … 
+          pr‚sent appel‚ correctement. Le parcours de fenˆtres devrait 
+          maintenant vraiment fonctionner. Je vous le jure ! ;) Le D&D 
+          vers d'autres applications fonctionne.
+          Nouvelle fonction : rand(), par exemple rand(500) donne une 
+          valeur dans l'intervalle 0-500. Petites am‚liorations.
+
+v 0.99ž : Il est … pr‚sent possible de calculer des expressions du type 
+          1.28e4. Votre navigateur et votre logiciel de messagerie par 
+          d‚faut peuvent dor‚navant ˆtre lanc‚s … partir du formulaire 
+          d'information. Le D&D avec Jinnee fonctionne … pr‚sent, la 
+          longueur de ligne d'une note peut ˆtre r‚gl‚e. Newton comprend 
+          la lettre grecque "ã" (Pi) et quelques autres symboles 
+          math‚matiques. Lorsqu'un objet est traŒn‚, Shift a le mˆme effet 
+          que celui que Alt avait. Log() et log10() remplac‚s par ln() et 
+          log(). Ajout‚ quelques constantes suppl‚mentaires. Il est 
+          possible de choisir les boŒtes en expansion durant le D&D. Les 
+          touches Shift pendant le D&D ont chang‚es, voyez les 
+          Touches sp‚ciales. La chaŒne d'exemple transmise lors de l'appel 
+          d'un s‚lecteur de police xFSL est … pr‚sent l'expression 
+          courante, si la ligne n'est pas vide. Les factorielles peuvent 
+          maintenant ˆtre calcul‚es avec la nouvelle fonction "!" ou 
+          "fak". Newton ajoute quelques entr‚es dans son menu sous 
+          @{"MultiStrip" link "Commandes GEMScript" "MultiStrip"}.
+          Lors d'un Copier ou d'un Coller, Shift affecte toutes les 
+          expressions visibles. Menu_register() est … pr‚sent envoy‚ 
+          ‚galement sous MiNT (auparavant : n'‚tait envoy‚ qu'en tant 
+          qu'accessoire). L'ic“ne du presse-papier ou scrap.txt peuvent 
+          ˆtre traŒn‚s vers Newton. Equations du second degr‚. Fichier de 
+          constantes plus souple. Correction d'un petit problŠme lors de 
+          la v‚rification du cookie de NVDI. Version fran‡aise et su‚doise 
+          incluses dans l'archive.
+
+
+v0.991ž: Nouvelle fonction pour calculer la distribution normalis‚e 
+        (ndist).
+         Il est … pr‚sent possible d'‚diter au milieu d'une expression.
+         Impl‚mentation de quelques raccourcis clavier Atari standard 
+         pour l'‚dition. Voir @{"Touches sp‚ciales" link "Touches sp‚ciales"}.
+         Le format de newton.inf a … nouveau chang‚, il est pr‚f‚rable de 
+         supprimer l'ancien. Ajout de nombreuses constantes dans 
+         newton.cnf. Suppression du formulaire des erreurs, parce que plus 
+         vraiment n‚cessaire, une bulle d'aide est affich‚e … la place.
+         Il n'est plus n‚cessaire de savoir si la police systŠme est 
+         proportionnelle.
+         Il y a … pr‚sent un ‚cran d'accueil (Splash screen) si vous 
+         appr‚ciez ‡a et que vous utilisez NVDI.
+         Ajout d'un formulaire pour calculer quelques fonctions 
+         ‚conomiques.
+         Le menu surgissant de Newton ne surgit pas … moins que vous 
+         n'appuyiez explicitement sur le bouton droit sur le fond.
+         Le curseur ne peut plus ˆtre d‚sactiv‚, il est seulement possible 
+         de choisir si vous voulez qu'il clignote ou pas. Les parenthŠses 
+         de fin sont ajout‚es automatiquement, ce qui rend l'introduction 
+         d'expressions beaucoup plus facile. Ajout des bool‚ens true et 
+         false, qui repr‚sentent respectivement 1 et 0. Des tests de 
+         comparaison sous la forme 2==3 ou 4/3>=1 sont possibles. Voir 
+         aussi @{"Touches sp‚ciales" link "Touches sp‚ciales"}. Il est possible d'entrer
+         des expressions du type 2(3+C)6. Les nombres peuvent ˆtre pr‚sents 
+         devant '(' et aprŠs ')'. Ajout de l'op‚rande '%' (modulo).
+         Si "Police … symb. math." est activ‚ dans le formulaire des 
+         r‚glages, 'ú' est ins‚r‚ … la place de "*".
+         Des variables "permanentes" qui sont oubli‚es … la fin du 
+         programme peuvent ˆtre entr‚es, ex : Loyer=1900.
+         Voir Syntaxe. Suppression de quelques fuites m‚moire ennuyeuses.
+         Ajout d'un autolocateur pour les constantes et les fonctions, 
+         ainsi qu'un tampon d'Undo. Voir @{"Touches sp‚ciales" link "Touches sp‚ciales"}.
+         Suppression de suffisamment de bugs pour que Newton fonctionne … 
+         nouveau sous simple TOS ! Si aucun s‚lecteur de police n'est 
+         pr‚sent, et que le SE est MagiC, le s‚lecteur de police interne 
+         de MagiC est maintenant appell‚ correctement. Ajout d'une grosse 
+         ic“ne dans newticon.rsc. Ajout des fonctions floor() et ceil().
+         La lettre grecque "ê" (Omega) peut ˆtre utilis‚e. Il est 
+         ‚galement possible d'introduire des espaces afin de rendre les 
+         expressions plus lisibles.
+         Des nombres hexad‚cimaux, binaires et octales peuvent ˆtre 
+         introduits en utilisant kles pr‚fixes correspondants 
+         "0x", "0b" and "0o".
+         Voir @{"Autres bases num‚riques" link "Autres bases num‚riques"}.
+         Montre une ic“ne dans la barre de titre si le Windframe Xgem est 
+         install‚.
+
+v0.992ž: Ajout des op‚randdes logiques et '&', ou '|', neg()/~() et Ü
+         (si...alors). Finalement r‚ussi a faire se comporter parfaitement 
+         les ‚valuations GEMScript. Nouvelles commandes GEMScript : 
+         SetCursorPosition. Am‚liorations mineures.
+
+v0.993ž: Newton fonctionne … nouveau avec du mat‚riel d'origine Atari ! Un 
+         bug majeur qui posait problŠme aux ordinateurs avec MMU a ‚t‚ 
+         supprim‚. Finalement, le @{"trac‚ de fonction" link "Fonction de trac‚"} a ‚t‚ impl‚ment‚ de
+         fa‡on rudimentaire.
+         Quelques fuites m‚moire ont ‚t‚ r‚solues. Devrait … pr‚sent g‚rer
+         jusqu'… 8 partenaires GEMScript en mˆme temps. Calcul de la
+         fraction ou de la fraction raisonablement la meilleure de la
+         partie d‚cimale d'un nombre (Ctrl+R).
+
+@endnode
+
+@node "Reste … faire"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Reste … faire@{0}
+
+ú Formulaires en fenˆtre.
+ú Transformer le code de r‚affichage pour que ce soit moins une bidouille 
+  vite-fait-mal-fait.
+
+Si vous avez des suggestions, n'h‚sitez pas … @{"me" link "Auteur"} 
+contacter.
+
+
+Les nouvelles versions seront disponibles … ftp.cs.tu-berlin.de et sur ma 
+page personnelle : home.swipnet.se/mikael_f/programs.html
+
+
+@endnode
+
+@node "Protocoles"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Appendice I  Protocoles@{0}
+
+ú protocole VA
+ú protocole FONT
+ú BubbleGEM
+ú Trouble Bubble
+ú XACC2
+ú GEMScript
+ú protocole COLOR
+
+
+@endnode
+
+@node "protocole VA"
+@toc "Protocoles"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}protocole VA@{0}
+
+
+@line 18 0 29 0 1
+VA_START           Met Newton en avant-plan.
+
+AV_SENDKEY         Si envoy‚ … Newton, Newton interprŠte la touche. Si 
+                   Newton n'en a pas l'usage, il les transmet au 
+                   AV_SERVER.
+
+AV_SENDCLICK       Le clic souris est interpr‚t‚.
+
+AV_WHAT_IZIT       Demande sur quel type d'objet l'expression a ‚t‚ 
+                   traŒn‚e.
+
+VA_THAT_IZIT       Si une expression est traŒn‚e sur un presse-papier elle 
+                   est copi‚e dans le presse-papier. Si une expression 
+                   est traŒn‚e sur une poubelle elle est effac‚e.
+
+AV_PATH_UPDATE     Lorsqu'une expression est copi‚e dans le presse-papier 
+                   ce message est envoy‚ au AV_SERVER.
+
+AV_PROTOKOLL       Newton envoie ces messages au AV_SERVER lors de son 
+AV_ACCWINDOPEN     d‚marrage.
+
+               
+AV_EXIT            Newton envoie ces messages au AV_SERVER lorsqu'il est
+AV_ACCWINDCLOSED   ferm‚.
+
+VA_DRAGACCWIND     Si le presse-papier est traŒn‚ vers Newton, il sera lu.
+
+
+@endnode
+
+@node "protocole FONT"
+@toc "Protocoles"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}protocole FONT@{0}
+
+
+@line 15 0 5 0 1
+FONT_CHANGED     Lorsqu'une police est traŒn‚e vers Newton, il utilisera 
+                 cette police pour l'affichage. Voir Changer de police.
+
+FONT_ACK         Envoy‚ lorsque FONT_CHANGED est re‡u.
+
+
+@endnode
+
+@node "BubbleGEM"
+@toc "Protocoles"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}BubbleGEM@{0}
+
+
+@line 20 0 4 0 1
+BUBBLEGEM_REQUEST    Affiche une bulle d'aide.
+
+BUBBLEGEM_ACK        La m‚moire r‚serv‚e pour le texte d'une bulle d'aide 
+                     est lib‚r‚e.
+
+
+@endnode
+
+@node "Trouble Bubble"
+@toc "Protocoles"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Trouble Bubble@{0}
+
+
+@line 20 0 4 0 1
+BA_BUBBLE_REQUEST    Affiche une bulle d'aide.
+
+BA_BUBBLE_CLOSED     Newton est averti qu'une bulle d'aide n'est plus 
+                     ouverte.
+
+@endnode
+
+@node "XACC2"
+@toc "Protocoles"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}XACC2@{0}
+
+
+@line 15 0 3 0 1
+ACC_KEY          Newton interprŠte la touche.
+
+ACC_TEXT         Le texte envoy‚ est coll‚ … la position courante.
+
+
+@endnode
+
+@node "GEMScript"
+@toc "Protocoles"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}GEMScript@{0}
+
+
+@line 15 0 7 0 1
+GS_REQUEST       Il est r‚pondu … la requˆte.
+
+GS_COMMAND       Une action est prise. Voir Commandes GEMScript.
+
+GS_ACK           Si re‡u, la m‚moire pour le texte de commande est 
+                 lib‚r‚e. Envoy‚ chaque fois qu'un message GEMScript est 
+                 re‡u.
+
+
+@endnode
+
+@node "protocole COLOR"
+@toc "Protocoles"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}protocole COLOR@{0}
+
+
+@line 14 0 3 0 1
+COLOR_ID         La couleur du curseur devient celle de la couleur traŒn‚e 
+                 sur Newton.
+                 Voir Changer de couleurs.
+
+
+
+@endnode
+@node "Variables d'environnement"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                               Newton
+@line 1 72 0 0 7
+
+
+@{U}Variables d'environnement@{0}
+
+
+@line 16 0 26 0 1
+$HOME            Le fichier d'info est sauv‚ dans $HOME\default\, s'il 
+                 existe, sinon dans $HOME. Si $HOME n'est pas install‚, le 
+                 fichier d'info est sauv‚ dans le r‚pertoire de Newton.
+
+$COLOR_SELECT    Le s‚lecteur de couleurs est d‚fini dans cette variable 
+                 d'environnement.
+                 Voir Changer de couleurs.
+
+$FONT_SELECT     Si aucun cookie xFSL n'est trouv‚, le programme sp‚cifi‚ 
+                 par cette variable d'environnement est lanc‚. Notez que 
+                 seules la couleur de texte et celle de fond peuvent ˆtre 
+                 modifi‚es avec un s‚lecteur de polices xFSL. Voir Changer 
+                 de police et Changer de couleurs.
+
+$GEMJINGPATH     Sur une erreur de mauvais langage, GEMJing sera lanc‚ 
+                 afin de jouer l'‚chantillon newton.wav dans $HOME.
+                 Voir Param‚trage.
+
+$BROWSER         Cette variable d'environnement est utilis‚e lorsque l'URL 
+                 de ma page personnelle est s‚lectionn‚e dans le 
+                 formulaire d'information.
+
+$MAILER          Cette variable d'environnement est utilis‚e lorsque mon 
+                 adresse email est s‚lectionn‚e dans le formulaire 
+                 d'information.
+
+
+@endnode
+@pnode "s‚lecteur de couleurs"
+ Le seul dont j'ai eu connaissance
+ jusqu'… pr‚sent est @{B}Colors@{0},
+ d'Holger Weets.
+@endnode

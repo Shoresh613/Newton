@@ -1,0 +1,1687 @@
+@database "Newton - Graphical Calculator"
+@hostname "JINNEE  "
+@author "Mikael Folkesson"
+@$VER: Newton.HYP v 0.993ž  (@:"__DATE__")
+@subject "Newton - Graphical Calculator "
+@width 75
+
+@node "Title" "Newton - Title"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+
+
+@limage newton.img 27 %0010000000000000
+
+                          Graphical Calculator
+
+
+                                @{"About" link "Contents"}
+@endnode
+
+
+@node "Contents"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+ 1  Title
+
+ 2  Introduction
+ 3  Software requirements
+ 4  Customization
+
+@image iconifid.img 43
+ 5  Using the program
+    5.1  Special keys
+    5.2  Supported functions
+    5.3  Constants
+    5.4  Variables
+    5.5  Syntax
+      5.5.1  Assigning variables
+      5.5.2  Comparison tests
+      5.5.3  Other number bases
+      5.5.4  Numerical operands
+      5.5.5  Using numerical operands
+      5.5.6  Logical operands
+      5.5.7  Using logical operands
+    5.6  Formulae
+    5.7  Drag 'n Drop
+    5.8  Dialogues
+      5.8.1  Economy calculation
+      5.8.2  Enter variable value
+      5.8.3  Settings
+      5.8.4  Popup dialogue
+      5.8.5  Info dialogue
+      5.8.6  Samples dialogue
+      5.8.7  Second degree equation
+      5.8.8  Plot function
+    5.9  Changing font
+    5.10 Changing colours
+
+ 6  GEMScript commands
+ 7  Author
+ 8  Thanks to
+
+ 9  History
+10  Still to do
+
+
+@line 2 30 0 0 1
+
+ Appendix I   Protocolls
+ Appendix II  Environment variables
+
+@endnode
+
+
+@node "Introduction"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Introduction@{0}
+
+Newton is a graphical calculator (will be one day, at least;). Why, you
+might ask. My answer is: because it looks better! And it is better.
+The day when Newton will be able to display graphs the advantage will
+be even greater.
+
+The reason for programming Newton at all, was that I had to do some sort
+of examination paper. Then, I thought, why not learn to program GEM
+programs? So I did! ;)
+
+But, don't forget: This is still a beta, it's not finished yet!
+                   (Getting awfully close now though ;-)
+
+
+@endnode
+
+
+@node "Software requirements"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Software requirements@{0}
+
+All that is really required is a TOS compatible OS and a resolution
+of at least something like 400*400 pixels.
+
+You shouldn't have Let'em Fly! installed. If you have, the keyboard
+shortcuts in the settings dialogue will not work.
+
+To run at it's best, Newton requires MagiC (for the extended AES
+buttons in the settings-dialogue), NVDI v3 or newer (kerning will be
+taken in mind), an xFSL- (or UFSL) font selector and a resolution of 
+at least 640*400 pixels in 16 colours. The logos have been 
+antialiased to the new jinnee/nvdi palette.
+
+For the popup dialogue, MagiC or WDialog is needed.
+The default font is the Speedo-font Baskerville (ID 5031). If it is not
+installed the system font will be used instead. You should really
+use a font with mathematical symbols, if you don't it will not only
+look worse, Newton will not interpret your expressions as flexibly.
+
+To read the documentation, and be able to use the online help, you need
+ST-Guide v 1.5 or compatible. You've got it, otherwise you wouldn't be
+reading this!
+
+Newton utilizes help bubbles aswell. To use them, you have to have
+either BubbleGEM (preferably v5 or more) or Freedom2's (version 2.04
+or above) Trouble Bubble EPX installed. Both at the same time will
+not work!
+
+A colour selector is used to change the colour of the cursor.
+
+GEMJing is called when a sample should be played, f.e. upon a "Bad
+language error".
+
+Although it is not a software requierment, Newton does require
+something like 1.5MB of free RAM when plotting a function, and
+about 450K otherwise.
+
+@endnode
+
+
+@node "Customization"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Customization@{0}
+
+By pressing Alt+S a @{"settings" link  "Settings"} dialogue will appear.
+Here you can choose, amongst other things, if you want to count in
+radians or degrees.
+
+Newton first tries to save the settings to $HOME\defaults\, then to 
+$HOME. If all that fails, Newton will save it in the present directory.
+
+The Environment variables $GEMJINGPATH and $COLOUR_SELECT are used to
+call GEMJing and Colour Selector respectively, so if you havn't set
+them, do so. Now. ;)
+Before evaluating the $GEMJINGPATH variable, Newton checks if GemJing
+is already running. If so, a VA-START message will be sent to the
+application.
+For GEMJing to be able to play the samples, which will be played upon
+a "Bad language error" or when erasing a line using D&D, the soundfiles
+in the Home directory must be put in your $HOME directory. 
+
+If you want to run Newton as an accessory, copy newton.app to wherever
+you have your accessories (usually the root of drive C:\) and rename it
+to newton.acc. Then copy the resource file to the root of your boot
+drive.
+
+It's always a nice thing to have icons for everything, so install the
+supplied icons. There's a big one for desktops supporting this kind
+of icons, one ordinarily sized one and one small icon.
+The small one is intended to be used with StIc, the icon server.
+
+
+@limage stic.img 23
+        Using StIc makes these sexy icons pop up
+            almost everywhere ;)
+
+
+@endnode
+
+@node "Using the program"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Using the program@{0}
+
+Using the program should be quite self explanatory. If there's
+something you want to know, there's always the bubble help.
+Here is however some extra help that might not be that obvious:
+
+  5.1  Special keys
+  5.2  Supported functions
+  5.3  Constants
+  5.4  Variables
+  5.5  Syntax
+    5.5.1  Assigning variables
+    5.5.2  Comparison tests
+    5.5.3  Other number bases
+    5.5.4  Numerical operands
+    5.5.5  Using numerical operands
+    5.5.6  Logical operands
+    5.5.7  Using logical operands
+  5.6  Formulae
+  5.7  Drag 'n Drop
+  5.8  Dialogues
+    5.8.1  Economy calculation
+    5.8.2  Enter variable value
+    5.8.3  Settings
+    5.8.4  Popup dialogue
+    5.8.5  Info dialogue
+    5.8.6  Samples dialogue
+    5.8.7  Second degree equation
+    5.8.8  Plot function
+  5.9  Changing font
+  5.10 Changing colours
+
+@endnode
+
+@node "Special keys"
+@toc "Using the program"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Following is a list of special keys:@{0}
+
+   Ctrl+Q  Quits Newton
+   Ctrl+U  -"-
+   Alt +Z  Lets you choose which font to use (Alt+Y)
+   Ctrl+I  Shows infobox
+   Ctrl+S  Saves settings in newton.inf
+   Alt +S  Settings
+   Alt +G  Samples dialogue
+   Alt +E  Second degree equation solver
+   Ctrl+E  Economy calculation
+   Alt +F  Formulae popup
+   Ctrl+F  Plot function
+   Alt +C  Colour Selector
+
+   Ctrl+X  Cut     (+Shift: Cut  all expressions)
+   Ctrl+C  Copy    (+Shift: Copy all expressions)
+   Ctrl+V  Paste
+
+   Alt+R   Rounds off to the nearest integer
+   Ctrl+R  Finds the best rational approximation of the decimal
+           part of a number
+   Alt+A   Calculates the absolute amount
+   Alt+B   Reverses the number (B as in Backwards)
+
+   Ctrl+2  Inserts « (half)
+   Ctrl+4  Inserts ¬ (quarter)
+   Alt+2   Inserts ý (square)
+   Alt+3   Inserts þ (cube)
+   Alt+I   Inserts logical operand "Ü" (if...then)
+   Alt+P   Inserts the Greek letter "ã" (pi)
+   Alt+M   Inserts the Greek letter "æ" (my)
+   Alt+O   Inserts the Greek letter "ê" (Omega)
+   Alt+(   Inserts just '(' instead of "()"
+   Ctrl+<  Inserts ó (less than or equal to)
+   Ctrl+>  Inserts ò (more than or equal to)
+
+   HELP    Calls ST-Guide, the online help, if installed
+   UNDO    Makes the last thing you did undone
+
+   Tab     Autolocator. If you for example have a constant 
+           called IncomeLastYear, just type Inco and press 
+           Tab. The constants entire name will pop up in the
+           expression. If you would have written Inc, Inch 
+           would have appeared. The same thing goes for the 
+           name of functions.
+
+   Left         Moves the cursor to the left
+   Right        Moves the cursor to the right
+   Ctrl+Left    Moves the cursor one "word" to the left
+   Ctrl+Right   Moves the cursor one "word" to the right
+   Shift+Left   Moves the cursor to the beginning of the line
+   Shift+Right  Moves the cursor to the end of the line
+   Shift+Up     Moves the cursor to the top
+   Shift+Down   Moves the cursor to the bottom
+
+   Ctrl+Backspace   Deletes the "word" to the left
+   Ctrl+Delete      Deletes the "word" to the right
+   Shift+Backspace  Deletes everything to the left of the cursor
+   Shift+Delete     Deletes everything to the right of the cursor
+
+   If pressing alternate while quitting the program, the info file
+   will not be saved.
+
+       Normal      Alternate       Control
+@line 4 43 0 0 1
+@line 7 0 11 0 1
+@line 19 0 11 0 1
+@line 34 0 11 0 1
+@line 47 0 11 0 1
+
+   F1    sin         asin          sinh
+   F2    cos         acos          cosh
+   F3    tan         atan          tanh
+   F4    exp
+   F5    ln          log
+   F6    abs         floor         ceil
+   F7    heav
+   F8    ^2          sqrt
+   F9    rand
+   F10   ndist
+
+   ( Ctrl+Alt+Space   [Un]Iconify )
+
+
+@endnode
+
+@node "Supported functions"
+@toc "Using the program"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}These functions are currently supported:@{0}
+
+
+@line 4 30 0 0 1
+@line 4  0 12 0 1
+@line 14 0 12 0 1
+@line 24 0 12 0 1
+@line 34 0 12 0 1
+    abs        floor     ceil
+    sin        cos       tan
+    asin       acos      atan 
+    sinh       cosh      tanh 
+    exp
+    ln         log
+    sqrt
+    heav
+    rand
+    ! (fak)
+    ~ (neg)
+    ndist
+@line 4 30 0 0 1
+
+Values passed to functions should always be surrounded by
+brackets, f.ex. sin(3.14)
+
+Note: !(1754) is the maximum factorial Newton can calculate.
+      If a larger number is entered the function will 
+      return -1.
+   
+      ndist calculates the normal distribution from -eternity
+      to the value passed within brackets. The function is a
+      bit slow so only nine decimals will be calculated.
+      
+      neg() or ~() returns the logical negation, eg. ~(true)
+      returns false.
+
+
+@endnode
+
+@node "Constants"
+@toc "Using the program"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Constants:@{0}
+
+Constants are read from newton.cnf, which can be stored in
+$HOME\defaults, $HOME or in the same directory as newton.app.
+You can enter your own constants, just keep the syntax. Newton will not
+check foolproof if the syntax is correct.
+
+Two constants are exceptions from the rules; true and false,
+representing 1 and 0 respectively.
+
+The variable name may consist of a maximum of 16 characters, of which
+the first has to be a capital letter. There may only be a maximum of 63
+constants and variables alltogether. The names may contain alphabetical
+letters as well as numbers. The values must begin with a number, 
+eg. .25 is not allowed whereas 0.25 is.
+
+You can use all the mathematical symbols and expressions that you can
+use in Newton. Even 2úã (2*Pi) is possible, if Pi has already been
+defined in newton.cnf.
+
+The constants that are pre-defined in newton.cnf are all measured
+in SI Units. These are the constants:
+
+  Acre     4046.87260987           (Acre)              mý
+  Atm      101325                  (Atmosphere)        kg/(m*sý)
+  Au       1.495979e11             (Astronomical Unit) m
+  Bbl      0.158987294928          (Barrel)            mþ
+  C        299792500               (Speed of light)    m/s
+  Cal      4.1868                  (Calorie)           (kg*mý)/sý
+  Ci       3.7e10                  (Curie)             1/s
+  Ct       0.0002                  (Carat)             kg
+  Day      86400                   (Day)               s
+  E        2.718281828459045       (Natural base)
+  Ev       1.60217733e-19          (Electron volt)     (kg*mý)/sý
+  Fdy      96487                   (Faraday)           A*s
+  Foot     0.3048                  (Internat. foot)    m
+  G        9.80665                 (Standard freefall) m/sý
+  GalC     0.00454609              (Canadian gallon)   mþ
+  GalUK    0.004546092             (UK gallon)         mþ
+  GalUS    0.003785411784          (US gallon)         mþ
+  Hour     3600                    (Hour)              s
+  Hp       745.699871582           (Horsepower)        (kg*mý)/sþ
+  Inch     0.0254                  (Inch)              m
+  Kel      274.15                  (Kelvin)            øC
+  Knot     0.514444444444          (Nautical mph)      m/s
+  Kph      0.277777777778          (Km per hour)       m/s
+  Lyr      9.46052840488           (Light year)        m
+  Mile     1609.34721869           (Mile)              m
+  Mph      0.44704                 (Miles per hour)    m/s
+  Nmile    1852                    (Nautical mile)     m
+  Ounze    0.028349523125          (Ounze)             kg
+  Pi       3.14159265358979323846  (Pi or ã)
+  Pint     0.000473176473          (Pint)              mþ
+  Planck   6.6262e-27              (Plank's constant)  (kg*mý)/s
+  Psi      6894.75729317           (Pounds/sq. inch)   kg/(m*sý)
+  Quart    0.000946352946          (Quart)             mþ
+  Rpm      0.016666666667          (Rev. per minute)   1/s
+  Tbsp     1.47867647813e-5        (Tablespoon)        mþ
+  Tsp      4.92892159375e-6        (Teaspoon)          mþ
+  U        1.6605402e-27           (Unif. atomic mass) kg
+  Yard     0.9144                  (Internat. Yard)    m
+  Year     31556925.9747           (Year)              s
+
+
+@endnode
+
+@node "Variables"
+@toc "Using the program"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Variables@{0}
+
+In expressions you can, to simplify, enter own variables. These must
+all begin with capital letters, and may not consist of more than 16
+characters.
+
+When entering "3úCrazy", Newton will ask for the value of the variable
+'Crazy' and then calculate.
+If you'd entered "3úcrazy" Newton would have shown you an info box
+saying that 'crazy' is no standard function etc.
+
+If you enter a common swearing, and have "Moral check" switched on in
+the @{"settings" link "Settings"} menu, Newton will cancel calculating the
+expression and instead inform there has been a "Bad language error".
+If you notice that Newton doesn't recognize a common swearing in your
+language, please inform @{"me" link "Author"}!
+
+
+@endnode
+
+@node "Syntax"
+@toc "Using the program"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Syntax@{0}
+
+  5.5.1  Assigning variables
+  5.5.2  Comparison tests
+  5.5.3  Other number bases
+  5.5.4  Numerical operands
+  5.5.5  Using numerical operands
+  5.5.6  Logical operands
+  5.5.7  Using logical operands
+@endnode
+
+@node "Assigning variables"
+@toc "Syntax"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Assigning variables@{0}
+
+Variables in the form of temporary constants can be entered
+while the program is running. It is done like this:
+
+@limage assign.img 1
+If you want to re-assign a variable, there's no problem.
+You can even use the same variable while re-assigning.
+
+@limage assign2.img 1
+If you have long varible names then you might want to
+make use of the autolocator. Just enter the first few
+letters and press Tab. See @{"Special keys" link "Special keys" 40}.
+
+Variables set this way are not saved after program
+termination. If you want them to be accessible at all times,
+then enter them in newton.cnf. See Constants.
+
+Remember that variable names can consist of a maximum of 16
+characters.
+
+
+@endnode
+
+@node "Comparison tests"
+@toc "Syntax"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Comparison tests@{0}
+
+There are five different operands for testing.
+Here are some examples:
+
+@limage equ.img 1
+See @{"Special keys" link "Special keys" 34} for how to enter the special 
+characters. Just <= or >= works fine aswell.
+
+The result of a comparison test is either "true" or "false", 
+representing 1 and 0 respectively.
+
+@endnode
+
+@node "Other number bases"
+@toc "Syntax"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Other number bases@{0}
+
+Newton now handles computation using different number bases.
+Besides handling decimal numbers, hexadecimal, binary and
+octal numbers can be entered aswell.
+
+This is done by using prefixes. You put 0x in front of a
+hexadecimal number, 0b in front of a binary and 0o in front
+of an octal number.
+
+Different number bases can be used in the same expression,
+like this:
+
+@limage numbases.img 1
+
+When entering hexadecimal numbers, it doesn't matter if you
+enter small or large letters. Just make sure that the prefix
+is kept in small letters.
+
+If you want the output to be either decimal, hexadecimal or
+binary, this is set in the Settings dialogue.
+
+
+@endnode
+
+@node "Numerical operands"
+@toc "Syntax"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Numerical operands@{0}
+
+Newton understands the following numerical operands:
+
+ú  X + Y     Adds X and Y
+ú  X - Y     Subtracts Y from X
+ú  X * Y     Multiplies X and Y
+ú  X ú Y     Multiplies X and Y
+ú  X / Y     Divides X with Y
+ú  X ^ Y     Returns X to the power of Y
+ú  X % Y     Returns X modulo Y
+
+
+@endnode
+
+@node "Using numerical operands"
+@toc "Syntax"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Using numerical operands@{0}
+
+What you can't do is put several numerical operands in a row unless
+they are minuses. You must insert a "ú" or "*" in front of a
+variable name or a function name otherwise Newton will not now
+what you really want to do, since numbers can also be part of
+variable names.
+
+Here are some valid ways of entering expressions:
+
+@limage numop.img 1
+
+And here are some that aren't:
+
+@limage numop2.img 1
+
+
+@endnode
+
+@node "Logical operands"
+@toc "Syntax"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Logical operands@{0}
+
+Newton understands the following logical operands:
+
+ú  X & Y     Returns true if both X and Y are true (ie. not 0),
+             returns false otherwise.
+ú  X | Y     Returns true if at least one of X and Y are true, 
+             returns false otherwise.
+ú  ~(X)      Implemented as a function in Newton, it logically 
+             negates X. If X is true, false is returned. If X
+             is false, true is returned. Instead of ~() you can
+             write neg(). ~ is the tilde sign.
+ú X Ü Y      Logical if ... then. Returns false if X is true and
+             Y is false. Sign (arrow pointing right) inserted by
+             keyboard shortcut Alt+I.
+
+@endnode
+
+@node "Using logical operands"
+@toc "Syntax"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Using logical operands@{0}
+
+You can't put & and | and Ü next to each other. You can also not
+put ~ directly in front of & or |, you can however put it after
+them.
+
+Here are some valid ways of using logical operands:
+
+@limage logop.img 1
+
+And here are some that aren't:
+
+@limage logop2.img 1
+
+
+@endnode
+
+@node "Formulae"
+@toc "Using the program"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Formulae@{0}
+
+@image formulae.img 3
+                                For your convenience (bla bla bla ;)
+                                Newton knows some formulae which
+                                you easily can insert in an expression 
+                                via a popup.
+
+                                This menu is reached either by pressing 
+                                Alt+F or by clicking the formulae entry 
+                                in the @{"popup" link "popup dialogue"} which in turn is reached
+                                by pressing the right mouse button over
+                                an unused area in the Newton window.
+
+
+@endnode
+
+@node "Drag 'n Drop"
+@toc "Using the program"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Drag 'n Drop@{0}
+
+To D&D a line from one place to another, simply drag it where you want
+to. The following shift keys will affect what happens:
+
+
+@line 8 0 5 0 1
+Alt      The dragged line will be concatenated with the line it was
+         dragged onto, as opposed to replacing it.
+
+Ctrl     The dragged line will be moved as opposed to copied.
+
+
+@limage dragdrop.img 0
+
+You can also D&D an expression to and from the Newton window, for 
+example you can D&D a calculated expression onto jinnee and it
+will become a note on the desktop, or you can drag something from
+an editor and let Newton calculate the result before dragging it back.
+
+It is also possible to drag the expression to the trashcan or shredder
+to erase it, or to the clipboard to cut or copy.
+
+When dragged onto the Newton window from another program, holding a 
+shift key affects the action in the same way as mentioned above,
+depending on how the sender application reacts on the shift keys.
+For example, if holding Shift down when dragging from jinnee the
+attributes of the note will be sent aswell. Therefore, nothing will
+happen. If nothing happens when not holding Shift, then hold it or
+@{"change the settings" RX "#OptionHelp Notizzettel|Attribut-Tags bei Drag&Drop"} in jinnee.
+(German version: Einstellungen->Notizzettel->Attribut-Tags bei D&D)
+
+
+If dragged to an application that does not support the D&D protocoll,
+a 3-4 second time out will take place.
+
+There is also the possibility to drag stuff from applications 
+supporting D&D via the XACC2 protocoll. There aren't that many
+such applications, but why not.
+
+Dragging within Newton or to other programs will only work if the 
+system supports wind_get(WF_OWNER ... ). You would need AES >= v4.0
+for this, MagiC supports it from v2.
+
+
+@endnode
+
+@node "Dialogues"
+@toc "Using the program"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Dialogues@{0}
+
+  5.8.1  Economy calculation
+  5.8.2  Enter variable value
+  5.8.3  Settings
+  5.8.4  Popup dialogue
+  5.8.5  Info dialogue
+  5.8.6  Samples dialogue
+  5.8.7  Second degree equation
+  5.8.8  Plot function
+
+@endnode
+
+@node "Economy calculation"
+@toc "Dialogues"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Economy calculation@{0}
+
+This dialogue is called by pressing Ctrl+E.
+It can be used for facilitating compound-interest and 
+amortization calculations.
+
+@limage economy.img 0
+
+Compound interest occurs when earned interest is added to the
+principal at specified compounding periods, and then the combined
+amount earns interest. Many financial calculations are compound
+interest calculations - for example mortgages, pension funds,
+leases, and annuities.
+
+
+ú Endvalue           The value of f.e. a euro after n years with
+                     the interest rate r per year.
+
+ú Present value      The present value of f.e. a euro in n years
+                     with the interest rate r per year.
+
+ú Present sum value  The present value of an annual payment
+                     occuring at the end of every n years
+                     with the interest rate r.
+
+ú Annuity            You take a loan of 100 000 euro. What you
+                     have to amortize per year during n years
+                     with the interest rate r is calculated
+                     with this method.
+
+ú End sum value      The end value of an annual payment occuring
+                     at the end of every n years with the
+                     interest rate r.
+
+@endnode
+
+@node "Enter variable value"
+@toc "Dialogues"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Enter variable value@{0}
+
+When, for example, entering the expression "(18úJ1úJ2)/5" Newton will
+ask in turn what the values of the varibles "J1" and 'J2' are.
+
+@limage variable.img 0
+
+
+@endnode
+
+@node "Settings"
+@toc "Dialogues"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Settings@{0}
+
+This dialogue is called by pressing Alt+S.
+
+@limage settings.img 0
+
+ú "Blinking cursor" - Turns the blinking of the cursor on/off.
+
+ú "Moral check" - This can help you become an even better person,
+   especially if you know you have a foul language. ;-)
+
+ú "AV_SENDKEY" - If you want keypresses that Newton doesn't understand 
+   to be passed on to the AV_SERVER, turn on this switch.
+
+ú "Save work" - Should Newton save all expressions and answers upon 
+   exiting the program.
+
+ú "Show Splash" - If you have NVDI v>=3 installed you can choose if
+   want a splash image to be shown when the program is started.
+
+ú "Play samples" - Pretty straight forward, isn't it? ;-)
+   The sound files will have to be put in your $HOME though.
+
+ú "Font has math symbols" - Mathematical symbols (ã, ý,...) will
+   be inserted in the expressions instead of plain text when 
+   pressing Alt+P, Alt+2 and so on. See Special keys.
+
+ú "Boxes at D&D" - Should Newton draw Grow/Shrink-boxes at Drag&Drop.
+   Looks kind of cool with Stewart's spinboxes.
+
+ú "Linewidth" - Here you can set which linewidth you want on the
+   notes when you drag an expression to the background of jinnee.
+
+By choosing degrees, Newton will count in degrees rather than radians.
+
+You can choose whether you want the answer to be output in decimal,
+hexadecimal or binary form. Binary answers cannot be negative.
+Neither hexadecimal nor binary answers can be more than 2^31 - 1.
+For decimal answers the upper limit is 1*10^4932.
+
+@endnode
+
+@node "Popup dialogue"
+@toc "Dialogues"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Popup dialogue@{0}
+
+@limage popup.img 0
+
+This dialogue is called by pressing the right mouse button on the
+background of Newton.
+
+By clicking "Formulae" in this popup a dialogue is called, from 
+which you easily can insert basic formulae into your calculations.
+
+@endnode
+
+@node "Info dialogue"
+@toc "Dialogues"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Info dialogue@{0}
+
+@limage info.img 0
+
+This dialogue is called by pressing the right mouse button on the
+background of Newton and then chosing "Info" in the popup 
+dialogue or alternatively pressing Ctrl+I on the keyboard.
+In this dialogue you can see what version of Newton you are
+running, and when it was compiled.
+
+From the dialogue you can also mail me or visit my homepage. For
+this to work, you have to have set the full paths to your mail
+and your browser program in the $MAILER respectively $BROWSER
+environment variables.
+
+
+@endnode
+
+@node "Samples dialogue"
+@toc "Dialogues"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Samples dialogue@{0}
+
+@limage samples.img 0
+
+This dialogue is called by pressing the right mouse button on the
+background of Newton and then chosing "Samples" in the popup 
+dialogue or alternatively pressing Ctrl+G on the keyboard.
+
+Here you set what sounds Newton should play at various occations.
+You will need to have GemJing, and have set the environment
+variable GEMJINGPATH, for this.
+
+If a sample is not set, it obviously cannot be played.
+
+If you click in a field, a file selector will show up asking you
+to choose a sample.
+
+
+@endnode
+
+@node "Second degree equation"
+@toc "Dialogues"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Second degree equation solver@{0}
+
+@limage andragr.img 0
+
+Here you can calculate second degree equations. Enter the
+values for P and Q and the result will be shown in the regular
+Newton window.
+
+Syntax: If you for example want to solve the equation xý+3x-7,
+        you enter 3 as the value for P and -7 for Q.
+
+@endnode
+
+@node "Plot function"
+@toc "Dialogues"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Plot function@{0}
+
+@limage grafform.img 0
+
+This dialogue is called either by pressing Ctrl+F on the keyboard,
+or by pushing the "f(x)" button in Newtons main display.
+
+From it a function is plotted. You can either type in the function
+in this form, or, if you prefer, type it in the main display and
+Newton will automatically import it into the form.
+
+Grid x (delta x) is the horizontal grid spacing, at the moment
+only integers can be entered. Delta x (x) is the vertical grid
+spacing.
+Valid linewidths are 1,3,5,7 and 9. This is due to a limitation in
+the VDI. 
+
+Once the function has been plotted you can zoom in to a preferred
+area by simply clicking and dragging the mouse over it as in the
+below image. You can also zoom in or out by clicking the plus
+or minus buttons either on screen or on the keyboard.
+
+The x and y coordinates of the plotted function at the present
+mouse position are automatically displayed.
+
+@limage graf.img 0
+
+You exit the function plotting mode by clicking the mouse or by
+pressing a key.
+
+@endnode
+
+@node "Changing font"
+@toc "Using the program"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Changing font@{0}
+
+There are principally three ways to change the font:
+
+ú Drag a font onto the window using any fontselector that supports
+  the FONT protocoll.
+
+ú Press Alt+Z if you have an xFSL or UFSL fontselector installed.
+  The environment variable $FONT_SELECT is also checked.
+  If you're running MagiC and none of the above is installed,
+  MagiC's own font selector is called.
+
+ú Choose "Font" in the @{"popup menu" link "Popup dialogue"}, and one of the above mentioned
+  fontselectors will let you choose the font for Newton.
+
+
+@endnode
+
+@node "Changing colours"
+@toc "Using the program"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Changing colours@{0}
+
+If you have an xFSL fontselector installed, call it by pressing
+Alt+Z and you can change the text/background colours in the font-
+selector before you press OK to actually change the settings.
+
+If you have a colour selector installed, you can start it by
+pressing Alt+C. This way you can simply drag and drop a colour
+onto the text if it is the colour of the text you want to change,
+onto the background if it is that colour you want to change, or
+onto the cursor if it is that colour you want to change.
+
+@limage colour.img 0
+
+Dropping a colour onto the cursor might be difficult, therefore
+instead of having to drop the colour onto the cursor, you can also
+drop it anywhere in the window except on the text or background.
+
+The background colour can only be one of the first 16 system
+colours, if you choose anything else it will become black. This is
+due to a limitation in the AES. The text and cursor colour can 
+however be any of the 256 indexed colours.
+
+
+@endnode
+
+@node "GEMScript commands"
+@toc "Contents"
+@next "Author"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}GEMScript commands@{0}
+
+Supported GEMScript commands and how they affect Newton:
+
+
+AppGetLongName     Newton returns "Newton".
+
+Close              Closes the window and exits the program.
+
+Quit               Closes the window and exits the program.
+
+Copy               Copies the current expression to the clipboard.
+
+Cut                Cuts the current expression to the clipboard.
+
+Paste              Pastes the contents of the clipboard to the
+                   current position.
+
+Delete             Clears the line the cursor's at. If already
+                   deleted, the entire display will be erased.
+
+Calculate          Calculates the current expression.
+
+InsertExpression   Inserts the expression in Parameter 1 at the 
+                   current cursor position.
+
+GetExpression      Newton returns the current expression in
+                   Parameter 1.
+
+CursorUp           Moves the cursor the number of rows specified
+                   in Parameter 1 up if not at top of window.
+
+CursorDown         Moves the cursor the number of rows specified
+                   in Parameter 1 down if not at bottom of window.
+
+SetCursorPosition  Sets the cursors horizontal position to the
+                   value in Parameter 1.
+
+SaveUndoBuffer     Saves the work area. Can be useful if you do
+                   not want a script to mess upp the display.
+
+RestoreUndoBuffer  Restores the work area to the condition it
+                   was in at sending the SaveUndoBuffer command.
+
+CheckCommand       Returns 1 if Newton understands the command in
+                   parameter 1, 0 otherwise.
+
+GetAllCommands     Returns a list of all the commands Newton
+                   understands.
+
+Commands that Newton sends:
+
+NoteOpen           Newton sends this command to jinnee when an
+                   expression is dragged and dropped onto the 
+                   desktop to create a note.
+@label "MultiStrip"
+
+AddToMenu          This command is sent to MultiStrip to add
+                   some extra entries to the popup in MS.
+
+
+@limage gemscrpt.img 0
+
+      GEMScript provides, amongst other things, a way to show 
+       "long" filenames under MagiC aswell as adding entries 
+                    to the MultiStrip menu.
+
+
+@endnode
+
+@node "Author"
+@toc "Contents"
+@next "Thanks to"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Author@{0}
+
+@limage jag9an2.img 0
+
+                Mikael Folkesson, G”teborg, Sweden
+
+
+
+@line 2 69 0 0 7
+
+@image snail.img 2
+@image email.img 35
+      Mikael Folkesson                 EMail: mikael_f@@swipnet.se
+      Hisingsgatan 5A                  URL: home.swipnet.se/mikael_f
+      S-417 03 G”teborg
+      SWEDEN
+
+
+@endnode
+
+@node "Thanks to"
+@toc "Contents"
+@next "History"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Thanks to:@{0}
+
+ú Per Erik "Pecka" Petersson for the original idea of programming a
+  calculator.
+
+ú Bengt Andersson for the c++ calculation code.
+
+ú Holger Weets for info on how to call ST-Guide correctly, beta
+  testing etc.
+
+ú Karl Ashton for beta testing.
+
+ú Erik H„ll for info on how to check the NVDI cookie.
+
+ú Alfred Radauer for bug report and suggestions.
+
+ú Mille Babic for beta testing.
+
+ú Holger Dammann and Wolfgang Simon for bug report and beta testing.
+
+ú G”tz Hoffart for letting me use GEMJing, and bug report.
+
+ú Didier Briel for French translation, great work.
+
+
+@endnode
+
+@node "History"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}History@{0}
+
+v 0.2ž:  xFSL support, bug fixes.
+
+v 0.3ž:  ST-Guide help and iconifying, yet more bug fixes.
+
+v 0.4ž:  You can now choose font by pressing Ctrl+F, bugfixes
+         and general enhancements. Clipboard support.
+
+v 0.5ž:  Understands FONT protocoll, supports helpbubbles,
+         better font handling, minor bugfixes.
+
+v 0.6ž:  Newton is now able to count! Multirow display with
+         scrolling, bugfixes. Touched up the docs.
+         Also saves window position to the info file.
+
+v 0.7ž:  Redraw speed optimised. Restructured the source.
+         If holding down the Alternate key when pressing any
+         of the trigonometry functions their arcus equivalients
+         will be entered instead. General enhancements.
+
+v 0.72ž: Silly things: Moral check of the user, Alt+B reverses
+         the number. Smaller bugfixes. Functions on the function-
+         keys.
+
+v 0.75ž: Put most output in (modal) dialogues. Bugfixes. Smaller
+         enhancements.
+
+v 0.8ž:  Scrolling works again. Expressions can consist of more
+         than one line. Better support for different fonts and
+         sizes.
+
+v 0.85ž: First version to be released. Resizable window.
+         Bugfixes.
+
+v 0.87ž: Upon syntax error the position is now displayed
+         correctly. Multilined expressions can be calculated
+         using the buttons again.
+
+v 0.9ž:  A smaller icon is displayed when the workarea of the
+         iconified window is smaller than 72 pixels high. The icon
+         is also centered. Cursor shows position. Bugfixes.
+
+v 0.91ž: Saves settins to $HOME\defaults\, if available, otherwise
+         to $HOME. Bugfixes. Added the possibility to save the work.
+         Some preparations for graph plots. Better resize handling.
+
+v 0.92ž: Object attributes in the settings dialog are set correctly
+         when pressing cancel. Doesn't crash when entering nothing
+         in the report error dialogue. AV_SENDCLICK supported.
+
+v 0.93ž: Bugfixes. Put in some more buttons to make people see
+         (parts of) what can be done. ;)
+         If Newton was iconified upon quitting, the windowposition
+         wasn't saved correctly. Better cursorhandling. NKCC built
+         in, no more trouble with Powerbooks ;). Alt+Z for choosing
+         font instead of Ctrl+F.
+
+v 0.94ž: The help bubble will not be shown a hundred times when the
+         right mousekey is pressed and held. Popup dialogue added.
+         Improved the looks of the main display. Updated the docs
+         so there won't be as many misunderstandings with the
+         mauslers. ;)
+
+v 0.95ž: No longer outputs a warning if $HOME isn't set.
+         AV_SENDKEY works again, this time also with Gemini.
+         Takes part in the global window cycling correctly. Sends
+         AV_PATHUPDATE when copying or cutting. Reassigned the
+         function keys to be more logically structured. Bugfixes.
+         (Un)Iconify with Ctrl+Alt+Space now also without WinCom.
+         Flydials and keyboard shortcuts in the dialogues.
+         Most alerts now in resourcefile to make translation
+         easier. XACC2 support (long name). Hex and binary support.
+         NVDI3 or newer is no longer needed for the output.
+
+v 0.95ž2:Minor update. If the result is 0 it is actually displayed.
+         Infobox adapted to proportional fonts. Preparations for
+         D&D, positioning the cursor with the mouse is possible.
+
+v 0.96ž: No longer needs xFSL font selector to choose font,
+         $FONTSELECT is now also evaluated. With a proportional 
+         system font, the error dialog box no longer displays the 
+         wrong position. Therefore added the 'Proportional font' 
+         switch to the settings menu. GEMScript support: 
+         AppGetLongName, Close, Quit, Copy, Cut, Paste, Delete. 
+         Alt+C invokes the Colour Selector for the cursor. F8=^2, 
+         Alt+F8=sqrt. Maximum number of characters a variable may 
+         consist of increased from 10 to 16. Newton now understands 
+         the XACC2 messages ACC_TEXT and ACC_KEY. Bitmapfonts 
+         weren't read, now they are. Possibility added to change
+         text and background colour. Newton in title for 
+         windowshading. Added some Dutch swearings to the moral 
+         check ;)  Bugfixes.
+      
+v 0.97ž: Variable font size. Variable number of lines. Again useable
+         in B&W resloutions. A separate info file will be saved when
+         run in B&W, newtonbw.inf. Checks if info file is compatible. 
+         New GEMScript commands: Calculate, InsertExpression, 
+         GetExpression, CursorUp, CursorDown.
+         Common constants added: Pi (3.14...), C (2.99...*10^8).
+         When the finishing slash wasn't set in $HOME, newton.inf
+         wasn't saved correctly on filesystems with long filenames.
+         Upon initialization Newton makes sure he fits in the 
+         current resolution. Fuller added. Default font changed to
+         the Speedo-font Courier SWA. SC_CHANGED sent to all running
+         applications when cut or copied. GEMJing plays a sample
+         upon a "Bad language error". If topped when iconified
+         Newton will get uniconified. FONT_ACK sent to the
+         fontselector if FONT_CHANGED received. D&D halfway
+         implemented: Text can be dragged onto and within Newton.
+         Can now also run as an ACC. Global windowcycling should
+         be working again. Constants are read from newton.cnf.
+         Settings dialogue called with Alt+S instead of Alt+O.
+         Smarter colour protocoll interpretation. Formulae popup
+         added. Some smaller bugfixes.
+
+v 0.98ž: You can now choose if you want GEMJing to play the sample
+         upon a Bad language error. Calling the colour selector and
+         GEMJing now works fine under all OSes. UFSL is now called
+         correctly. Window cycling should now really work. Honest! ;)
+         D&D to other applications works.
+         New function: rand(), f.e. rand(500) gives a value ranging
+         from 0-500. Small enhancements.
+
+v 0.99ž: Expressions of the type 1.28e4 can now be calculated. Your
+         default browser and mailer can now be started from within
+         the Info dialogue. D&D to jinnee is now working, the 
+         linewidth of the note can be set. Newton understands the
+         greek letter "ã" (Pi) and some other mathematical symbols.
+         Shift affects in the same way as alt did before, when 
+         dragging. Log() and log10() replaced with ln() and log().
+         Added a few more constants. You can choose if you want to
+         have grow_boxes at D&D. Shift keys at D&D have changed, see
+         Special keys. The example string when you call an xFSL font
+         selector is now the current expression, if the line is not 
+         empty. The factorial can be calculated with the new function
+         "!" or "fak". Newton now adds some entries to its popup in
+         @{"MultiStrip" link "GEMScript commands" "MultiStrip"}. Shift when copying or cutting affects all
+         visible expressions. Menu_register() is now sent when run
+         under MiNT aswell (before: only when run as accessory).
+         The Clipboard icon or scrap.txt can be dragged onto Newton.
+         Second degree equations. Constants file more flexible.
+         Small glitch when checking NVDI-cookie corrected.
+         French and Swedish versions included in the archive.
+
+v0.991ž: New function for calculating normal distribution (ndist).
+         Editing in the middle of an expression is now possible.
+         Some standard Atari shortcuts for editing implemented. See
+         @{"Special keys" link "Special keys"}.
+         The format of newton.inf has changed again, you'd better
+         delete the old one. Lots of constants added to newton.cnf. 
+         See @{"Constants" link "Constants"}. D&D finally working! Error dialogue removed,
+         no longer needed, a help bubble is displayed instead.
+         No longer needs to know if the system font is proportional.
+         Now there's a splash screen if you'd like that and use NVDI.
+         Dialogue for calculating some economical functions added.
+         Newtons popup menu doesn't pop up unless you explicitely
+         press the right mouse button on the background.
+         The cursor can't be turned off anymore, you can only
+         choose if you want it to blink or not. Closing paranthesis
+         added automatically, resulting in much easier entering
+         of expressions. Booleans true and false added, 
+         representing 1 and 0 respectively. Comparison test 
+         of the form 2==3 or 4/3>=1 possible. Also see
+         @{"Special keys" link "Special keys"}. Expressions of the type 2(3+C)6 
+         can be entered. Numbers may then stand in front of the '('
+         and after the ')'. Operand '%' (modulo) added.
+         If "Font has Math symbols" is checked in the Settings
+         dialogue, 'ú' is inserted instead of '*'.
+         "Permanent" variables that are forgotten after program
+         termination can be entered by entering f.e. Rent=1900.
+         See @{"Syntax" link "Syntax"}. Some annoying memory leakage removed.
+         Autolocator for constants and functions added, undobuffer
+         added aswell. See @{"Special keys" link "Special keys"}. Removed enough bugs to make
+         Newton run under plain TOS again! If no fontselector is 
+         installed and the OS is MagiC, MagiC's internal font
+         selector is now called correctly. Added a huge icon to
+         newticon.rsc . Functions floor() and ceil() added.
+         The Greek letter "ê" (Omega) can be used. Space can also
+         be entered to make the expressions more readable.
+         Hexadecimal, binary and octal numbers can be entered by 
+         using the corresponding prefixes "0x", "0b" and "0o".
+         See @{"Other number bases" link "Other number bases"}.
+         Shows an icon in the title bar if Windframe Xgem is
+         installed.
+
+v0.992ž: Logical operands and '&', or '|', neg()/~() and Ü
+         (if...then) added. Finally got the GEMScript evaluation to
+         behave perfectly. New GEMScript command: SetCursorPosition.
+         Minor polishing.
+
+v0.993ž: Newton runs again on original Atari hardware! A major bug
+         upsetting computers with MMU's has been removed.
+         Finally @{"function plotting" link "Plot function"} has been rudimentary implemented.
+         When plotting Newton needs about 1.5 MB of free RAM, when
+         not, something like 450 KB.
+         Some memory leakage has been resolved. Should now handle
+         up to 8 GEMScript partners at the same time. Calculates
+         the fraction or reasonably best fraction of the decimal
+         part of a number (Ctrl+R). Removed bug in evalutation of
+         the GEMScript command "Delete". New info file format,
+         for sample file names and expressions with spaces in them.
+         Bugfixes. New GEMScript commands: SaveUndoBuffer,
+         RestoreUndoBuffer, CheckCommand, GetAllCommands.
+         Paste from clipboard handles spaces and CR/LF. Number of
+         maximum rows to display increased to 128. D&D to trashcan
+         and clipboard should now be working with desktops other
+         than jinnee aswell. Outputs negative binary number as
+         positive binary concatenated to "-".
+         Position changes using Ctrl-keys are now like in other
+         applications. Handles expressions over multiple lines
+         better. D&D handles multiple lines. Due to a small
+         oversight you could only choose half of the first 16
+         system colours for the background. GEMScript commands
+         CursorDown and CursorUp now take parameters for the
+         number of rows to move the cursor. Now using the Startup-
+         code by the Behne brothers. Appropriate mouseshapes when
+         zooming by click and drag when plotting and at D&D.
+         There might have been a problem calling Gemjing if it
+         was already running. Now it works anyway :)
+         When fulling Newton now checks the $SCREENBORDER
+         environment variable, if set.
+
+@endnode
+
+@node "Still to do"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Still to do@{0}
+
+ú Dialogues in windows.
+ú Make the screen redraw code less of a quick-and-dirty hack.
+
+If you have any suggestions, feel free to contact @{"me" link "Author"}.
+
+
+New versions will be available at ftp://chapelie.rma.ac.be and
+at my homepage: home.swipnet.se/mikael_f/programs.html
+
+
+@endnode
+
+@node "Protocolls"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Appendix I  Protocolls@{0}
+
+ú VA protocoll
+ú FONT protocoll
+ú BubbleGEM
+ú Trouble Bubble
+ú XACC2
+ú GEMScript
+ú COLOR protocoll
+
+
+@endnode
+
+@node "VA protocoll"
+@toc "Protocolls"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}VA protocoll@{0}
+
+
+@line 18 0 29 0 1
+VA_START           Topps Newton.
+
+AV_SENDKEY         If sent to Newton, Newton interprets the keypress.
+                   If Newton has no use of some keypresses they are
+                   forwarded to the AV_SERVER.
+
+AV_SENDCLICK       The mouse click is interpreted.
+
+AV_WHAT_IZIT       Asks what kind of an object the expression was 
+                   dragged onto.
+
+VA_THAT_IZIT       If an expression is dragged onto a clipboard it
+                   is copied to the clipboard.
+                   If an expression is dragged onto a trashcan it
+                   is deleted.
+
+AV_PATH_UPDATE     When an expression is copied to the clipboard this
+                   message is sent to the AV_SERVER.
+
+AV_PROTOKOLL       Newton sends these messages to the AV_SERVER when 
+AV_ACCWINDOPEN     started.
+
+      
+AV_EXIT            Newton sends these messages to the AV_SERVER when
+AV_ACCWINDCLOSED   closed.
+
+VA_DRAGACCWIND     If the clipboard is dragged onto Newton, it will
+                   be read.
+
+
+@endnode
+
+@node "FONT protocoll"
+@toc "Protocolls"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}FONT protocoll@{0}
+
+
+@line 15 0 5 0 1
+FONT_CHANGED     When a font is dragged onto Newton, Newton will use
+                 that font in the display.
+                 See Changing font.
+
+FONT_ACK         Sent when FONT_CHANGED received.
+
+
+@endnode
+
+@node "BubbleGEM"
+@toc "Protocolls"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}BubbleGEM@{0}
+
+
+@line 20 0 4 0 1
+BUBBLEGEM_REQUEST    Displays a help bubble.
+
+BUBBLEGEM_ACK        The memory reserved for the text in help bubble
+                     is freed.
+
+
+@endnode
+
+@node "Trouble Bubble"
+@toc "Protocolls"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Trouble Bubble@{0}
+
+
+@line 20 0 4 0 1
+BA_BUBBLE_REQUEST    Displays a help bubble.
+
+BA_BUBBLE_CLOSED     Newton gets aware that the help bubble is no
+                     longer open.
+
+@endnode
+
+@node "XACC2"
+@toc "Protocolls"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}XACC2@{0}
+
+
+@line 15 0 3 0 1
+ACC_KEY          Newton interprets the keypress.
+
+ACC_TEXT         The text sent is pasted at the current position.
+
+
+@endnode
+
+@node "GEMScript"
+@toc "Protocolls"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}GEMScript@{0}
+
+
+@line 15 0 7 0 1
+GS_REQUEST       The request is answered.
+
+GS_COMMAND       An action is undertaken. See GEMScript commands.
+
+GS_ACK           If received the memory for the command text
+                 is freed. Sent whenever a GEMScript message is
+                 received.
+
+
+@endnode
+
+@node "COLOR protocoll"
+@toc "Protocolls"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}COLOR protocoll@{0}
+
+
+@line 14 0 3 0 1
+COLOR_ID         The cursor colour is changed into the colour 
+                 dragged onto Newton.
+                 See Changing colours.
+
+
+
+@endnode
+@node "Environment variables"
+@toc "Contents"
+@image small.img 2
+    Newton v 0.993ž                                              Newton
+@line 1 72 0 0 7
+
+
+@{U}Environment variables@{0}
+
+
+@line 16 0 26 0 1
+$HOME            The info file is saved to $HOME\default\ is exists,
+                 otherwise to $HOME. If $HOME is not set it is saved
+                 in the directory where Newton is at.
+
+$COLOR_SELECT    The colour selector is defined in this environment 
+                 variable.
+                 See Changing colours.
+
+$FONT_SELECT     If no xFSL or UFSL cookie is found the program 
+                 specified using this environment variable is started.
+                 Note that you can only change text or background
+                 colours using an xFSL font selector.
+                 See Changing font and Changing colours.
+
+$GEMJINGPATH     Upon a bad language error, GEMJing will be started
+                 to play the sample newton.wav in $HOME.
+                 See Customization.
+
+$BROWSER         When the URL to my home page is chosen from within
+                 the Info dialogue, this environment variable is
+                 checked.
+
+$MAILER          When my email adress is chosen from within the
+                 Info dialogue, this environment variable is
+                 checked.
+
+
+@endnode
+@pnode "colour selector"
+ The only one I am aware of right now 
+ is @{B}Colors@{0} by Holger Weets.
+@endnode
