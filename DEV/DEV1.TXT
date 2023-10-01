@@ -1,0 +1,70 @@
+En plus d'essayer d'embellir les fenˆtres, on peut aussi
+tenter de leur apporter quelques fonctionnalit‚s; voici l'id‚e:
+
+Pourquoi ne pas utiliser le titre de la fenˆtre pour y loger
+une ic“ne ?
+
+Cela se fait d‚j… sur d'autres systŠmes, et il n'y a pas de raison
+de ne pouvoir le faire nous aussi ;) L'int‚rˆt est surtout de mieux
+identifier les applications ouvertes, car chacune peut disposer
+d'une ic“ne qui lui est propre (et cela prend moins de place que
+d'‚crire le nom du programme).
+
+Comment faire ?
+
+1/ Dans le ressource de votre programme, cr‚ez une boŒte de
+dialogue contenant une ic“ne 16*16 repr‚sentant votre application.
+Il n'est pas n‚cessaire de cr‚er de motif s‚lectionn‚, mais il est
+conseill‚ de cr‚er des ic“nes dans les modes 2, 16 et 256 couleurs).
+
+(astuce: en 256 couleurs, ‚vitez les effets d'anti-aliasing qui
+ne passent pas toujours trŠs bien suivant la couleur du titre).
+
+
+2/ Incluez W_XGEM.C et W_XGEM.H dans votre programme, et au moment
+d'‚crire le titre de la fenˆtre aprŠs la cr‚ation de celle-ci, il
+suffit d'ajouter les lignes suivantes:
+
+handle = wind_create (...);				/* Cr‚ation de la fenˆtre */
+
+L… aucun changement par rapport … d'habitude...
+
+
+if (is_xtitle ())						/* Windframe Xgem r‚cent ? */
+
+V‚rifier si Xgem est pr‚sent et si le windframe l'est aussi.
+(Il n'est pas n‚cessaire de le faire … chaque fois, on peut le
+v‚rifier une fois au d‚but du programme).
+
+
+	sprintf (title, "\xFF\xFF\xFF\xFF%08lX%s", adr_icon, "Just a test !");	/* inscrire le titre avec ic“ne */
+
+Si c'est le cas on envoit un titre un peu particulier:
+4 caractŠres 255 pour indiquer qu'il ne s'agit pas d'un titre
+ordinaire.
+L'adresse du formulaire contenant l'ic“ne en ASCII (8 caractŠres
+avec des 0 devant si n‚cessaires).
+Le titre habituel.
+La fonction sprintf () est donc bien adapt‚e … cet usage.
+
+
+else
+	strcpy (title, "Just a test !");	/* texte seulement */
+
+S'il n'y a pas de windframe, le texte simple est envoy‚.
+
+
+wind_set (handle, WF_NAME, title);		/* fixer le titre */
+
+wind_open (handle, ...);				/* ouvrir la fenˆtre */
+
+
+3/ C'est tout ! ;-)
+S'il est n‚cessaire de mettre … jour l'ic“ne, un appel sprintf ()
++ wind_set () suffit.
+
+
+Si vous avez des questions, remarques, ou suggestions,
+‚crivez-moi sur:
+
+ers@free.fr

@@ -1,0 +1,16 @@
+
+DEV1.PRG					; Nom de l'ex‚cutable
+.C [ -C -K -G -P -M ]		; Options du compilateur
+=							; Liste des modules
+
+PCSTART.O					; Startup code
+
+DEV1.C(DEV1.H)				; Le programme principal
+W_XGEM.C(W_XGEM.H)			; Gestion des titres ‚tendus
+
+PCFLTLIB.LIB				; Librairie virgule flottante
+PCSTDLIB.LIB				; Librairie standard
+
+PCEXTLIB.LIB				; Librairie ‚tendue
+PCTOSLIB.LIB				; Librairie TOS
+PCGEMLIB.LIB				; Librairies AES et VDI
