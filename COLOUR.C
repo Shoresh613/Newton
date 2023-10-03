@@ -1,8 +1,8 @@
 
 
 /* colour_select(void)
- * Ropar upp Colours f”r att best„mma f„rg p† mark”ren
- *******************************************************/
+ * Calls Colours to choose the color of the marker
+ **************************************************/
 
 
 #include <stdio.h>
@@ -25,7 +25,7 @@ void colour_select( void )
 
 	rsrc_gaddr( R_STRING, NO_COLOUR_SELECT, &No_Colour_Select );
 
-	if( (colorsid=appl_find("COLORS  ")) > 0) /* Om det redan snurrar */
+	if( (colorsid=appl_find("COLORS  ")) > 0) /* If it's already running */
 	{
 		msg[0]=WM_TOPPED;
 		msg[1]=0;
@@ -35,18 +35,18 @@ void colour_select( void )
 		msg[5]=0;
 		msg[6]=0;
 		msg[7]=0;
-		
-		if( appl_write( colorsid, 16, msg ) == 0 ) /* Om det inte funkade */
+
+		if( appl_write( colorsid, 16, msg ) == 0 ) /* In case it didnt work */
 			return;
 		return;
 	}
-	
+
 	env = (char *) Malloc (256);
-	if (!env)       /* Om det inte finns tillr„ckligt med minne*/
+	if (!env)       /* If there's not enough RAM */
 	    return;
-	
+
 	env=getenv("COLOR_SELECT");
-	if( env==NULL ) /* om $COLOR_SELECT inte „r satt */
+	if( env==NULL ) /* If $COLOR_SELECT is not set */
 		form_alert( 1,No_Colour_Select);
 	else
 	{
