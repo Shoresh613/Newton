@@ -7,7 +7,7 @@
 #include "xtras.h"
 #include "newton.h"
 
-extern char konstant_lista[ANTAL_ENHETER][MAX_TECKEN];  /* Dessa deklareras i newton.c, l„ses in vid boot fr†n newton.cnf, kopieras sedan ”ver till variabel* i cuttryck i calculate() */
+extern char konstant_lista[ANTAL_ENHETER][MAX_TECKEN];  /* Dessa deklareras i newton.c, lï¿½ses in vid boot frï¿½n newton.cnf, kopieras sedan ï¿½ver till variabel* i cuttryck i calculate() */
 extern double konstant_storhet[ANTAL_ENHETER];
 extern int antal_konstanter;
 extern int MagX, MiNT;
@@ -23,7 +23,7 @@ void read_constants(void) /* Denna ropas upp vid boot */
     char* ConstantTooLong = NULL;
     char* ConstantSyntax = NULL;
     char* home = NULL;
-    char tmp[256]; /* Changed to use a fixed-size array */
+    char tmp[256]; /* Changed to use a fixed-size array (no need to Mfree()) */
 
     rsrc_gaddr(R_STRING, CONSTANTSERROR, &Constantsfile_error);
     rsrc_gaddr(R_STRING, CONSTANTTOOLONG, &ConstantTooLong);
@@ -49,11 +49,10 @@ void read_constants(void) /* Denna ropas upp vid boot */
             sprintf(tmp, "%s\\newton.cnf", home);
             if ((fp = fopen(tmp, "r")) == NULL)
             {
-                if ((fp = fopen("newton.cnf", "r")) == NULL)
-                {
-                    form_alert(1, Constantsfile_error);
-                    return;
-                }
+
+                form_alert(1, Constantsfile_error);
+                fclose(fp);
+                return;
             }
         }
     }
@@ -61,14 +60,14 @@ void read_constants(void) /* Denna ropas upp vid boot */
     do
     {
         end = fscanf(fp, "%s", konstant_lista[i]);
-        if (strlen(konstant_lista[i]) > MAX_TECKEN) /* Om variabelnamnet „r f”r l†ngt */
+        if (strlen(konstant_lista[i]) > MAX_TECKEN) /* Om variabelnamnet ï¿½r fï¿½r lï¿½ngt */
         {
             form_alert(1, ConstantTooLong);
             fclose(fp);
             return;
         }
 
-        if (end == EOF)  /* Om man redan l„st in sista kan man skippa resten */
+        if (end == EOF)  /* Om man redan lï¿½st in sista kan man skippa resten */
         {
             antal_konstanter = i;
             fclose(fp);
@@ -77,7 +76,7 @@ void read_constants(void) /* Denna ropas upp vid boot */
 
         if (!((konstant_lista[i][0] <= 'Z') && (konstant_lista[i][0] >= 'A')))
         {
-            form_alert(1, ConstantSyntax); /* Ist„llet f”r alerts kan man g”ra dialogboxar. D† kan man s„ga var felet ligger */
+            form_alert(1, ConstantSyntax); /* Istï¿½llet fï¿½r alerts kan man gï¿½ra dialogboxar. Dï¿½ kan man sï¿½ga var felet ligger */
             fclose(fp);
             return;
         }

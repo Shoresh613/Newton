@@ -6,6 +6,9 @@
         "ANDRAGR.C": "cpp",
         "COOKIE.C": "cpp",
         "CONSTANT.C": "cpp",
-        "NEWTON.C": "cpp"
+        "NEWTON.C": "cpp",
+        "NVDICOOK_OLD.C": "cpp",
+        "NVDICOOK.C": "cpp",
+        "CONSTANT_ORIG.C": "cpp"
     }
 }
