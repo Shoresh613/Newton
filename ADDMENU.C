@@ -78,7 +78,7 @@ void addtomenusend(char* commandline)
 	int i=0, j=0;
 
 	i=(int)strlen(commandline);
-	
+
 	for ( ; i>0 ; i-- )
 	{
 		if(*(commandline+i)=='!')
@@ -95,7 +95,7 @@ void addtomenusend(char* commandline)
 	msg[7]=ADDTOMENU;
 
 	if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* If it didn't work */
-		return;                                     /* Abort.             */	
+		return;            	                         /* Abort.             */
 
 	evnt_timer(100,0);
 }
