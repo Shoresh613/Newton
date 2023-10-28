@@ -1,8 +1,8 @@
 
 
 /* bubble_help(mx,my,exitobj)
- * Om en bubbelhj�lpserver �r installerad visas bubbelhj�lp.
- * Returnerar annat �n noll om det �r bakgrunden.
+ * If a bubble help server is installed, bubble help is displayed.
+ * Returns non-zero if it's the background.
  *****************************************************/
 
 
@@ -55,15 +55,15 @@ int bubble_help(int mx, int my, int exitobj)
 	if(exitobj==-1)
 		return 1;
 
-	/* Om Mxalloc() finns, s�tt memoryprotection till "global" */
-	/* Allokera aldrig minne till pekare som anv�nds vid rsrc_gaddr! */
-	if (MiNT || MagX) 		/* Denna minnesallolering ledde till 256 f�rsvunna bytes varje g�ng. Kan inneb�ra knas p� andra datorer kanske? */
-	    bubble_text = (BYTE *) Mxalloc (256, 0 | MGLOBAL);
-	else
-	    bubble_text = (BYTE *) Malloc (256);
+	/* If Mxalloc() is available, set memory protection to "global". */
+    /* Never allocate memory for pointers used in rsrc_gaddr! */
+    if (MiNT || MagX) /* This memory allocation resulted in 256 bytes lost each time. It may cause issues on other computers, perhaps? */
+        bubble_text = (BYTE *)Mxalloc(256, 0 | MGLOBAL);
+    else
+        bubble_text = (BYTE *)Malloc(256);
 
-	if (!bubble_text)       /* Om det inte finns tillr�ckligt med minne*/
-	    return 1;
+    if (!bubble_text) /* If there isn't enough memory */
+        return 1;
 
 	memset(bubble_text,0,sizeof(bubble_text));
 
