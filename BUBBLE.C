@@ -1,8 +1,8 @@
 
 
 /* bubble_help(mx,my,exitobj)
- * Om en bubbelhj„lpserver „r installerad visas bubbelhj„lp.
- * Returnerar annat „n noll om det „r bakgrunden.
+ * Om en bubbelhjï¿½lpserver ï¿½r installerad visas bubbelhjï¿½lp.
+ * Returnerar annat ï¿½n noll om det ï¿½r bakgrunden.
  *****************************************************/
 
 
@@ -55,17 +55,17 @@ int bubble_help(int mx, int my, int exitobj)
 	if(exitobj==-1)
 		return 1;
 
-	/* Om Mxalloc() finns, s„tt memoryprotection till "global" */
-	/* Allokera aldrig minne till pekare som anv„nds vid rsrc_gaddr! */
-/*	if (MiNT || MagX) 		/* Denna minnesallolering ledde till 256 f”rsvunna bytes varje g†ng. Kan inneb„ra knas p† andra datorer kanske? */
+	/* Om Mxalloc() finns, sï¿½tt memoryprotection till "global" */
+	/* Allokera aldrig minne till pekare som anvï¿½nds vid rsrc_gaddr! */
+	if (MiNT || MagX) 		/* Denna minnesallolering ledde till 256 fï¿½rsvunna bytes varje gï¿½ng. Kan innebï¿½ra knas pï¿½ andra datorer kanske? */
 	    bubble_text = (BYTE *) Mxalloc (256, 0 | MGLOBAL);
 	else
 	    bubble_text = (BYTE *) Malloc (256);
 
-	if (!bubble_text)       /* Om det inte finns tillr„ckligt med minne*/
+	if (!bubble_text)       /* Om det inte finns tillrï¿½ckligt med minne*/
 	    return 1;
 
-	memset(bubble_text,0,sizeof(bubble_text)); */
+	memset(bubble_text,0,sizeof(bubble_text));
 
 	switch (exitobj)
 	{
@@ -159,14 +159,14 @@ int bubble_help(int mx, int my, int exitobj)
 		case ZOOMOUT:
 			rsrc_gaddr( 5, BUBBLE_ZOOMOUT, &bubble_text );
 			break;
-		case -2:	/* Vid fel vid utr„kning */
+		case -2:	/* Vid fel vid utrï¿½kning */
 			rsrc_gaddr( 5, BUBBLE_ERROR, &bubble_text );
 			break;
 		case BACKGROUND: /* Om bakgrunden */
 		case 0:
 		case KNAPP_BAKGRUND: /* Eller knappbakgrunden */
 		case NEWTON_LOGO:    /* Eller logon */
-			if(notclicked){		/* Om man inte klickat f”r att f† fram menyn kommer den inte fram */
+			if(notclicked){		/* Om man inte klickat fï¿½r att fï¿½ fram menyn kommer den inte fram */
 				Mfree(bubble_text);
 				return 1;
 			}
@@ -275,7 +275,7 @@ int bubble_help(int mx, int my, int exitobj)
 		return 0;
    }
 		
-	return 1; /* Om BubbleGEM inte „r installerad*/
+	return 1; /* Om BubbleGEM inte ï¿½r installerad*/
 }
 
 void formulas(int mx, int my)
@@ -284,10 +284,10 @@ void formulas(int mx, int my)
 	int popupval=0, tmp=0,tmp2=0,tmp3=0;
 	void *flyinf;
 
-	if(!tmp3)	/* om det uppstod n†t fel, s„g att inte kan xdial */
+	if(!tmp3)	/* om det uppstod nï¿½t fel, sï¿½g att inte kan xdial */
 		tmp=0;
 	form_center( popup_tree_formulas, &bg.g_x, &bg.g_y, &bg.g_w, &bg.g_h );
-	lg.g_x=bg.g_x+(bg.g_w/2); lg.g_y=bg.g_y+(bg.g_h/2); lg.g_w=bg.g_x+(bg.g_w/2)+1; lg.g_h=bg.g_y+(bg.g_h/2)+1; /* centrera lilla ocks† */
+	lg.g_x=bg.g_x+(bg.g_w/2); lg.g_y=bg.g_y+(bg.g_h/2); lg.g_w=bg.g_x+(bg.g_w/2)+1; lg.g_h=bg.g_y+(bg.g_h/2)+1; /* centrera lilla ocksï¿½ */
 	tmp3=appl_getinfo(14,&tmp, &tmp2, &tmp2, &tmp2);	/* kollar om kan form_xdial */
 	wind_update( BEG_UPDATE );
 	if(tmp)
@@ -303,125 +303,125 @@ void formulas(int mx, int my)
 	if(popupval==AREACIRCLE)
 	{
 		if(fontpi)
-			insert(s[n],"(ãDý)/4");
+			insert(s[n],"(ï¿½Dï¿½)/4");
 		else
 			insert(s[n],"(Pi*D^2)/4");
 	}
 	if(popupval==CIRCUMCIRCLE)
 	{
 		if(fontpi)
-			insert(s[n],"ãD");
+			insert(s[n],"ï¿½D");
 		else
 			insert(s[n],"Pi*D");
 	}
 	if(popupval==AREATRIANGLE)
 	{
 		if(fontpi)
-			insert(s[n],"(BúH)/2");
+			insert(s[n],"(Bï¿½H)/2");
 		else
 			insert(s[n],"(B*H)/2");
 	}
 	if(popupval==AREASPHERE)
 	{
 		if(fontpi)
-			insert(s[n],"4ãRý");
+			insert(s[n],"4ï¿½Rï¿½");
 		else
 			insert(s[n],"4*Pi*R^2");
 	}
 	if(popupval==VOLUMESPHERE)
 	{
 		if(fontpi)
-			insert(s[n],"(4ãRþ)/3");
+			insert(s[n],"(4ï¿½Rï¿½)/3");
 		else
 			insert(s[n],"(4*Pi*R^3)/3");
 	}
 	if(popupval==AREACYLINDER)
 	{
 		if(fontpi)
-			insert(s[n],"2ãRúH");
+			insert(s[n],"2ï¿½Rï¿½H");
 		else
 			insert(s[n],"2*Pi*R*H");
 	}
 	if(popupval==VOLUMECYLINDER)
 	{
 		if(fontpi)
-			insert(s[n],"ãRýúH");
+			insert(s[n],"ï¿½Rï¿½ï¿½H");
 		else
 			insert(s[n],"Pi*R^2*H");
 	}
 	if(popupval==AREACONE)
 	{
 		if(fontpi)
-			insert(s[n],"ãRúS");
+			insert(s[n],"ï¿½Rï¿½S");
 		else
 			insert(s[n],"Pi*R*S");
 	}
 	if(popupval==VOLUMECONE)
 	{
 		if(fontpi)
-			insert(s[n],"(ãRýúH)/3");
+			insert(s[n],"(ï¿½Rï¿½ï¿½H)/3");
 		else
 			insert(s[n],"(Pi*R^2*H)/3");
 	}
 	if(popupval==DISTANCE)
 	{
 		if(fontpi)
-			insert(s[n],"VnullúT+(AúTý)/2");
+			insert(s[n],"Vnullï¿½T+(Aï¿½Tï¿½)/2");
 		else
 			insert(s[n],"Vnull*T+(A*T^2)/2");
 	}
 	if(popupval==SPEED){
 		if(fontpi)	
-			insert(s[n],"Vnull+AúT");
+			insert(s[n],"Vnull+Aï¿½T");
 		else
 			insert(s[n],"Vnull+A*T");
 	}
 	if(popupval==KINETIC)
 	{
 		if(fontpi)
-			insert(s[n],"(MúVý)/2");
+			insert(s[n],"(Mï¿½Vï¿½)/2");
 		else
 			insert(s[n],"(M*V^2)/2");
 	}
 	if(popupval==COULOMB)
 	{
 		if(fontpi)
-			insert(s[n],"(8.988ú10^9)ú((Q1úQ2)/Rý)");
+			insert(s[n],"(8.988ï¿½10^9)ï¿½((Q1ï¿½Q2)/Rï¿½)");
 		else
 			insert(s[n],"(8.988*10^9)*((Q1*Q2)/R^2)");
 	}
 	if(popupval==IMPEDANCE)
 	{
 		if(fontpi)
-			insert(s[n],"1/(û((1/Rý)+(1/(êúL)-êúCap)ý))");
+			insert(s[n],"1/(ï¿½((1/Rï¿½)+(1/(ï¿½ï¿½L)-ï¿½ï¿½Cap)ï¿½))");
 		else
 			insert(s[n],"1/(sqrt((1/R^2)+(1/(Omega*L)-Omega*Cap)^2))");
 	}
 	if(popupval==RELENERGY)
 	{
 		if(fontpi)
-			insert(s[n],"MúCý");
+			insert(s[n],"Mï¿½Cï¿½");
 		else
 			insert(s[n],"M*C^2");
 	}
 	if(popupval==RELMASS)
 	{
 		if(fontpi)
-			insert(s[n],"Mnull/(û(1-(V/C)ý))");
+			insert(s[n],"Mnull/(ï¿½(1-(V/C)ï¿½))");
 		else
 			insert(s[n],"Mnull/(sqrt(1-(V/C)^2))");
 	}
 	if(popupval==RELTIME)
 	{
 		if(fontpi)
-			insert(s[n],"Tnull/(û(1-(V/C)ý))");
+			insert(s[n],"Tnull/(ï¿½(1-(V/C)ï¿½))");
 		else
 			insert(s[n],"Tnull/(sqrt(1-(V/C)^2))");
 	}
 	if(popupval==RELLENGTH)
 	{
 		if(fontpi)
-			insert(s[n],"Lnullú(û(1-(V/C)ý))");
+			insert(s[n],"Lnullï¿½(ï¿½(1-(V/C)ï¿½))");
 		else
 			insert(s[n],"Lnull*(sqrt(1-(V/C)^2))");
 	}
