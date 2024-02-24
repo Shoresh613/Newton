@@ -1,7 +1,7 @@
 
 
 /* char* hex_it(int value), char* bin_it(int value)
- * G”r om ett decimaltal till ett hextal/bin„rtal
+ * Converts a decimal number to a hex/binary number
  ************************************************/
 
 
@@ -21,7 +21,7 @@ void hex_it(long value, char* result){
 		return;
 	}
 
-	if(value<0){  /* Om negativt, mucka lite */
+	if(value<0){  /* If negative, quarrel a bit */
 		value=labs( value );
 		minus=1;
 	}
@@ -65,7 +65,7 @@ void bin_it(long value, char* result)
 		strcpy(result,"0b0");
 		return;
 	}
-	if(value<0){  /* Om negativt, mucka lite */
+	if(value<0){  /* If negative, quarrel a bit */
 		value=labs( value );
 		minus=1;
 	}

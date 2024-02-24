@@ -1,0 +1,39 @@
+ Newton                                            Helsingborg, 8 april 2000 
+ =========================================================================== 
+
+ Installation av den svenska versionen
+ =====================================
+  
+ F”r att anv„nda den svenska versionen av Newton beh”ver du bara kopiera
+ newton.rsc i mappen Svenska till mappen d„r du har newton.app.
+ 
+ Tyv„rr har jag inte tid att ”vers„tta dokumentationen till svenska,
+ men jag hoppas att de flesta klarar sig „nd†.
+ Det vore dock trevligt om n†gon v„nlig sj„l ville ”vers„tta „ven den
+ till svenska.
+    
+   Mikael Folkesson 
+
+ Newton                                            Gothenburg, 3rd June 1998 
+ ===========================================================================
+
+ Important
+ =========
+
+ I'm looking for people who feel they would like to translate the 
+ resource file and/or the documentation into a language other than English.
+
+ I had the following languages in mind:
+ German, Italian, Dutch, Swedish. (Any other language will do aswell)
+
+ What to do
+ ----------
+
+ Get in touch with me by e-mailing mikael_f@swipnet.se and we can discuss 
+ what you're willing to do.
+
+
+ Thanks in advance!
+
+ --
+ Mikael

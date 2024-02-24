@@ -159,14 +159,14 @@ int bubble_help(int mx, int my, int exitobj)
 		case ZOOMOUT:
 			rsrc_gaddr( 5, BUBBLE_ZOOMOUT, &bubble_text );
 			break;
-		case -2:	/* Vid fel vid utr�kning */
+		case -2:	/* In case of calculation error */
 			rsrc_gaddr( 5, BUBBLE_ERROR, &bubble_text );
 			break;
-		case BACKGROUND: /* Om bakgrunden */
+		case BACKGROUND: /* If it's the background */
 		case 0:
-		case KNAPP_BAKGRUND: /* Eller knappbakgrunden */
-		case NEWTON_LOGO:    /* Eller logon */
-			if(notclicked){		/* Om man inte klickat f�r att f� fram menyn kommer den inte fram */
+		case KNAPP_BAKGRUND: /* Or button background */
+		case NEWTON_LOGO:    /* Or logo */
+			if(notclicked){		/* If you have not clicked to bring up the menu, it will not appear */
 				Mfree(bubble_text);
 				return 1;
 			}
@@ -180,7 +180,7 @@ int bubble_help(int mx, int my, int exitobj)
 			if(popupval==POPUP_CUT)
 			{
 				kstate=nkc_kstate();
-				if(kstate&NKF_SHIFT) /* Om allt skall kopieras */
+				if(kstate&NKF_SHIFT) /* If everything should be copied */
 					scrap_write(3);
 				else
 					scrap_write(1);
@@ -189,7 +189,7 @@ int bubble_help(int mx, int my, int exitobj)
 			if(popupval==POPUP_COPY)
 			{
 				kstate=nkc_kstate();
-				if(kstate&NKF_SHIFT) /* Om allt skall kopieras */
+				if(kstate&NKF_SHIFT) /* If everything should be copied */
 					scrap_write(2);
 				else
 					scrap_write(0);
@@ -223,7 +223,7 @@ int bubble_help(int mx, int my, int exitobj)
 
 			if(popupval==POPUP_QUIT)
 			{
-				if(!_app) /* Om accessory */
+				if(!_app) /* If run as accessory */
 				{
 					wind_close( whandle );
 					wind_delete(whandle);
@@ -275,7 +275,7 @@ int bubble_help(int mx, int my, int exitobj)
 		return 0;
    }
 		
-	return 1; /* Om BubbleGEM inte �r installerad*/
+	return 1; /* If BubbleGEM isn't installed*/
 }
 
 void formulas(int mx, int my)
@@ -284,18 +284,18 @@ void formulas(int mx, int my)
 	int popupval=0, tmp=0,tmp2=0,tmp3=0;
 	void *flyinf;
 
-	if(!tmp3)	/* om det uppstod n�t fel, s�g att inte kan xdial */
+	if(!tmp3)	/* If there was some error, like no being able to xdial */
 		tmp=0;
 	form_center( popup_tree_formulas, &bg.g_x, &bg.g_y, &bg.g_w, &bg.g_h );
 	lg.g_x=bg.g_x+(bg.g_w/2); lg.g_y=bg.g_y+(bg.g_h/2); lg.g_w=bg.g_x+(bg.g_w/2)+1; lg.g_h=bg.g_y+(bg.g_h/2)+1; /* centrera lilla ocks� */
-	tmp3=appl_getinfo(14,&tmp, &tmp2, &tmp2, &tmp2);	/* kollar om kan form_xdial */
+	tmp3=appl_getinfo(14,&tmp, &tmp2, &tmp2, &tmp2);	/* Checks if possible to form_xdial */
 	wind_update( BEG_UPDATE );
 	if(tmp)
 		form_xdial( FMD_START, lg.g_x,lg.g_y,lg.g_w,lg.g_h,bg.g_x,bg.g_y,bg.g_w,bg.g_h, &flyinf);
 	else
 		form_dial( FMD_START, lg.g_x,lg.g_y,lg.g_w,lg.g_h,bg.g_x,bg.g_y,bg.g_w,bg.g_h);
-	tmp3=appl_getinfo(9,&tmp2, &tmp, &tmp2, &tmp2);	/* kollar om kan form_xdial */
-	if(tmp && tmp3)	/* Om systemet kann multitos popups */
+	tmp3=appl_getinfo(9,&tmp2, &tmp, &tmp2, &tmp2);	/* Checks if possible to form_xdial */
+	if(tmp && tmp3)	/* If the system can do multitos popups */
 		popupval=form_popup( popup_tree_formulas, mx,my);
 	wind_update( END_UPDATE );
 	form_xdial( FMD_FINISH, bg.g_x,bg.g_y,bg.g_w,bg.g_h,bg.g_x,bg.g_y,bg.g_w,bg.g_h, &flyinf);

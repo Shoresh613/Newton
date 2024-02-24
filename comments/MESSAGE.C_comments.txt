@@ -1,0 +1,143 @@
+/* handle_message( int mx, int my )
+ * Tar hand om AES-meddelanden mellan andra applikationer -> Newton
+ * och Screenmanager -> Newton.
+ ********************************************************/
+extern void redraw_window(int pos/*, GRECT *redraw */);
+extern void redrawWindow(int pos, GRECT *redraw ); /* test */
+extern void (*vqt_ex)(int handle, char* string, int* extent); /* symbol f”r antingen vqt_f_extent eller vqt_extent */
+int notclicked = 0;	/* F”r att s„ga till bubble.c om den ska visa menyn  */
+	int mx_l=0, my_l=0, note_ok=0; /*Lokala musvaribler.. orkar inte.. */
+				redraw_window( 1/*, (GRECT *)&msg[4] */ );
+				wind_get ( 0, WF_TOP, &i,&j,&j,&j); /* Fr†gar vilket som „r ”versta f”nstret */
+					redraw_window( 5/*, (GRECT *)&msg[4] */ ); /* Rita ut plotten */
+			/*	redrawWindow( msg[3], (GRECT *)&msg[4] ); */
+					if( env && strlen(env)>0 && dummy!=45) { /* om $SCREENBORDER „r satt */
+					/* Kollar s† den inte g†r utanf”r sk„rmen n†nstans. Funkar la s†d„r. */	
+				/*	wind_update(BEG_UPDATE);
+					wind_calc( WC_BORDER, NAME|CLOSER|MOVER|FULLER|ICONIFIER, tree[MAIN].ob_x, tree[MAIN].ob_y, tree[MAIN].ob_width, tree[MAIN].ob_height, &x, &y, &w, &h );
+					wind_set(whandle,WF_CURRXYWH,x,y,w,h);
+					wind_update(END_UPDATE);
+					wind_get( whandle , WF_CURRXYWH, &currx,&curry,&currw,&currh );
+					tmp=(char*)calloc(1,40);
+					sprintf(tmp,"currx:{%i,%i,%i,%i}", currx,curry,currw,currh);
+					insert("",tmp);
+					n++;
+					wind_get( 0 , WF_WORKXYWH, &maxx,&maxy,&maxw,&maxh );
+					if(currx<0)
+						tree[MAIN].ob_x += abs(currx);
+					if(curry<0)
+						tree[MAIN].ob_y += abs(curry);
+					wind_update(BEG_UPDATE);
+					wind_calc( WC_BORDER, NAME|CLOSER|MOVER|FULLER|ICONIFIER, tree[MAIN].ob_x, tree[MAIN].ob_y, tree[MAIN].ob_width, tree[MAIN].ob_height, &x, &y, &w, &h );
+					wind_set(whandle,WF_CURRXYWH,x+2,y+2,w-4,h-4);
+					wind_update(END_UPDATE);
+					wind_get( whandle , WF_CURRXYWH, &currx,&curry,&currw,&currh );
+					i=currw-maxw;
+					if(i>0)
+						tree[MAIN].ob_width -= abs(i);
+					i=currh-maxh;
+					if(i>0)
+						tree[MAIN].ob_height -= abs(i);
+					sprintf(tmp,"currx:{%i,%i,%i,%i}", currx,curry,currw,currh);
+					insert("",tmp);
+					n++;
+					sprintf(tmp,"maxx:{%i,%i,%i,%i}", maxx,maxy,maxw,maxh);
+					insert("",tmp); n++;
+					free(tmp); */
+			if (Get_cookie ('BGEM', &val))	/* Att detta kollas har antagligen med Freedom-bubblorna att g”ra. */
+			redraw_window(2/*, (GRECT *) &msg[4]*/);
+			if( appl_write( fontpartner, 16, msg ) == 0 ) /* Om det inte funkade */
+				return;                                     /* G”r ingenting.      */
+		case VA_DRAGACCWIND: /* Om n†gonting dragits till Newton, „nnu bara clipbordet */
+				scrp_read(tmp2); /* Klippbordets s”kv„g */
+					for ( n=-1 ; n<synliga_rader && !i ; n++ ) /* Vilken rad „r man p†? */
+						if( my_l < tree[MAIN].ob_y + (n*teckenhojd)+tree[RUTAN].ob_y+teckenhojd +6) /* Tv†an kommer fr†n den f”rbaskade outliningen */
+					n--; /* n b”rjar p† 0, inte 1 som synliga_rader */
+						redraw_window(3); /* Ta bort cursorn */
+		case GS_REQUEST:        /* H„r b”rjar allt jox med GEMScript */
+			if(msg[7]==ADDTOMENU || msg[7]==NOTEOPEN||	/* Om f”reslaget GEMScript-Id redan anv„nds. */
+			(msg[7]==gs_partner[0]->gs_id && gs_partner[0]->gs_partnerid!=msg[1]) || /* M†ste „ven kolla av med appl_id p† dem, s† de kan k”ra mer „n en session */
+				msg[3]=(int)(((long) &gs_info >> 16) & 0x0000ffff); /* S† h„r kan man alltid g”ra, d† */
+				msg[4]=(int)((long) &gs_info & 0x0000ffff);         /* det handlar om en pekare.     */
+				msg[6]=2;	/* S„ger att man „r upptagen GEMScriptm„ssigt */
+				if( appl_write( i, 16, msg ) == 0 ) /* Om det inte funkade */
+					break;                           /* G”r ingenting.      */
+				gs_partner[0]->gs_partnerid=msg[1]; /* S† man vet vart det skall skickas */
+				gs_partner[0]->gs_id=msg[7];        /* Beh”vs vid GS_QUIT                */
+				msg[3]=(int)(((long) &gs_info >> 16) & 0x0000ffff); /* S† h„r kan man alltd g”ra, d† */
+				msg[4]=(int)((long) &gs_info & 0x0000ffff);         /* det handlar om en pekare.     */
+				if( appl_write( gs_partner[0]->gs_partnerid, 16, msg ) == 0 ) /* Om det inte funkade */
+					break;                                     /* G”r ingenting.      */
+				i=msg[1]; /* Om g†tt igenom hela strukten s† klarar Newton inte av fler f”rbindelser. */
+				msg[3]=(int)(((long) &gs_info >> 16) & 0x0000ffff); /* S† h„r kan man alltd g”ra, d† */
+				msg[4]=(int)((long) &gs_info & 0x0000ffff);         /* det handlar om en pekare.     */
+				msg[6]=1;	/* S„ger att man „r upptagen GEMScriptm„ssigt */
+				if( appl_write( i, 16, msg ) == 0 ) /* Om det inte funkade */
+					break;                           /* G”r ingenting.      */
+		case GS_QUIT:        /* Testing testing */
+			gs_partner[j]->gs_partnerid=-1; /* S† att nya kommandon kan tas emot igen */
+				if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* Om det inte funkade */
+					break;                                     /* G”r ingenting.      */
+				for ( k=0 ; k<synliga_rader ; k++) {	/* Fixa undobuffern */
+			if(strcmp(command,"restoreundobuffer")==0)	/* Ta tillbaka undobuffern */
+				if(s[n][0]==0){  /* Om raden „r tom, t”m hela f”nstret */
+				if(cursor)  /* Sl„cker cursorn om den „r p† */
+				if(cursor)  /* Sl„cker cursorn om den „r p† */
+					while(scrollVector[n-1] && n>0){	/* Tar reda p† var uttrycket b”rjar */
+				while(scrollVector[n]){	/* Tar reda p† var uttrycket slutar */
+				if(cursor)  /* Sl„cker cursorn om den „r p† */
+				if(cursor)  /* Sl„cker cursorn om den „r p† */
+					k=atoi(param); /* Tempv„rde */
+				if(cursor)  /* Sl„cker cursorn om den „r p† */
+					k=atoi(param); /* Tempv„rde */
+				if(cursor)  /* Sl„cker cursorn om den „r p† */
+					k=atoi(param); /* Tempv„rde */
+						scroll(); /* Om p† sista raden, scrolla */
+				else { /* Varf”r funkar inte den h„r? */
+					scroll(); /* Om p† sista raden, scrolla */
+					if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* Om det inte funkade */
+						return;                                     /* G”r ingenting.      */
+				if(strcmp(param,"3")==0) /* Det st†r 3 vid settings, typ */
+				strcpy(tmp,"0");	/* Om man inte k„nner till kommandot. */
+				if(strcmp(param,"close")==0) /* Det st†r 3 vid settings, typ */
+				if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* Om det inte funkade */
+					return;                                     /* G”r ingenting.      */
+				evnt_timer(100,0); /* Ge den tid att fatta */
+				if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* Om det inte funkade */
+					return;                                     /* G”r ingenting.      */
+				evnt_timer(100,0); /* Ge den tid att fatta */
+			if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* Om det inte funkade */
+				break;                                     /* G”r ingenting.      */
+			if(msg[7]==134) /* NOTEOPEN */
+					sprintf(commandline,"NoteExist\1-i %i", note_id); /* Kollar om en lapp med samma ID redan finns, detta f”r att lappen skall kunna raderas n„r man drar tillbaka den till Newton. Detta hade ju funkat om jinnee hade skickat tillbaka lappen med GEMScript, men den g”r det ju via D&D ist„llet... */
+					msg[7]=134; /* Har jag satt NOTEOPEN till */
+					if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* Om det inte funkade */
+						return;                                     /* G”r ingenting.      */
+					evnt_mesag(msg); /* V„ntar p† att jinnee ska svara */
+					if(strcmp(tmp,"1")!=0) /* Om lappen inte redan finns */
+				} /* Nu skall ID:t p† notislappen kunna godtas */
+				tmp = Malloc(TECKEN*20);	/* Anv„nder h„r f”r att bygga upp flerradigt uttryck */
+					while(scrollVector[i-1] && i>0){	/* Tar reda p† var uttrycket b”rjar */
+				sprintf(commandline,"NoteOpen\1-i %i\1-b %i\1-l %i\1-x %i\1-y %i\1-f %i\1-p %i\1-t %i\1%s\1",note_id, bg_colour, linewidth, mx_l, my_l, font, fontsize, text_colour, s[i]);	/* F”rsta raden med parametrar f”r sj„lva lappen f”rst. */
+				while(scrollVector[i]){ /* Kopiera in alla resterande rader som h”r till uttrycket i bufferten. */
+				strcat(commandline,"\1"); /* Avslutande dubbelnolla */
+				if(kstate&NKF_CTRL) /* Om control, flytta raden */
+					memset(s[n],0,TECKEN); /* Raderar raden */
+				msg[7]=134; /* Har jag satt NOTEOPEN till */
+				if( appl_write( gs_partner[j]->gs_partnerid, 16, msg ) == 0 ) /* Om det inte funkade */
+					break;                                     /* G”r ingenting.      */
+			if(msg[7]==121) /* ADDTOMENU */
+			for ( j=-1 ; j<synliga_rader && !i ; j++ ) /* Vilken rad „r man p†? */
+				if( msg[4] < tree[MAIN].ob_y + (j*teckenhojd)+tree[RUTAN].ob_y+teckenhojd +4) /* Tv†an kommer fr†n den f”rbaskade outliningen */
+			j--; /* j b”rjar p† 0, inte 1 som synliga_rader */
+			if( (msg[3] > (tree[MAIN].ob_x + tree[RUTAN].ob_x + extent[2] +3 +teckenbredd/7) && (objc_find(tree, MAIN, MAX_DEPTH, msg[3], msg[4]) == RUTAN) )) /* Bakgrunden */
+			else if( (msg[3] < (tree[MAIN].ob_x + tree[RUTAN].ob_x + extent[2]) && (objc_find(tree, MAIN, MAX_DEPTH, msg[3], msg[4]) == RUTAN) )) /* Texten */
+			else /* Cursorn */
+		case ACC_KEY: /* Tar emot tangenttryckningar via XACC2 */
+			msg[3]=1; /* 1 om man hade nytta av det, 0 annars */
+			if( appl_write( id, 16, msg ) == 0 ) /* Om det inte funkade */
+				break;                           /* G”r ingenting.      */
+		case ACC_TEXT: /* Tar emot text via XACC2 */
+			msg[3]=1; /* 1 om man hade nytta av det, 0 annars */
+			if( appl_write( id, 16, msg ) == 0 ) /* Om det inte funkade */
+				break;                           /* G”r ingenting.      */

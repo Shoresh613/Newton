@@ -1,0 +1,23 @@
+/* scrap_read(), scrap_write(cut)
+ * Klipp och klistra.
+ ************************/
+		eof=fscanf( fp, "%[^\r\n]", clip);	/* L„ser fram till radslut */
+			if( strlen(clip) && ((strlen(clip)+strlen(s[n]))<TECKEN)) /* Om inte tom och inte f”r l†ng */
+		eof=fscanf( fp, "%c", tmp);			/* L„ser CR*/
+			eof=fscanf( fp, "%c", tmp);		/* L„ser LF*/		
+		if(n>=synliga_rader-1)					/* Scrollar inf”r ny rad om ska l„sa in ny rad */
+	while(rowCount>1) {	/* S„ger vilka rader som sitter ihop */
+void scrap_write( int cut ) /* cut==1, klipp ist„llet f”r kopiera, 2 kopiera alla synliga rader, 3 klipp alla synliga rader */
+	if(cut==0 || cut==1) /* Om bara kopiera */
+		if(s[n][0]==0) /* Om raden „r tom */
+			while(scrollVector[i-1] && i>0){	/* Tar reda p† var uttrycket b”rjar */
+		fputs( s[i], fp ); /* Skriver f”rsta raden i uttrycket till klippbordet. */
+		fputs("\r\n",fp);	/* B”rja med ny rad. */
+		while(scrollVector[i]){ /* Skriv alla resterande rader (om n†gra) till klippbordet. */
+	if(cut==2 || cut==3) /* Kopiera in alla rader */
+			if(s[i][0]!=0) /* Om raden inte tom */
+		for ( i=0 ;i<synliga_rader ;i++) /* Rensar alla rader */
+	msg[3]=2; /* text */
+	if(_GemParBlk.global[0]>=0x400)			/* Broadcast finns bara efter AES v.4 */
+	av_sendmesg(0,0,AV_PATH_UPDATE);		/* Skicka AV-meddelande ocks†, jinnee verkar inte fatta SC_CHANGED */
+	evnt_timer(100,0);						/* V„nta lite innan t”mma s† alla hinner l„sa */

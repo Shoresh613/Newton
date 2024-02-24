@@ -7,7 +7,7 @@
 #include "xtras.h"
 #include "newton.h"
 
-extern char konstant_lista[ANTAL_ENHETER][MAX_TECKEN];  /* Dessa deklareras i newton.c, l�ses in vid boot fr�n newton.cnf, kopieras sedan �ver till variabel* i cuttryck i calculate() */
+extern char konstant_lista[ANTAL_ENHETER][MAX_TECKEN];  /* These are declared in newton.c, loaded at boot from newton.cnf, then copied over to variabel* in cuttryck in calculate() */
 extern double konstant_storhet[ANTAL_ENHETER];
 extern int antal_konstanter;
 extern int MagX, MiNT;
@@ -15,7 +15,7 @@ extern int MagX, MiNT;
 extern char* calculate(char* string);
 extern char* preprocess(char* string);
 
-void read_constants(void) /* Denna ropas upp vid boot */
+void read_constants(void) /* This is called at boot */
 {
     int i = 1, end = 0;
     FILE* fp = NULL;
@@ -60,14 +60,14 @@ void read_constants(void) /* Denna ropas upp vid boot */
     do
     {
         end = fscanf(fp, "%s", konstant_lista[i]);
-        if (strlen(konstant_lista[i]) > MAX_TECKEN) /* Om variabelnamnet �r f�r l�ngt */
+        if (strlen(konstant_lista[i]) > MAX_TECKEN) /* If the variable name is too long */
         {
             form_alert(1, ConstantTooLong);
             fclose(fp);
             return;
         }
 
-        if (end == EOF)  /* Om man redan l�st in sista kan man skippa resten */
+        if (end == EOF)  /* If you have already loaded the last one, you can skip the rest */
         {
             antal_konstanter = i;
             fclose(fp);
@@ -76,7 +76,7 @@ void read_constants(void) /* Denna ropas upp vid boot */
 
         if (!((konstant_lista[i][0] <= 'Z') && (konstant_lista[i][0] >= 'A')))
         {
-            form_alert(1, ConstantSyntax); /* Ist�llet f�r alerts kan man g�ra dialogboxar. D� kan man s�ga var felet ligger */
+            form_alert(1, ConstantSyntax); /* Instead of alerts, you can make dialog boxes. Then you can tell where the error lies */
             fclose(fp);
             return;
         }

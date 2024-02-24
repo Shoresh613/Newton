@@ -1,0 +1,122 @@
+	int dd_handle; /* Filen (pipen) allt skrivs i */
+	long *oldpipesig=NULL; /* Beh”ver kanske vara global */
+	id=wind_find(mx,my); /* Vilket f”nster ligger under musen */
+	wind_get(id,WF_OWNER,&dd_partner,&dummy,&dummy,&dummy); /* Vem „ger f”nstret */
+	if(dd_partner==appl_id) /* Om draget till det egna f”nstret */
+			kstate=nkc_kstate(); /* Annars tas det som det var innan knappen blev intryckt */
+			tmp = Malloc(TECKEN*synliga_rader);	/* Anv„nder h„r f”r att bygga upp flerradigt uttryck */
+				while(scrollVector[i-1] && i>0){	/* Tar reda p† var uttrycket b”rjar */
+			while(scrollVector[i]){ /* Kopiera in alla rader som h”r till uttrycket i bufferten. */
+				strcat(tmp,"\r\n");	/* B”rja med ny rad. */
+			if( (kstate&NKF_CTRL) ) /* Raden skall flyttas */
+			redraw_window(2); /* Rita om textrutan */
+	else if( dd_partner == 0 /*appl_find("JINNEE  ") ska ju funka med vilken AV-SERVER desktop som helst, alltid appl_id==0 */ )
+		/* Kolla f”rst om det „r bakgrunden */
+		if( appl_write( dd_partner, 16, msg ) == 0 ) /* Om det inte funkade */
+			return;                                   /* G”r ingenting.      */
+			if(msg[4] == VA_OB_TRASHCAN || msg[4] == VA_OB_SHREDDER ) /* Trash och Clipboard „r antagligen VA-protokollet */
+				if(boxes) /* Om growboxar skall ritas ut. Inte helt r„tt vid flerradiga uttryck, men det ser v„l ingen? */
+		/* Om draget till jinnee och det inte var n†gon papperskorg eller s†, g”r det via GEMScript */
+			if( appl_write( dd_partner, 16, msg ) == 0 ) /* Om det inte funkade */
+				return;                                   /* G”r ingenting.      */
+		 /* Forts„ttning f”ljer i message.c: GS_REPLY */
+	else /* Om draget till n†gon annan applikation */
+		    name = (BYTE *) Mxalloc (12, 0 | MGLOBAL); /* De m†ste ju vara tillr„ckligt l†nga! v„l? */
+		tmp = Malloc(TECKEN*synliga_rader);	/* Anv„nder h„r f”r att bygga upp flerradigt uttryck */
+			while(scrollVector[i-1] && i>0){	/* Tar reda p† var uttrycket b”rjar */
+		while(scrollVector[i]){ /* Kopiera in alla rader som h”r till uttrycket i bufferten. */
+			strcat(tmp,"\n");	/* B”rja med ny rad. */
+			return; } /* Programmet vill inte D&D */
+			if(kstate&NKF_CTRL) {	/* Raden skall flyttas */
+			/*	memset(s[n],0,TECKEN);  */
+	for ( n=-1 ; n<synliga_rader && !i ; n++ ) /* Vilken rad „r man p†? */
+	n--; /* n b”rjar p† 0, inte 1 som synliga_rader */
+	if(text[0]=='#') /* Notislappar fr†n jinnee skickar med „ven uppbyggnadsinfo om man h†llit inne alt */
+		redraw_window(3); /* Sl„cker mark”ren */
+	posi=(int)strlen(s[n]);	/* S„tt in p† slutet av raden. Fel, men vad† */
+	if(kstate&NKF_ALT && (s[n][0]!=0)) /* Om alt, och raden inte tom, l„gg till */
+		if(strstr(text,"\r\n")){	/* Om flera rader */
+				strcpy(tmp2,(strstr(tmp,"\r\n")+2) ); /* Kopierar in det efter nyrad-tecknet till tmp2 */
+				*(tmp + strlen(tmp)-strlen(strstr(tmp,"\r\n")))='\0'; /* Klipper tmp vid radslutet */
+				strcpy(s[n],tmp);			/* S„tter in raden. */
+				strcpy(tmp,tmp2);			/* Kopierar in det resterande i tmp */
+			strcpy(s[n],tmp);			/* S„tter in sista raden. */
+			while(rowCount>1) {	/* S„ger vilka rader som sitter ihop */
+			strcpy(s[n],text); /* Annars ers„tt. */
+	char* rec_head_msg; /* Mottagna headern */
+	int file; /* Filen (pipen) allt skrivs i */
+		ptr = (char*)(&msg[7]); /* Tar reda p† extensionen */
+		if( Fwrite(file,1,(void*)(&dd_msg)) <1 ) /* Det „r ok att skicka */
+		if( Fwrite(file,32,(void*)header_msg) <32 ) /* Skriver vilka filtyper som kan l„sas */
+		if( Fread(file,2,(void*)&message_header_size) <2 ) /* L„ser storlek p† headern */
+			rec_head_msg=(char*) Mxalloc(message_header_size,0|MGLOBAL); /* Reserverar minne f”r headern */
+			rec_head_msg=(char*) Malloc(message_header_size); /* Reserverar minne f”r headern */
+		if( Fread(file,message_header_size,(void*)rec_head_msg) <message_header_size )  /* L„ser headern */
+		if( (*(lpref_datatypes) == '.TXT') || (*(lpref_datatypes) == '.ASC')) /* Om han t„nker skicka text */
+			lptr = (long*)(rec_head_msg); /* Kollar hur mycket som skall l„sas */
+				if(buffert[datasize-1]=='\n') /* Om nyrad-tecken skickats med */
+					buffert[datasize-2]=0; /* S„tter den avslutande nollan, annars blir det en massa bj„fs ocks†. -2 f”r de tv† avslutande nyrads-tecknen */
+					buffert[datasize]=0; /* S„tter den avslutande nollan, annars blir det en massa bj„fs ocks†. */
+			Fwrite(file,1,(void*)(&dd_msg)); /* Efter detta skall man egentligen v„nta p† en ny header och kolla den ocks†, men det f†r bli en anna dag.. */
+/* H„r nedan „r lite standardbj„fs fr†n MagiC arkivet som jag f†tt
+   patcha lite f”r att f† PC att kompilera ordentligt */
+/*----------------------------------------------------------------------------------------*/
+/* Drag & Drop - Pipe ”ffnen (fr den Sender)															*/
+/* Funktionsresultat:	Handle der Pipe, -1 fr Fehler oder -2 fr Fehler bei appl_write	*/
+/*	app_id:					ID des Senders (der eigenen Applikation)									*/
+/*	rcvr_id:					ID des Empf„ngers																	*/
+/*	window:					Handle des Empf„nger-Fensters													*/
+/*	mx:						x-Koordinate der Maus beim Loslassen oder -1								*/
+/*	my:						y-Koordinate der Maus beim Loslassen oder -1								*/
+/*	kbstate:					Status der Kontrolltasten														*/
+/*	format:					Feld fr die max. 8 vom Empf„nger untersttzten Formate				*/
+/*	oldpipesig:				Zeiger auf den alten Signal-Dispatcher										*/
+/*----------------------------------------------------------------------------------------*/
+		pipe[18]++;															/* letzten Buchstaben weitersetzen */
+		if ( pipe[18] > 'Z' )											/* kein Buchstabe des Alphabets? */
+			pipe[17]++;														/* ersten Buchstaben der Extension „ndern */
+			if ( pipe[17] > 'Z' )										/* lie sich keine Pipe ”ffnen? */
+		dd_handle = (WORD) Fcreate( pipe, 0x02 );						/* Pipe anlegen, 0x02 bedeutet, da EOF zurckgeliefert wird, */
+	if ( dd_handle < 0 )														/* lie sich die Pipe nicht anlegen? */
+	mbuf[0] = AP_DRAGDROP;												/* Drap&Drop-Message senden */
+	mbuf[1] = app_id;														/* ID der eigenen Applikation */
+	mbuf[3] = window;														/* Handle des Fensters */
+	mbuf[4] = mx;															/* x-Koordinate der Maus */
+	mbuf[5] = my;															/* y-Koordinate der Maus */
+	mbuf[6] = kbstate;													/* Tastatur-Status */
+	mbuf[7] = (((WORD) pipe[17]) << 8 ) + pipe[18];				/* Endung des Pipe-Namens */
+	if ( appl_write( rcvr_id, 16, mbuf ) == 0 )					/* Fehler bei appl_write()? */
+		Fclose( dd_handle );													/* Pipe schlieen */
+	i = Fselect( DD_TIMEOUT, &handle_mask, 0L, 0L );			/* auf Antwort warten */
+	if ( i && handle_mask )												/* kein Timeout? */
+		if ( Fread( dd_handle, 1L, &reply ) == 1 )					/* Antwort vom Empf„nger lesen */
+			if ( reply == DD_OK )										/* alles in Ordnung? */
+				if ( Fread( dd_handle, DD_EXTSIZE, format ) == DD_EXTSIZE )	/* untersttzte Formate lesen */
+					*oldpipesig = Psignal( SIGPIPE, (void *) SIG_IGN );	/* Dispatcher ausklinken */
+	Fclose( dd_handle );														/* Pipe schlieen */
+/*----------------------------------------------------------------------------------------*/
+/* Drag & Drop - berprfen ob der Empf„nger ein Format akzeptiert								*/
+/* Funktionsresultat:	DD_OK: Empf„nger unterstzt das Format										*/
+/*								DD_EXT: Empf„nger akzeptiert das Format nicht							*/
+/*								DD_LEN: Daten sind zu lang fr den Empf„nger								*/
+/*								DD_NAK: Fehler bei Kommunikation												*/
+/*	dd_handle:					Handle der Pipe																	*/
+/*	format:					Krzel fr das Format															*/
+/*	name:						Beschreibung des Formats als C-String										*/
+/*	size:						L„nge der zu sendenen Daten													*/
+/*----------------------------------------------------------------------------------------*/
+	str_len = strlen( name ) + 1;										/* L„nge des Strings inklusive Nullbyte */
+	hdr_len = 4 + 4 + (WORD) str_len;								/* L„nge des Headers */
+	if ( Fwrite( dd_handle, 2, &hdr_len ) == 2 )						/* L„nge des Headers senden */
+		written = Fwrite( dd_handle, 4, &format );					/* Formatkrzel */
+		written += Fwrite( dd_handle, 4, &size );						/* L„nge der zu sendenden Daten */
+		written += Fwrite( dd_handle, str_len, name );				/* Beschreibung des Formats als C-String */
+		if ( written == hdr_len )										/* lie sich der Header schreiben? */
+				return( reply );											/* Antwort zurckliefern */
+/*----------------------------------------------------------------------------------------*/
+/* Drag & Drop - Pipe schlieen																				*/
+/*	dd_handle:					Handle der Pipe																	*/
+/* oldpipesig:				Zeiger auf den alten Signalhandler											*/
+/*----------------------------------------------------------------------------------------*/
+	Psignal( SIGPIPE, oldpipesig );									/* wieder alten Dispatcher eintragen */
+	Fclose( dd_handle );														/* Pipe schlieen */

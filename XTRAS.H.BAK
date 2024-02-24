@@ -63,7 +63,7 @@ typedef struct {
 #define GSM_COMMAND 0x0001  /* can receive GS_COMMAND                */
 #define GSM_MACRO   0x0002  /* can receive GS_OPENMACRO, GS_WRITE and GS_CLOSEMACRO */
                             /* can send GS_MACRO (Interpreter)       */
-#define GSM_WRITE   0x0004  /* can send GS_OPENMACRO, GS_WRITE and GS_CLOSEMACRO */
+#define GSM_WRITE   0x0004  /* can send GS_OPENMACRO, GS_WRITE and GS_CLOSEMACRO
                             /* receive GS_MACRO (Application that can record scripts)  */
 
 

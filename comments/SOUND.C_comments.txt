@@ -1,0 +1,10 @@
+/* error_sound(void)
+ * Ropar upp GEMjing f”r att spela upp en sampling.
+ *******************************************************/
+#define SHW_PARALLEL    100     /* MagiC */
+	if (!tmp2)       /* Om det inte finns tillr„ckligt med minne*/
+	if(strcmp(tmp2,"kaka")==0 || strcmp(tmp2,"")==0) { /* Ifall ingen fil „r specificerad */
+	if( (gemjingid=appl_find("GEMJING ")) < 0) { /* Om det inte redan snurrar */
+		if( env && strlen(env)>0 ) { /* om $GEMJING „r satt */
+		if( appl_write( gemjingid, 16, msg ) == 0 ) /* Om det inte funkade */
+			return;                                  /* G”r ingenting.      */

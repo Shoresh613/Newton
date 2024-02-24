@@ -1,0 +1,48 @@
+Newton                                             Lyon, 27 f‚vrier 2000
+===========================================================================
+
+ Installation de la version fran‡aise
+ ====================================
+ 
+ Pour utiliser Newton en fran‡ais : 
+ - copier le fichier NEWTON.RSC depuis le r‚pertoire FRANCAIS dans le 
+   r‚pertoire o— se trouve NEWTON.APP.
+ - copier les fichiers d'aide en ligne NEWTON.HYP et NEWTON.REF depuis le 
+   r‚pertoire FRANCAIS dans le r‚pertoire dans lequel se trouvent vos 
+   fichiers d'aide en ligne ST-GUIDE (d‚sign‚ par la variable PATH dans 
+   ST-GUIDE.INF).
+   
+   Didier Briel
+
+Newton                                            Gothenburg, 3 juin 1998 
+===========================================================================
+
+ Important
+ =========
+
+ Je recherche des gens qui seraient prˆt … traduire le fichier ressource 
+ et/ou la documentation dans une autre langue que l'anglais ou le 
+ fran‡ais.
+
+ J'avais les langues suivantes en tˆte :
+ Allemand, Italien, Hollandais, Su‚dois. (Tout autre langue ferait 
+ ‚galement l'affaire)
+
+ Comment faire
+ -------------
+
+ Entrez en contact en envoyant un message … mikael_f@swipnet.se et nous 
+ pourrons alors discuter de ce que vous ˆtes prˆt … faire.
+
+
+ Merci d'avance !
+
+ --
+ Mikael
+ 
+ Traduction Didier Briel,
+ ddc@imaginet.fr,
+ TransAction
+ http://www.altern.org/ta/index_f.html
+ 
+ 

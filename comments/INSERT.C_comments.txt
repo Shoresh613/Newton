@@ -1,0 +1,4 @@
+	if(strlen(s[n])==0)	/* Om raden „r tom */
+		redraw_window(0);	/* rita ut str„ngen */
+	if(posi==(int)strlen(s[n]))	/* Om man „r p† slutet av raden */
+	redraw_window(2);	/* rita ut teckenf”nstret */

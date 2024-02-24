@@ -1,7 +1,7 @@
 
 
 /* economy_calc(void)
- * R„knar ut annuitet, nuv„rde, nusumma eller slutv„rde
+ * Calculates annuity, present value, present sum or final value
  *********************************************************/
 
 
@@ -62,7 +62,7 @@ int economy_calc(void)
 		buf = (char*)Malloc(40);
 		memset(buf,0, sizeof(buf));
 
-		if(economy[ENDVALUE].ob_state & SELECTED)	/* M†ste kolla s† alla „r ifyllda ocks† */
+		if(economy[ENDVALUE].ob_state & SELECTED)	/* Must check that all are filled in as well */
 		{
 			tmp=1+r;							/* (1+r)^n */
 			tmp=pow(tmp,years);

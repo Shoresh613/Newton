@@ -1,7 +1,7 @@
 
 /* event_loop()
- * H†ller reda p† vad som h„nder.
- *************************/
+ * Keeps track of what's going on, the event handler.
+ ***************************************/
 
 #include <aes.h>
 #include <nkcc.h>
@@ -37,17 +37,17 @@ void event_loop( void )
 		 event,
 		 state;
 	int i=0;
-	int old_mx=0; /* Beh”ver inte uppdatera koordinater om musen inte flyttat p† sig */
+	int old_mx=0; /* No need to update coordinates if the mouse has not moved */
 
 	do
 	{
-		if(graph_mode) { /* Nu ska den „ven kolla av muskoordinaterna */
+		if(graph_mode) { /* Now it should also check the mouse coordinates */
 			event = nkc_multi( MU_MESAG | MU_BUTTON | MU_KEYBD | MU_TIMER | MU_M1,
 									  258,3,0,
-									/* 258: Tv† klick eller 0x0100
-										3:   b†da musknapparna
-										0:   not(v„nster_inte_tryckt and h”ger_inte_tryckt)
-										     = v„nster_tryckt or h”ger_tryckt
+									/* 258: Two clicks or 0x0100
+										3: both mouse buttons
+										0: note(left_not_printed and right_not_printed)
+										= left_pressed or right_pressed
 									*/	0, tree[MAIN].ob_x + (tree[MAIN].ob_width / 2) - (tree[RUTAN].ob_width / 2) +6, 
 									      tree[MAIN].ob_y + tree[RUTAN].ob_height + 20  - tree[RUTAN].ob_height, tree[RUTAN].ob_width-13, tree[RUTAN].ob_height-11,
 									  0, 0, 0, 0, 0,
@@ -93,9 +93,9 @@ void event_loop( void )
 
 		if(i<15)
 			i++;
-		if(i==14 && (appl_find("MLTISTRP")>=0))	/* Detta „r ocks† anledningen till att den buggar ur p† en massa burkar */
-			addtomenu_request(); /* Fixa till GEMScripten s† den pallar k”ra flera samtidigt ist„llet, detta „r fusk.. */
-										/* Det kanske jag har gjort nu, men jag fattar inte varf”r jag varit tvungen att l„gga detta upprop s†h„r. */
+		if(i==14 && (appl_find("MLTISTRP")>=0))	/* This is also why it crashes on a lot of computers */
+			addtomenu_request(); /* Fix the GEMScript so that it can run several at the same time instead, this is cheating.. */
+										/*  may have done that now, but I don't understand why I had to put this call here. */
 	}	
 	while ( !quit );
 	

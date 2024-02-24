@@ -149,7 +149,7 @@ unsigned long lrand(void) /* This and the following belong together */
 	unsigned long answer=0;
 	unsigned long l=0;
 
-		/* rand() only returns 3 Byte-random numbers, that's why we create by */
+		/* rand() only returns 3 Byte-random numbers, that's why we create by 
 		/* Shifting one sizeof(unsigned long)-byte random numbers */
 		/* Anmerkung: Da generierte random numberen in den unteren Bits haeufig nicht */
 		/* sonderlich gut zufaellig sind wird das mittlere Byte benutzt */

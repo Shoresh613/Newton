@@ -1,0 +1,102 @@
+/* handle_keybd(key,kstate,mx,my)
+ * Tolkar tangentbordstryckningar. Det den inte
+ * f”rst†r skickas vidare till AVSERVERn.
+ *******************************/
+#define EPS 0.0000000000001 /* S„ger hur exakt fraktionsutr„knaren ska vara */
+extern double xmin, xmax, ymin, ymax; /* F”r grafen d†r† */
+int getEndOfWordPosition( int direction ); /* direction 0 = left, 1= right */
+int fraction(double decimal, FRACTION *fract);	/* Returnerar -1 om det inte gick att hitta l„mplig */
+	int extent[8];  /* F”r vqt_f_extent() */
+	FRACTION *frac=NULL;	/* F”r utr„kning av fraktion  */
+	if(cursor)  /* Sl„cker cursorn om den „r p† */
+	tangent = (char)(((long) key ) & 0x0000ffff ); /* ASCII */
+		for ( i=0 ; i<synliga_rader ; i++){	/* Fixa undobuffern */
+		tree[COORDINATEBOX].ob_flags |= HIDETREE;	/* G”mmer koordinatboxen. */
+	if(key&NKF_FUNC) /* Om n†gon funktionsknapp */
+		switch (tangent) /* N„r man trycker dessa beh”vs det aldrig scrollas */
+			case NK_TAB:	/* Autolocator */
+				if (!tmp3)       /* Om det inte finns tillr„ckligt med minne*/
+				*(tmp+posi)=0; /* Den v„nstra halvan */
+				strcpy(tmp3,s[n]+posi);	/* Allt till h”ger */
+				for ( i=(int)strlen(tmp),j=0 ; i>=0 ; i--, j++)	/* R„knar hur l†ngt ordet „r */
+				strcpy(tmp2,tmp+strlen(tmp)+1-j);	/* Kopiera ”ver ordet */
+				if( *(tmp2)<='Z' && *(tmp2)>='A' )	/* Kolla i konstantlistan */
+				else if(*(tmp2)<='z' && *(tmp2)>='a')	/* Kolla bland funktionerna */
+					if (!tmp || (posi==0))       /* Om det inte finns tillr„ckligt med minne */
+					if(key&NKF_SHIFT)	{		/* Tar bort allt till v„nster */
+						if(strlen(s[n])==0)	/* Om raden „r nu „r tom, bryt koppling. */
+					else if(key&NKF_CTRL) {	/* Tar bort "ordet" till v„nster */
+						if(isNotPartOfWord( *(s[n]+posi-1) )){ /* Ta bort „ven +,- etc */
+						if(posi==(int)strlen(s[n]))	/* Om l„ngst ut p† raden */
+							if( strlen(s[n])==0 && scrollVector[n-1] ) {	/* Om raderna h”rde ihop, bryt kopplingen. */
+				else{	/* Om raden „r tomm */
+					if(scrollVector[n-1]){	/* Och raden ovanf”r h”r till samma uttryck */
+						*(s[n]+strlen(s[n])-1)=0;	/* B”rja knapra p† raden ovanf”r */
+				if (!tmp)       /* Om det inte finns tillr„ckligt med minne*/
+				if(key&NKF_SHIFT)			/* Tar bort allt till h”ger */
+				else if(key&NKF_CTRL) {	/* Tar bort "ordet" till h”ger */
+						return;				/* Avbryter om l„ngst ut p† raden */
+						j=1;					/* Ska ta bort tecknet mellan ord, men funkar inte */
+					if(strlen(s[n])==0){	/* Om raden tom */
+					else {					/* Om inte tom */
+					if( (posi==(int)strlen(s[n])) && scrollVector[n] ) { /* Om l„ngst ut p† raden och scrollad */
+						strcat(s[n],s[n+1]);			/* Flytta upp raden under */
+						while(scrollVector[i-1]){	/* Flytta upp resterande rader, om tillh”r samma uttryck */
+				if(s[n][0]==0)  /* Om raden „r tom, t”m hela f”nstret */
+					eraseExpression(); /* Definierad l„ngre ner */
+				if(key&NKF_CTRL)	/* Flytta ned raden, struntar i scrollVector */
+						while(scrollVector[n-1] && n>0){	/* Tar reda p† var uttrycket b”rjar */
+					while(scrollVector[n]){	/* Tar reda p† var uttrycket slutar */
+					if(syntax_error==1)	/* Om det var fel n†nstans i uttrycket „r cursorn redan satt till den positionen */
+					if(!_app) /* Om accessory */
+					insert( s[n], "Ü" ); /* logisk om...s†-pil */
+					if( i!=-1 ) /* D† har man inte tryckt CANCEL */
+						tree[COORDINATEBOX].ob_flags &= ~HIDETREE;	/* G”mmer koordinatboxen. */
+						redraw_window(1);  /* Rensa sk„rmen f”rst */
+						redraw_window(5);} /* Visa "grafen" */
+					choose_samples(); /* V„lj sampling */
+					gcvt( round(atof( s[n] )), 15, s[n] ); /* Rundar av till n„rmsta heltal */
+					frac->numerator=(long)Malloc(sizeof("    ")); /* Allokera fyra byte = long */
+							if(strcmp(tmp3,"0")==0 || strcmp(tmp3,"")==0){ /* Om det bara „r t.ex. 0.75 */
+								i=1; /* Flagga att det bara var en nolla, inget "+" */
+							if(fraction( atof(tmp2), frac )!=-1) { /* Returnerar -1 om den inte kunde hitta l„mplig fraktion */
+								if(!i)	/* Om bara en nolla eller ingenting*/
+					gcvt( fabs( atof(  s[n] )), 15, s[n] ); /* Absoluttalet */
+					strcpy( s[n], strrev(s[n] ) );          /* V„nder p† talet, bakofram */
+			/* Piltangenterna */
+				else if(key&NKF_CTRL){	/* Stega ett ord i taget */
+					if(isNotPartOfWord( *(s[n]+posi-1) )) /* Om +,- etc */
+				else if(key&NKF_CTRL){	/* Stega ett ord i taget */
+	if( n==synliga_rader-1 && ( extent[2] >= tree[RUTAN].ob_width - 2*teckenbredd )) /* Om p† sista raden l„ngst ut, scrolla */
+		scrollVector[n]=1;	/* Ettst„ller om h”r ihop med raden nedanf”r. */
+		s[n][ strlen(s[n]) ] = 0; /* F”r att s„tta sista nollan s† det blir en str„ng */
+		scrollVector[n]=1;	/* Ettst„ller om h”r ihop med raden nedanf”r. */
+		switch (tangent)                 /* H„r skall det d„remot scrollas */
+			case NK_F1:                   /* Funktionstangenterna */
+				if(key&NKF_CTRL && key&NKF_ALT) /* Ikonifiera */
+					key=nkc_n2gem(key);        /* Konverteras fr†n normaliserat */
+					kstate= (kstate >> 8);     /* till vanligt format.          */
+						redraw_window(4); /* R„kna ut clipping */
+						redraw_window(1);	/* Rensa sk„rmen f”rst */
+						redraw_window(5);	/* Visa "grafen" */
+						redraw_window(1);	/* Rensa sk„rmen f”rst */
+						redraw_window(5);	/* Visa "grafen" */
+				insert( s[n], " " );	/* space */
+			/* Bokst„verna */
+		redraw_window(3); /* Cursorn skall h„nga med */
+/* Decimals to Fractions -- Given a floating point number,
+   finds the 'best' rational approximation (by using continued fractions).  */
+		if(c>10000 ||c==100 || c==1000 || c==10000)	/* Avbryter, rutinen leverar annars sjuka grejjer, som 0.67 nom=67 den=100 */
+		if(-d>10000 ||c==100 || c==1000 || c==10000)	/* Avbryter, rutinen leverar annars sjuka grejjer, som 0.67 nom=67 den=100 */
+	if( ((decimal-ratio)<EPS) || ((ratio-decimal)<EPS) ){ /* Om den kunde hitta med godtagbar noggranhet */
+		frac->numerator=num;											/* Denna if-sats har ingen verkan. Varf”r? */
+	if (!tmp){       /* Om det inte finns tillr„ckligt med minne*/
+	if(direction==RIGHT){ /* h”ger, slut av ord */
+	else {	/* v„nster, b”rjan av ord */
+		*(tmp+posi)=0;	/* Beh”vs av n†n outgrundlig anledning */
+		if(tmp_posi<-1)	/* Det „r n†t meck h„r, m†ste k”ra +1 efter†t */
+	memset(s[n],0,TECKEN);	/* Radera alltid raden */
+		while(scrollVector[i-1] && i>0){	/* Tar reda p† var uttrycket b”rjar */
+	n=i;	/* S„tter mark”ren p† raden d„r uttrycket b”rjar */
+	memset(s[n],0,TECKEN);	/* Radera alltid raden uttrycket b”rjade p† */
+		memset(s[i+1],0,TECKEN);	/* Radera raden under om de h”r ihop */

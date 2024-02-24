@@ -1,0 +1,30 @@
+/* choose_font()
+ * Anropar en xFSL-fontv„ljare.
+ **************************/
+/*#include <mt_font.h>*/
+   b = (int) (( a + 32768L ) >> 16 ); /* runden !! */
+   return( b );                       /* Pixelwert zurckgeben */
+/*	static int chars[] = { ' ', '~',  /* ASCII 32..126 */
+						1,0       /* Ende der Liste */
+	};*//* Dessa tecken ska fonten inneh†lla. Tycker jag g”r r„tt enl. spec. */
+	};*//* Dessa tecken ska fonten inneh†lla. Tycker jag g”r r„tt enl. spec. */
+	if(text_colour<0) /* Den muckade en g†ng, better safe than sorry */
+	xpar.font->validtype=V_CHAR_IND; /* MAP_ASCII stod det innan V_CHAR_IND*/
+	xpar.font->validchars=NULL;/*chars;*/
+	xpar.font->fonttype=0|BITMAP_FONT|SPEEDO_FONT|TT_FONT|PFB_FONT; /* r inte s„ker om denna skall vara kvar.. */
+	xpar.par_size=(WORD)((LONG) sizeof(xFSL_PAR));  /* Testar lite casting, d† sizeof ger en */
+	xpar.pfi_size=(WORD)((LONG) sizeof(PFONTINFO)); /* long och .size skall vara int.        */
+				return font; /* Om man valt AVBRYT */
+				return font; /* H„r meddelas vilken font som valts */
+			else if(xret<0) /*{printf("Error %d\n",xret);return 0;} */return font;
+		else /*{printf("Error %d\n",xhandle);return 0;}*/return font;
+		ufsl->helpfunc= NULL;   /* Hilfefunktion oder NULL */
+		ufsl->msgfunc = NULL; /* Redrawfunktion oder NULL,
+		                                  Dialtyp beachten */
+		done=ufsl->font_selinput(handle,0,0,ExampleString,fonttmp,sizetmp);	/* St”djs av alla fontv„ljare */
+	/*	done=ufsl->fontsel_exinput(handle,0,ExampleString,fonttmp,sizetmp); */ /* St”djs kanske inte av alla fontv„ljare */
+	} /*Det „r fnts_do som muckar.. */ 
+		if (!env)       /* Om det inte finns tillr„ckligt med minne*/
+		if( env==NULL ) /* om $FONTSELECT inte „r satt */
+				shel_write(1,1,100, env, NULL); /* Egentligen skall man kunna ange flera fontv„ljare separerade med ; dessa skall d† startas hela h”gen*/
+	return font; /* Om ingen kunde ropas upp, returnera samma font som det var innan */

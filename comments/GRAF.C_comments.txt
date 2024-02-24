@@ -1,0 +1,11 @@
+    if (strlen(strptr) == 0) { /* If the string is empty, copy from the s-array */
+        tmp = (char *)Malloc(TECKEN * synliga_rader); /* Using Malloc to build a multi-line expression */
+            while (scrollVector[i - 1] && i > 0) { /* Determine where the expression begins */
+        while (scrollVector[i]) { /* Copy all lines related to the expression into the buffer */
+    if (xmin == 4038) { /* It is this odd number at startup for initialization */
+        strcpy(strptr6, "1"); /* This is the grid distance in x */
+        strcpy(strptr7, "1"); /* This is the grid distance in y */
+        strcpy(strptr8, "1"); /* This is the line thickness */
+        strcpy(strptr6, ltoa(grid_distx, strptr6, 10)); /* This is the grid distance in x */
+        strcpy(strptr7, ltoa(grid_disty, strptr7, 10)); /* This is the grid distance in y */
+        strcpy(strptr8, itoa(linethgraph, strptr8, 10)); /* This is the line thickness */

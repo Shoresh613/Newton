@@ -181,6 +181,9 @@ extern char* preprocess(char* string);
 void (*print)(int vwk, int x, int y, char* text); /* Symbol for either v_ftext or v_gtext */
 void (*vqt_ex)(int handle, char* string, int* extent); /* Symbol for either vqt_f_extent or vqt_extent */
 
+#ifndef NEWTVERSION
+#define NEWTVERSION "undefined"
+
 /* The program starts here. */
 
 int main(void)

@@ -1,0 +1,13 @@
+/* av_sendmesg(key,kstate,message)
+ * Skickar vidare tangenttryckningar som Newton inte f”rst†r,
+ * skickar „ven de AV meddelanden som Newton f”rst†r.
+ ******************************************************/
+		return; /* Om det inte finns n†gon, s† skit i det. */
+	while(strlen(avserver)!=8) /* G”r den till 8 tecken, f”r appl_find. */
+		return; /* Om den inte „r ig†ng, s† skit i det. */
+			scrp_read( scrp_ptr ); /* Var ligger klippbordet? */
+			AVSTR2MSG(msg,3,scrp_ptr); /* Uppdaterar endast vid kopiering */
+	if( appl_write( av_server, 16, msg ) == 0 ){ /* Om det inte funkade */
+		evnt_timer(100,0);	/* V„nta 100 ms med Mfree s† de hinner l„sa */
+		return;                                  /* G”r ingenting.      */
+		evnt_timer(100,0);	/* V„nta 100 ms med Mfree s† de hinner l„sa */

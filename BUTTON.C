@@ -1,8 +1,8 @@
 
 
 /* handle_button(mx,my,state, kstate)
- * Tolkar mustryck och vidarebefordrar bubbelhj„lp.
- **********************************************/
+ * Interprets button presses and forwards bubble help.
+ ****************************************************/
 
 
 #include <string.h>
@@ -23,7 +23,7 @@ extern OBJECT *tree;
 
 extern int quit, syntax_error;
 extern int n,x,y,w,h,max_x, max_y;
-extern double xmin, xmax, ymin, ymax; /* F”r grafen d†r† */
+extern double xmin, xmax, ymin, ymax; /* For the graph */
 extern int teckenbredd, teckenhojd, synliga_rader, resized, fontpi;
 extern int handle, state, hex;
 extern int clip[4];
@@ -46,30 +46,30 @@ extern void position_objects(void);
 extern void show_info(void);
 extern void send_dragndrop(int mx, int my, int kstate);
 extern void andragradare(void);
-extern void (*vqt_ex)(int handle, char* string, int* extent); /* symbol f”r antingen vqt_f_extent eller vqt_extent */
+extern void (*vqt_ex)(int handle, char* string, int* extent); /* symbol for either vqt_f_extent or vqt_extent */
 extern void insert(char* string, char* toBinserted);
 extern int economy_calc(void);
 extern int graph_dialog(void);
 extern void  mouse_on( void );
 extern void  mouse_off( void );
-extern void eraseExpression(void);	/* Raderar uttrycket mark”ren befinner sig p†. */
+extern void eraseExpression(void);	/* Deletes the expression where the cursor is located. */
 
-extern int extraRedrawWorkaround;	/* En ritning i on”dan under magic, men inte under TOS verkar det som. */
+extern int extraRedrawWorkaround;	/* A drawing unnecessarily under magic, but not under TOS it seems. */
 
 void handle_button( int mx, int my, int state, int kstate )
 {
 	int exitobj=0;
 	int extent[8];
 	int tmp_width=0, tmp_height=0, tmp_mx=0, tmp_my=0;
-	int test_width=0, test_height=0;     /* Kolla om f”nstret blev st”rre eller mindre */
+	int test_width=0, test_height=0;     /* Check if the window got bigger or smaller */
 	int rubbox_width=0, rubbox_height=0;
 	int dummy=0, b=0, i=0;
 	char* tmp=NULL;
 	int j=0, k=0;
 	int scrollStart=0,scrollEnd=0, maxw=0;
-	double xmin_new=0, xmax_new=0, ymin_new=0, ymax_new=0, val_tmp=0; /* F”r grafen d†r† */
+	double xmin_new=0, xmax_new=0, ymin_new=0, ymax_new=0, val_tmp=0; /* For the graph */
 	
-	for ( j=0 ; j<synliga_rader ; j++){	/* Fixa undobuffern */
+	for ( j=0 ; j<synliga_rader ; j++){	/* Fix undo buffer */
 		strcpy(undo[j],s[j]);
 		scrollVectorBak[i]=scrollVector[i];
 	}
@@ -79,19 +79,19 @@ void handle_button( int mx, int my, int state, int kstate )
 	vqt_ex ( handle, s[n], extent );
 	exitobj=objc_find( tree, MAIN, MAX_DEPTH, mx, my );
 
-	if(state==2 && (exitobj!=-1) && (exitobj!=XCOORDINATE) && (exitobj!=YCOORDINATE)) /* Hj„lptexten, om h”ger musknapp */
+	if(state==2 && (exitobj!=-1) && (exitobj!=XCOORDINATE) && (exitobj!=YCOORDINATE)) /* Help text, when right clicking */
 	{
-		if(exitobj==RUTAN && graph_mode) /* F”r j„vla st”rigt med den */
+		if(exitobj==RUTAN && graph_mode) /* These are very disturbing */
 			return;
 		if( bubble_help(mx,my,exitobj) == 0 )
 			bubble_open=1;
 		return;
 	}
 
-	if(cursor)  /* Sl„cker cursorn om den „r p† */
+	if(cursor)  /* Turns cursor off if on */
 		redraw_window(3);
 
-	if(exitobj==BACKGROUND && graph_mode)	/* Sl†r om till normall„ge */
+	if(exitobj==BACKGROUND && graph_mode)	/* Switches to normal mode */
 	{
 		graph_mode=0;
 		strcpy(xcoordinate,"x: ");
@@ -122,7 +122,7 @@ void handle_button( int mx, int my, int state, int kstate )
 		wind_set(whandle,WF_CURRXYWH,x-2,y-2,w+4,h+4);
 		wind_update(END_UPDATE);
 
-		if( (test_width > w-6) || (test_height > h-6) ){ /* Om f”nstret f”rminskats */
+		if( (test_width > w-6) || (test_height > h-6) ){ /* If the window was made smaller */
 			redraw_window(1);
 			if(graph_mode)
 				redraw_window(5);
@@ -133,7 +133,7 @@ void handle_button( int mx, int my, int state, int kstate )
 		graf_mouse( ARROW, NULL );
 		mouse_on();
 
-		synliga_rader = (tree[RUTAN].ob_height-6)/teckenhojd; /* -2 f”r kanten in†t med 1 pixel */
+		synliga_rader = (tree[RUTAN].ob_height-6)/teckenhojd; /* -2 for border inward by 1 pixel */
 		resized=1;
 		
 		return;
@@ -146,8 +146,8 @@ void handle_button( int mx, int my, int state, int kstate )
 
 	if(exitobj==RUTAN && !iconified)
 	{		
-		if(graph_mode){ /* Zooma om graf */
-			graf_mkstate(&mx,&my,&dummy,&dummy); /* Ta reda p† var musen „r just nu. */
+		if(graph_mode){ /* Zoom if graph */
+			graf_mkstate(&mx,&my,&dummy,&dummy); /* Find out where the mouse is now. */
 			mouse_off();
 			graf_mouse( POINT_HAND, NULL );
 			mouse_on();
@@ -157,67 +157,67 @@ void handle_button( int mx, int my, int state, int kstate )
 			mouse_off();
 			graf_mouse( ARROW, NULL );
 			mouse_on();
-		/*	if(mx+rubbox_width>XMIN+WIDTH) /* Detta funkar ju inte s† bra, men tanken „r att om det „r draget utanf”r rutan s† ska den fixa till det s† att det inte „r det, eftersom den d† ballar ur */
+		/*	if(mx+rubbox_width>XMIN+WIDTH) /* This is not working very well, but the idea is that if it is dragged outside of the display it should fix it so that it isn't, as it then crashes */
 				rubbox_width=XMIN+WIDTH-mx;
 			if(my+rubbox_height>YMIN+HEIGHT)
 				rubbox_height=YMIN+WIDTH-my; */
 
-			if(rubbox_width>10 && rubbox_height>10){ /* Om omr†det „r tillr„ckligt stort */
-				for ( k=0, val_tmp=xmin, j=abs(WIDTH); k<j; k++, val_tmp+= ((xmax-xmin)/(double)abs(WIDTH)) ) /* Hitta xmin */
+			if(rubbox_width>10 && rubbox_height>10){ /* If the area is big enough */
+				for ( k=0, val_tmp=xmin, j=abs(WIDTH); k<j; k++, val_tmp+= ((xmax-xmin)/(double)abs(WIDTH)) ) /* Find xmin */
 				{
 					if(k==mx-XMIN){	
 						xmin_new=val_tmp; 			
 						break;
 					}
 				}
-				for ( k=0, val_tmp=ymin, j=abs(HEIGHT); k<j; k++, val_tmp+= ((ymax-ymin)/(double)abs(HEIGHT)) ) /* Hitta ymax */
+				for ( k=0, val_tmp=ymin, j=abs(HEIGHT); k<j; k++, val_tmp+= ((ymax-ymin)/(double)abs(HEIGHT)) ) /* Find ymax */
 				{
 					if(k==my-YMAX){	
 						ymin_new=val_tmp; 			
 						break;
 					}
 				}
-				for ( k=0, val_tmp=xmin, j=abs(WIDTH); k<j; k++, val_tmp+= ((xmax-xmin)/(double)abs(WIDTH)) ) /* Hitta xmax */
+				for ( k=0, val_tmp=xmin, j=abs(WIDTH); k<j; k++, val_tmp+= ((xmax-xmin)/(double)abs(WIDTH)) ) /* Find xmax */
 				{
 					if(k==mx-XMIN+rubbox_width){	
 						xmax_new=val_tmp; 			
 						break;
 					}
 				}
-				for ( k=0, val_tmp=ymin, j=abs(HEIGHT); k<j; k++, val_tmp+= ((ymax-ymin)/(double)abs(HEIGHT)) ) /* Hitta ymin */
+				for ( k=0, val_tmp=ymin, j=abs(HEIGHT); k<j; k++, val_tmp+= ((ymax-ymin)/(double)abs(HEIGHT)) ) /* Find ymin */
 				{
 					if(k==my-YMAX+rubbox_height){	
 						ymax_new=val_tmp; 			
 						break;
 					}
 				}
-				xmin=round(xmin_new); xmax=round(xmax_new); ymin=round(-ymax_new); ymax=round(-ymin_new); /* Konstiga tilldelningar jao, men de funkar hyfsat? Rundar bara f”r att jag inte kommit p† n†t smart s„tt att f† grid att passa med nollan. */
-				redraw_window(1); /* Rensa sk„rmen innan ritar nya kurvan */
+				xmin=round(xmin_new); xmax=round(xmax_new); ymin=round(-ymax_new); ymax=round(-ymin_new); /* Strange allocations yes, but they work decently? Rounding just until I didn't come up with a clever way to get the grid to match the zero. */
+				redraw_window(1); /* Clear the screen before drawing the new curve */
 				redraw_window(5);
 			}
-			else{	/* Om inte tillr„ckligt stor rubbox, sl† om till normall„ge */
+			else{	/* If not big enough rubbox, switch to normal mode */
 				graph_mode=0;
 				strcpy(xcoordinate,"x: ");
 				strcpy(ycoordinate,"y: ");
-				tree[COORDINATEBOX].ob_flags |= HIDETREE;	/* G”mmer koordinatboxen. */
+				tree[COORDINATEBOX].ob_flags |= HIDETREE;	/* Hides the coordinate box. */
 				redraw_window(1);
 			}
 		}
-		else{ /* Om i normall„ge */
-			for ( n=-1 ; n<synliga_rader && !i ; n++ ) /* Vilken rad „r man p†? */
-				if( my < tree[MAIN].ob_y + (n*teckenhojd)+tree[RUTAN].ob_y+teckenhojd +6) /* Tv†an kommer fr†n den f”rbaskade outliningen */
+		else{ /* If in normal mode */
+			for ( n=-1 ; n<synliga_rader && !i ; n++ ) /* Which row are you on? */
+				if( my < tree[MAIN].ob_y + (n*teckenhojd)+tree[RUTAN].ob_y+teckenhojd +6) /* The 2 comes from cursed outlining */
 					i=1;
-			n--; /* n b”rjar p† 0, inte 1 som synliga_rader */
+			n--; /* n starts at 0, not 1 as visible_rows */
 	
 			vqt_ex ( handle, s[n], extent );
-			if( mx > tree[MAIN].ob_x + tree[RUTAN].ob_x + extent[2])	/* H„r ska den r„kna ut p† vilken position p† raden man klickat */
+			if( mx > tree[MAIN].ob_x + tree[RUTAN].ob_x + extent[2])	/* Here it should calculate at which position on the row you clicked */
 				posi=(int)strlen(s[n]);
 			else
 			{
 				tmp = (BYTE *) Malloc (TECKEN);
 			
 				memset(tmp, 0, TECKEN);
-				if (!tmp)       /* Om det inte finns tillr„ckligt med minne*/
+				if (!tmp)       /* If there is not enough memory*/
 				    return;
 		
 				strcpy(tmp,s[n]);
@@ -235,28 +235,28 @@ void handle_button( int mx, int my, int state, int kstate )
 				Mfree(tmp);
 			}
 	
-			evnt_timer(70,0); /* S† den inte b”rjar dragndrop med en g†ng */
+			evnt_timer(70,0); /* So it doesn't start dragndrop instantly  */
 			graf_mkstate(&dummy,&dummy,&b,&dummy);
 
 			vqt_ex ( handle, s[n], extent );
 			maxw=extent[2]-extent[0];
 
-			scrollStart=n; /* Kollar antalet rader i uttrycket */
+			scrollStart=n; /* Checks the number of rows in the expression */
 			if(scrollStart>0) {
-				while(scrollVector[scrollStart-1] && scrollStart>0){	/* Tar reda p† var uttrycket b”rjar */
+				while(scrollVector[scrollStart-1] && scrollStart>0){	/* Finds where the expression starts */
 					scrollStart--;
 				}
 			}
 			i=scrollStart;
 			while(scrollVector[i]){
-				vqt_ex ( handle, s[i], extent );	/* Kollar „ven vilken rad som „r l„ngst. */
+				vqt_ex ( handle, s[i], extent );	/* Also checks which line is the longest. */
 				if(extent[2]-extent[0]>maxw)
 					maxw=extent[2]-extent[0];
 				i++;
 			}
 			scrollEnd=i;
 
-			if(s[n][0]!=0 && b&0x001 && !iconified && (mx < tree[MAIN].ob_x + tree[RUTAN].ob_x + extent[2]) ) /* Om raden inte tom, knappen fortfarande intryckt, musen inte „r till h”ger om uttrycket och inte ikonifierad: Drag'n Drop */
+			if(s[n][0]!=0 && b&0x001 && !iconified && (mx < tree[MAIN].ob_x + tree[RUTAN].ob_x + extent[2]) ) /* If row not empty, button still pressed, the mouse is not to the right of the expression and not iconified: Drag'n Drop */
 			{
 				mouse_off();
 				graf_mouse( FLAT_HAND, NULL );
@@ -275,21 +275,21 @@ void handle_button( int mx, int my, int state, int kstate )
 				graf_mouse( ARROW, NULL );
 				mouse_on();
 
-				if( (abs(mx-tmp_mx)>teckenhojd/2) || (abs(my-tmp_my)>teckenhojd/2) ) {	/* Detta test funkar inte str†lande. */
-					kstate= (kstate >> 8);     /* Konverteras fr†n normaliserat till vanligt format.          */
-					graf_mkstate(&mx,&my,&dummy,&dummy); /* Detta k„nns inte s† skoj, men annars r„knas ramens v„nstra punkt som st„llet d„r det sl„pptes och inte musen */
+				if( (abs(mx-tmp_mx)>teckenhojd/2) || (abs(my-tmp_my)>teckenhojd/2) ) {	/* This test doesn't work brilliantly. */
+					kstate= (kstate >> 8);     /* Convert from normalized to regular format. */
+					graf_mkstate(&mx,&my,&dummy,&dummy); /* This doesn't feel like much fun, but otherwise the left point of the frame counts as the place where it was released and not the mouse */
 					send_dragndrop(mx, my, kstate);
 					posi=(int)strlen(s[n]);
 				}
 			}
 			else
 			{
-				do{ /* G”r ingenting f”rr„n v„nster musknapp „r sl„ppt */
+				do{ /* Do nothing until the left mouse button is released */
 					graf_mkstate(&dummy,&dummy,&b,&dummy);
 				}while(b&1);
 			}
 		if(!cursor)
-			redraw_window(3); /* Cursorn skall h„nga med */
+			redraw_window(3); /* The cursor must follow */
 		}
 		return;
 	}
@@ -297,7 +297,7 @@ void handle_button( int mx, int my, int state, int kstate )
 	if( tree[exitobj].ob_flags & SELECTABLE )
 	{
 		redraw_window(4);
-		if(exitobj==ZOOMIN || exitobj==ZOOMOUT){	/* G”m ikonen f”r att visa den valda som ligger bakom */
+		if(exitobj==ZOOMIN || exitobj==ZOOMOUT){	/* Hide the icon to show the selected one behind it */
 			if((exitobj==ZOOMIN && (fabs(xmin)>1&&fabs(xmax)>1&&fabs(ymin)>1&&fabs(ymax)>1)) || 
 				(exitobj==ZOOMOUT && (fabs(xmin)<HUGE_VAL/2 &&fabs(xmax)<HUGE_VAL/2&&fabs(ymin)<HUGE_VAL/2&&fabs(ymax)<HUGE_VAL/2)))
 			{
@@ -312,7 +312,7 @@ void handle_button( int mx, int my, int state, int kstate )
 			graph_mode=0;
 			strcpy(xcoordinate,"x: ");
 			strcpy(ycoordinate,"y: ");
-			tree[COORDINATEBOX].ob_flags |= HIDETREE;	/* G”mmer koordinatboxen. */
+			tree[COORDINATEBOX].ob_flags |= HIDETREE;	/* Hides the coordinate box. */
 			redraw_window(1);
 		}
 		
@@ -321,10 +321,10 @@ void handle_button( int mx, int my, int state, int kstate )
 			{
 				tmp = (BYTE *) Malloc (TECKEN);
 				memset(tmp, 0, TECKEN);
-				if (!tmp)       /* Om det inte finns tillr„ckligt med minne*/
+				if (!tmp)       /* If there is not enough memory*/
 				    return;
 
-				if(posi==(int)strlen(s[n]))	/* Om l„ngst ut p† raden */
+				if(posi==(int)strlen(s[n]))	/* If at the right edge of the row */
 					*(s[n]+strlen(s[n])-1)=0;
 				else {
 					strcpy(tmp,s[n]);
@@ -336,7 +336,7 @@ void handle_button( int mx, int my, int state, int kstate )
 				if(posi>0)
 					posi--;
 				if(n>0){
-					if( strlen(s[n])==0 && scrollVector[n-1] ) {	/* Om raderna h”rde ihop, bryt kopplingen. */
+					if( strlen(s[n])==0 && scrollVector[n-1] ) {	/* If the rows were connected, break the connection. */
 						scrollVector[n-1]=0;
 						n--;
 						posi=(int)strlen(s[n]);
@@ -353,27 +353,27 @@ void handle_button( int mx, int my, int state, int kstate )
 		if(exitobj==DEL){
 			tmp = (BYTE *) Malloc (TECKEN);
 			memset(tmp, 0, TECKEN);
-			if (!tmp)       /* Om det inte finns tillr„ckligt med minne*/
+			if (!tmp)       /* If there is not enough memory*/
 			    return;
 
-			if(strlen(s[n])==0){	/* Om raden tom */
+			if(strlen(s[n])==0){	/* If the line is empty */
 				strcpy(s[n],s[n+1]);
 				memset(s[n+1],0,TECKEN);
 			}
-			else {					/* Om inte tom */
+			else {					/* If not empty */
 				strcpy(tmp,s[n]);
 				*(tmp+posi)=0;
 				strcat(tmp,s[n]+posi+1);
 				strcpy(s[n],tmp);
 			}
 
-			if( (posi==(int)strlen(s[n])) && scrollVector[n] ) { /* Om l„ngst ut p† raden och scrollad */
-				strcat(s[n],s[n+1]);			/* Flytta upp raden under */
+			if( (posi==(int)strlen(s[n])) && scrollVector[n] ) { /* If at the end of the line and scrolled */
+				strcat(s[n],s[n+1]);			/* Move up the line below */
 				memset(s[n+1],0,TECKEN);
 				scrollVector[n]=0;
 				
 				i=n+1;
-				while(scrollVector[i-1]){	/* Flytta upp resterande rader, om tillh”r samma uttryck */
+				while(scrollVector[i-1]){	/* Move up remaining lines, if they belong to the same expression */
 					strcpy(s[i],s[i+1]);
 					memset(s[i+1],0,TECKEN);								
 					scrollVector[i]=0;
@@ -390,7 +390,7 @@ void handle_button( int mx, int my, int state, int kstate )
 		
 		if(exitobj==RADERA)
 		{	
-			if(s[n][0]==0)  /* Om raden „r tom, t”m hela f”nstret */
+			if(s[n][0]==0)  /* If the line is empty, clear the entire window */
 			{
 				memset(s, 0, RADER*TECKEN);
 				memset(scrollVector, 0, RADER);
@@ -408,11 +408,11 @@ void handle_button( int mx, int my, int state, int kstate )
 		if(exitobj==LIKAMED)
 		{
 			if(n>0) {
-				while(scrollVector[n-1] && n>0){	/* Tar reda p† var uttrycket b”rjar */
+				while(scrollVector[n-1] && n>0){	/* Finds where the expression starts */
 					n--;
 				}
 			}
-			while(scrollVector[n]){	/* Tar reda p† var uttrycket slutar */
+			while(scrollVector[n]){	/* Finds where the expression ends */
 				n++;
 			}
 			strcpy(s[n],pre_calculate() );
@@ -429,7 +429,7 @@ void handle_button( int mx, int my, int state, int kstate )
 		
 		if(exitobj==VAEND)
 		{
-			strcpy( s[n], strrev(s[n] ) );          /* V„nder p† talet, bakofram */
+			strcpy( s[n], strrev(s[n] ) );          /* Reverse the number, backwards */
 			redraw_window(4);
 			objc_change(tree, exitobj, 0, clip[0], clip[1], clip[2], clip[3], NORMAL, 1);
 			redraw_window( 2 );
@@ -437,8 +437,8 @@ void handle_button( int mx, int my, int state, int kstate )
 		}
 		if(exitobj==ABSO)
 		{
-			gcvt( fabs( atof(  s[n] )), 15, s[n] ); 	/* Absoluttalet */
-			redraw_window(4);									/* R„knar ut clippingen */
+			gcvt( fabs( atof(  s[n] )), 15, s[n] ); 	/* Absolute number */
+			redraw_window(4);									/* Calculates the clipping */
 			objc_change(tree, exitobj, 0, clip[0], clip[1], clip[2], clip[3], NORMAL, 1);
 			posi=(int)strlen(s[n]);
 			redraw_window( 2 );redraw_window( 3 );
@@ -446,7 +446,7 @@ void handle_button( int mx, int my, int state, int kstate )
 		}
 		if(exitobj==AVRUNDA && !hex)
 		{
-			gcvt( round(atof( s[n] )), 15, s[n] ); /* Rundar av till n„rmsta heltal */
+			gcvt( round(atof( s[n] )), 15, s[n] ); /* Rounds to the nearest integer */
 			redraw_window(4);
 			objc_change(tree, exitobj, 0, clip[0], clip[1], clip[2], clip[3], NORMAL, 1);
 			posi=(int)strlen(s[n]);
@@ -468,7 +468,7 @@ void handle_button( int mx, int my, int state, int kstate )
 			i=0;
 			i=economy_calc();
 
-			if( i!=-1 ) /* D† har man inte tryckt CANCEL */
+			if( i!=-1 ) /* Then CANCEL has not been pressed */
 			{
 				posi=(int)strlen(s[n]);
 				redraw_window(2);
@@ -483,9 +483,9 @@ void handle_button( int mx, int my, int state, int kstate )
 		{
 			if(graph_dialog()!=-1){
 				graph_mode=1;
-				tree[COORDINATEBOX].ob_flags &= ~HIDETREE;	/* G”mmer koordinatboxen. */
-				redraw_window(1);	/* Rensa sk„rmen f”rst */
-				redraw_window(5);	/* Visa "grafen" */
+				tree[COORDINATEBOX].ob_flags &= ~HIDETREE;	/* Hides the coordinate box. */
+				redraw_window(1);	/* Clear the screen first */
+				redraw_window(5);	/* Display the "graph" */
 			} 
 			objc_change(tree, exitobj, 0, clip[0], clip[1], clip[2], clip[3], NORMAL, 1);
 			return;
@@ -493,8 +493,8 @@ void handle_button( int mx, int my, int state, int kstate )
 		if(exitobj==ZOOMIN && (fabs(xmin)>1&&fabs(xmax)>1&&fabs(ymin)>1&&fabs(ymax)>1))
 		{
 			xmin=round(xmin/2); xmax=round(xmax/2); ymin=round(ymin/2); ymax=round(ymax/2);
-			redraw_window(1);	/* Rensa sk„rmen f”rst */
-			redraw_window(5);	/* Visa "grafen" */
+			redraw_window(1);	/* Clear the screen first */
+			redraw_window(5);	/* Display the "graph" */
 			 
 			tree[exitobj].ob_flags &= ~HIDETREE;
 			objc_draw(tree, COORDINATEBOX, MAX_DEPTH, clip[0], clip[1], clip[2], clip[3]);
@@ -503,8 +503,8 @@ void handle_button( int mx, int my, int state, int kstate )
 		if(exitobj==ZOOMOUT && (fabs(xmin)<HUGE_VAL/2 &&fabs(xmax)<HUGE_VAL/2&&fabs(ymin)<HUGE_VAL/2&&fabs(ymax)<HUGE_VAL/2))
 		{
 			xmin=round(xmin*2); xmax=round(xmax*2); ymin=round(ymin*2); ymax=round(ymax*2);
-			redraw_window(1);	/* Rensa sk„rmen f”rst */
-			redraw_window(5);	/* Visa "grafen" */
+			redraw_window(1);	/* Clear the screen first */
+			redraw_window(5);	/* Display the "graph" */
 			 
 			tree[exitobj].ob_flags &= ~HIDETREE;
 			objc_draw(tree, COORDINATEBOX, MAX_DEPTH, clip[0], clip[1], clip[2], clip[3]);
@@ -519,15 +519,15 @@ void handle_button( int mx, int my, int state, int kstate )
 				n++;
 			}
 			memset(s[synliga_rader-1],0,TECKEN);
-			scrollVector[n]=1;	/* Ettst„ller om h”r ihop med raden nedanf”r. */
+			scrollVector[n]=1;	/* Sets to one if connected to row below */
 			n=synliga_rader-1;
 			posi=0;
 			redraw_window(2);
 		}
 		else if( ( extent[2] >= tree[RUTAN].ob_width - 2*teckenbredd ) )
 		{
-			s[n][ strlen(s[n]) ]=0;   /* F”r att s„tte sista nollan s† det blir en str„ng */
-			scrollVector[n]=1;	/* Ettst„ller om h”r ihop med raden nedanf”r. */
+			s[n][ strlen(s[n]) ]=0;   /* To put the last zero so it becomes a string */
+			scrollVector[n]=1;	/* Sets to one if connected to row below */
 			n++;
 			memset(s[n],0,TECKEN);
 			posi=0;
@@ -536,7 +536,7 @@ void handle_button( int mx, int my, int state, int kstate )
 
 		switch (exitobj)
 		{
-			case ETT:					/* H„r kommer det numeriska tangentbordet in */
+			case ETT:					/* This is where the numeric keypad comes in */
 				insert( s[n], "1" );
 				break;
 			case TVA:
@@ -574,7 +574,7 @@ void handle_button( int mx, int my, int state, int kstate )
 				break;
 			case GANGER:
 				if(fontpi)
-					insert( s[n], "ú" );
+					insert( s[n], "ï¿½" );
 				else
 					insert( s[n], "*" );
 				break;
@@ -608,14 +608,14 @@ void handle_button( int mx, int my, int state, int kstate )
 
 			case KVADRAT:
 					if(fontpi)
-						insert( s[n], "ý" );
+						insert( s[n], "ï¿½" );
 					else
 						insert( s[n], "^2" );
 				break;
 
 			case ROT:
 					if(fontpi)
-						insert( s[n], "û()" );
+						insert( s[n], "ï¿½()" );
 					else
 						insert( s[n], "sqrt()" );
 				posi--;
@@ -649,7 +649,7 @@ void handle_button( int mx, int my, int state, int kstate )
 				break;
 			case PIKNAPPEN:
 				if(fontpi)
-					insert( s[n], "ã" );
+					insert( s[n], "ï¿½" );
 				else
 					insert( s[n], "Pi" );
 				break;
@@ -697,6 +697,6 @@ void handle_button( int mx, int my, int state, int kstate )
 		objc_change(tree, exitobj, 0, clip[0], clip[1], clip[2], clip[3], NORMAL, 1);
 	}
 	if(!cursor)
-		redraw_window(3); /* Cursorn skall h„nga med */
-	evnt_timer(50,0);		/* S† den inte brakar iv„g om man h†ller inne knappen */
+		redraw_window(3); /* The cursor must follow */
+	evnt_timer(50,0);		/* So it doesn't crash if you hold down the button */
 }

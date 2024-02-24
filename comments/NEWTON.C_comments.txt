@@ -1,0 +1,173 @@
+/* Newton. Graphical calculator, (c) 1997-2005 Mikael Folkesson.
+ * Since 2023 GPL 3. All functions to do with redraw should
+ * remain in this file, otherwise the redraw gets a lot slower
+ ***********************************************/
+/*#include <mt_font.h> */
+/*extern int _app; */						 /* Started as an app or an acc?*/
+/*extern GEMPARBLK _GemParBlk;*/	/* These are available even if not imported */
+int whandle = 0;                      /* Handle for the opened window. */
+char* title = NULL;                   /* Window title bar. */
+int gl_wchar = 0,                     /* Character size and width. */
+    gl_hchar = 0,                     /* (important when working in different resolutions or fonts) */
+    gl_wbox = 0,                      /* Width of a box. */
+    gl_hbox = 0;                      /* Height of a box. */
+int posi = 0,                          /* String position. */
+int fulled = 0, resized = 1;             /* Resized. */
+int cursor = 0,                         /* Whether it's currently visible. */
+    cursor_blink = 1,                  /* Whether it should blink or be steady. */
+    rad = 1,                            /* Always start counting in radians. */
+    boxes = 1;                          /* Whether grow boxes should be drawn during D&D. */
+int first = 1;                          /* Whether to show the intro. */
+char s[RADER][TECKEN],                  /* The string to be calculated. */
+    undo[RADER][TECKEN];                /* Undo buffer. */
+int scrollVector[RADER];                /* Indicates which rows are linked. */
+int scrollVectorBak[RADER];             /* For undo buffer. */
+int n = 0,                              /* Current row. */
+int teckenbredd = 0, teckenhojd = 0;   /* Character height/width of the font in the box. */
+int antal_konstanter = 0;               /* Constants loaded from newton.cnf. */
+int phys_handle = 0,                    /* GEM and VDI handles. */
+int max_x = 0, max_y = 0, max_w = 0, max_h = 0; /* Maximum workspace size. */
+int appl_id = 0,                        /* Program identification number. */
+    menu_id = 0;                        /* ID number in the Desk menu. */
+int box_done = 0;                       /* If WM_REDRAW, another window is drawn. */
+UWORD nvdi = 0;                         /* If VDI has v_ftext (nvdi >= 3). */
+int gs_partnerid = -1, gs_id = -1;      /* GEMScript partner ID & ID msg[7] */
+GS_INFO gs_info;                        /* GEMScript info structure. */
+FNT_DIALOG* fnt_dialog = NULL;          /* For MagiC font selector, should be invoked before. */
+double xmin = 4038, xmax = 0, ymin = 0, ymax = 0; /* For the graph. */
+int grafarray[2560];                   /* Can handle drawing with width 1280. */
+char* errortmpstring = NULL;            /* String for calculating the position of the help bubble. */
+char* uttryck = NULL;                   /* For cuttryck.c */
+char* insert_tmp = NULL, *insert_tmp2 = NULL; /* Memory must be allocated here, otherwise, it allocates every time insert() is called. */
+extern char* file_startup, *path_startup;   /* These are for samples. */
+extern char* strptr_startup, *tmp_startup;   /* In samples.c */
+int extraRedrawWorkaround = 0;          /* Unnecessary drawing under magic but not under TOS, it seems. */
+OBJECT* tree = NULL;                    /* Objects in the resource file. */
+/* Function declarations. Here, functions declared in other source code files are also declared. */
+int Get_cookie(long target, long* p_value); /* Not specific */
+int get_NVDI_cookie(long* p_value); /* For NVDI */
+int get_cookie(long cookie, xFSL* cval); /* For xFSL */
+TEDINFO* whichcolour(TEDINFO* obspec); /* Sets the bits on the background */
+void send_dragndrop(int mx, int my, int kstate); /* Starts D&D with pipes */
+void (*print)(int vwk, int x, int y, char* text); /* Symbol for either v_ftext or v_gtext */
+void (*vqt_ex)(int handle, char* string, int* extent); /* Symbol for either vqt_f_extent or vqt_extent */
+/* The program starts here. */
+    static char RSCnamn_stor[] = "NEWTON.RSC"; /* If started from a case-sensitive partition */
+        MagX = Get_cookie(MagX_COOKIE, &val); /* Check cookies once for all */
+            Pdomain(1); /* Can use long filenames, but it's not just that. This might be dangerous? No, check longfnam.txt. */
+        rsrc_gaddr(0, SMALLICON, &titlebarIcon); /* Request address of the icon for xgem-titlebar */
+        tree[COORDINATEBOX].ob_flags |= HIDETREE; /* Hide the coordinate box. */
+        konstant_storhet[0] = (long)Malloc(ANTAL_ENHETER); /* Should ideally be (double) */
+        errortmpstring = (char*)Malloc(20 * TECKEN); /* Should be the number of lines in the current expression */
+        uttryck = (char*)Malloc(20 * TECKEN); /* An expression can have 20 lines */
+        if (!uttryck) /* Out of memory */
+        memset(s, 0, RADER * TECKEN); /* Reset it so you can read it as it was */
+        memset(undo, 0, RADER * TECKEN); /* Reset it so you can read it as it was */
+        memset(&(gs_info.len), 0, sizeof(gs_info)); /* This might cause some issues */
+        if (is_xtitle()) /* Recent Windframe Xgem? */
+            sprintf(title, "\xFF\xFF\xFF\xFF%08lX%s", titlebarIcon, "Newton"); /* Insert the title with an icon */
+            strcpy(title, "Newton"); /* Text only */
+        /* nvdi = get_NVDI_cookie(); */ /* This cookie check crashed other computers, check mille_testar.txt */
+            print = v_ftext; /* Vector exists after version 3 */
+        xacc_init(-1, name, (WORD)(ULONG)sizeof(name), 0x0001); /* The last 1 comes from the fact that you can send text or keycode to it */
+        gs_info.msgs = 0 | GSM_COMMAND; /* GEMScript stuff */
+        { /* Initialize so that the entire structure is set to -1 */
+                monochrome = 1; /* Check if running in mono or not */
+            tree[MAIN].ob_y = tree[MAIN].ob_y + 12; /* The window ends up in the menu otherwise */
+            load_settings(); /* Read screen position and settings */
+            av_sendmesg(0, 0, AV_PROTOKOLL); /* Notify the AV Server that it exists */
+            ExampleString = (char*)Mxalloc(16, 0 | MGLOBAL); /* Um... */
+            { /* If no font selector but Magic */
+	wind_update(BEG_UPDATE);	/* Call this for every window modification. */
+	msg[0] = (int) Mxalloc (sizeof(msg), 0 | MGLOBAL ); /* Global memory so others can read and write. */
+if (!msg)		 /* If there is not enough memory */
+nkc_init(NKI_BHTOS|NKI_NO200HZ, handle, _GemParBlk.global); /* Initialize nkcc */
+if(!(code&NKF_ALT)) /* If the alt key is not pressed, save the info file */
+if((Get_cookie('xFSL',&val)==FALSE) && (Get_cookie('UFSL',&val)==FALSE) && (MagX) ) /* If no font selector but Magic */
+wind_update(BEG_UPDATE);	/* Must be called even when closing windows. wind_new() takes care of END_UPDATE */
+Mfree(file_startup);Mfree(path_startup);Mfree(strptr_startup);Mfree(tmp_startup);Mfree(file_trashcan);Mfree(path_trashcan);	/* All of these are sample-related. */
+/* -------------------------------------------------------------------- */
+/* 		void redraw_window( int all );											*/
+/* 			if( all==0)	only draw the string, if(all==2) draw the text window 	*/
+/* 			if( all==1 ) draw the entire window.			 	 						  */
+/* 			if( all==3) draw or remove the cursor. 							*/
+/* 			if( all>3 ) do not draw, just calculate clipping.					*/
+/* 			if( all==5 ) draw graphics. 												*/
+/* -------------------------------------------------------------------- */
+	int dummy=0, tmpbgcolor=0, xaxis=-1, yaxis=-1/*, nollan=0*/;
+	linestyle+=20000;	/* To do it like this, otherwise it complains about it being a long */
+	if( whandle <= 0 )						/* If no window is open */
+	vswr_mode( handle, MD_TRANS );					 /* set transp mode */
+	if(n>synliga_rader-1) /* Safest, n starts at 0 and not 1. */
+	if(box.g_w==0 && box.g_h==0) /* The window is completely covered */
+		clip[0] = box.g_x;	/* Clipping for AES */
+					clip[3] = box.g_y + box.g_h - tree[MAIN].ob_height +16 +tree[RUTAN].ob_height; /* Only draw on the disply */
+						if(vst_font( handle, 5005 )==0) /* Unless Swiss 721 exists*/
+							if(vst_font( handle, 5142 )==0) /* Try Futura */
+								if(vst_font( handle, 5768 )==0) /* Try Handel Gothic */
+									break; /* If none of them are installed, don't show the splash */
+							vqt_ex( handle, tmp, extent ); /*Symbol for vqt_f_extent or vqt_extent*/
+						if(appl_find( "MLTISTRP" )<0)	/* This takes some time, shown too short time otherwise */
+					if(strlen(s[n])==0)	/* If empty row */
+						vqt_ex( handle, s[n], extent ); /* Symbol for vqt_f_extent or vqt_extent*/
+						if (!tmp)		 /* If not enough RAM */
+					pxyarray[1] = tree[MAIN].ob_y+extent[1] +tree[RUTAN].ob_y+1/*20*/ +teckenhojd*n +(teckenhojd/5);
+					if(cursor==0)	/* If the cursor was just turned off, draw the text again */
+				if(all==5) { /* Function plotting */
+					if(draw_grid) { /* Draw grid */
+						vsl_udsty(handle, linestyle); /* weak dotted linestyle */
+						grafarray[0]=XMIN;	/* Draws the first grid */
+						for ( k=0, x=xmin, x_bak=xmin, j=abs(WIDTH); k<j; k++, x+= ((xmax-xmin)/(double)abs(WIDTH)) ) /* Draw vertical grid */
+						/*	if(x_bak<=0 && x>=0){ /* Find the zero, problem syncing with grid as zero not always visible */
+							} */
+							x_bak2=x; /* To see when it shifts between minus and plus */
+						grafarray[0]=XMIN;	/* Draws first grid */
+						for ( k=0, x=ymin, x_bak=ymin, j=abs(HEIGHT); k<j; k++, x+= ((ymax-ymin)/(double)abs(HEIGHT)) ) /* Draw horizontal grid */
+							x_bak2=x; /* To see when it shifts between minus and plus */
+						vsl_color( handle, BLACK ); /* reset color */
+					/* Plot the graph */
+					tmp2 = (BYTE *) Malloc (TECKEN); /* Strange, if Mxalloc is used, it crashes completely when drawing the graph twice, but if only Malloc is used, Newton says "something is wrong, I suggest a reboot." This is said when it's not possible to send tooltips. */
+					tmpekv = (BYTE *) Malloc (TECKEN); /* Additionally, it keeps saying "there's something wrong in this position all the time," while the tooltips keep moving upward. */
+					if (!chdummy) /* If there is not enough memory */
+					for ( j=0, k=0, x=xmin; k<WIDTH+1; j+=2, k++, x+= ((xmax-xmin)/(double)WIDTH) )/* Fill all pixels horizontally, in the right scale */
+						strcpy(tmpekv,preprocess(tmpekv));	/* So that it also handles e.g. 2x */
+						for ( currpos=0 ; currpos<strlen(tmpekv) ; currpos++ ) /* Replace all 'x' with the current x-value */
+								if(x_bak<=0 && x>=0)	/* Where the y-axis should be drawn */
+						temp = (strtod(calculate(preprocess(tmpekv)),NULL)) * ((double)HEIGHT/(ymax-ymin)); /* Y-value on screen */
+						coordarray[j]=x;	/* X-value at the coordinate*/
+						coordarray[j+1]=temp / ((double)HEIGHT/(ymax-ymin));	/* Y-value */
+						if(temp>32000) /* To prevent it from going haywire when converted to int */
+						grafarray[j+1]= YMIN /* Here is the beginning of the window */
+							- (int)( ymin * ((double)HEIGHT/(ymax-ymin)) ) /* the lower limit of what should be on the screen */
+							+ (int)( temp ); /* This is where the memory loss occurs in calculate(preprocess(tmpekv)). Most of it is in preprocess(), but 16K is also in calculate(). */
+						if(grafarray[j+1]<YMAX) /* Check that the number is not too large; it seems to get messed up */
+							grafarray[j+1]=YMIN+10; /* However, this didn't completely solve it; check if the curve is connected somehow */
+					v_pline( handle, j/2, grafarray ); /* Draw the recently calculated */
+					/* Draw x and y-axes */
+					for ( k=0, x=ymin, j=abs(HEIGHT); k<j; k++, x+= ((ymax-ymin)/(double)abs(HEIGHT)) ) /* Find x-axis */
+						if(x_bak<=0 && x>=0){	/* Where the x-axis should be drawn */
+							xaxis=YMIN-k+1; 	/* Here it might be suitable to draw the horizontal grid. The zero etc. */
+					grafarray[0]=XMIN;				/* x-axis */
+					vsl_ends(handle, 0, 1); /* Arrow av the end */
+					if(xaxis!=-1) /* if -1, then 0 is not visible */
+					grafarray[0]=yaxis;		/* y-axis */
+					vsl_ends(handle, 0, 0); /* No more arrow */
+					/* Skriv ut axelnamnen etc */
+					if(vst_font( handle, 5031 )==0) /* If Baskerville is not available */
+						if(vst_font( handle, 5954 )==0) /* Try with Life */
+							if(vst_font( handle, 5003 )==0) /* Try with Swiss 721 */
+								if(vst_font( handle, 5142 )==0) /* Try with Futura */
+									if(vst_font( handle, 5768 )==0) /* Try with Handel Gothic */
+										vst_font( handle, font ); /* Otherwise, use the default font */
+					print( handle, XMIN, xaxis - 10, gcvt(xmin,15,chdummy) ); /* Print xmin */
+					print( handle, XMIN+WIDTH - (extent[2]-extent[0]), xaxis -10, gcvt(xmax,15,chdummy) );	/* Print xmax */
+					print( handle, yaxis + 8, YMAX+10 , gcvt(ymax,15,chdummy) ); /* Print ymax */
+					print( handle, yaxis + 8, YMIN, gcvt(ymin,15,chdummy) );	/* Print ymin */
+void redrawWindow( int winhandle, GRECT *dirty ) /* Test */
+	if( winhandle <= 0 )						/* If no windows is open */
+	vswr_mode( winhandle, MD_TRANS );					 /* set transp mode */
+	if(n>synliga_rader-1) /* Safest, n begins at 0 and not 1. */
+			 /*
+			  * Do your drawing here...constrained to the rectangle in g.
+			  */
+	obspec->te_color &= -16; /* Zeroes the first four bits in the byte */

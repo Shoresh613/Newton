@@ -1,0 +1,39 @@
+/* save_settings(fontid), load_settings(), change_settings()
+ * Laddar och sparar font, inst„llningar samt position p† sk„rmen.
+ *******************************************************/
+extern char *tmp_startup, *tmp_trashcan, *tmp_language, *tmp_quit; /* S”kv„gar till ljudfilerna */
+	if (!tmp)       /* Om det inte finns tillr„ckligt med minne*/
+	if( home==NULL ) { /* om $HOME inte „r satt */
+				strcat( tmp, "defaults\\newtonbw.inf" ); /* Om mappen defaults finns i $HOME */
+				strcat( tmp, "newton.inf" ); /* Om $HOME finns */
+				strcat( tmp, "newtonbw.inf" ); /* Om $HOME finns */
+	fputs( "0.9935 ", fp ); /* 0.975 f”r att den muckar annars, laddar som typ 0.97000003  */
+	itoa( dummy, Posi, 10 );	/* Dummiesar s† l„nge, f”r att spara speciella typsnitt osv f”r graph_mode */
+	itoa( dummy, Posi, 10 );	/* 4 extra poster f”r framtida bruk, s† man slipper g”ra om infofilen hela tiden */
+	if(tmp_startup[0]==0) /* Ljudfilss”kv„garna */
+		itoa( n, N, 10 ); /* Positionen */
+		while(i<synliga_rader) { /* Uttrycken */
+	int x=0,y=0,wi=0,he=0; /* Kolla om bredden har „ndrats */
+	if (!tmp)       /* Om det inte finns tillr„ckligt med minne*/
+		strcat(tmp,"\\"); /* S„tt alltid dit extra slash, det verkar inte g”ra n†t.. */
+	fscanf( fp, "%g", &ver ); /* Kollar s† det „r kompatibel version, infofilen */
+	if( ver<0.993 ) { /* Detta funkar om man bara „ndrar versionnummret som skrivs i infofilen n„r formatet „ndras.*/
+	fscanf( fp, "%c", tmp_startup);			/* Mellanhoppet innan ljudfils”kv„garna */
+		fscanf( fp, "%[^\"]", tmp_startup);	/* L„ser fram till tecknet " */
+		fscanf( fp, "%c", tmp);					/* Dummy */
+	fscanf( fp, "%c", tmp_trashcan);			/* Mellanhoppet */
+	fscanf( fp, "%c", tmp_language);			/* Mellanhoppet */
+	fscanf( fp, "%c", tmp_quit);			/* Mellanhoppet */
+	wind_get( 0, WF_WORKXYWH, &dummy, &dummy, &gw, &gh ); /* Hur stor „r sk„rmen? */
+	if( x >= 0 ) /* S† den inte hamnar utanf”r sk„rmen iaf */
+	if( wi > gw )           /* Om st”rre „n sk„rmen */
+	if( wi >= tree[MAIN].ob_width ) /* Om st”rre „n minsta storlek */
+	if(posi<0)	/* Cursorpositionen f†r inte vara mindre „n 0  */
+		fscanf(fp, "%c", tmp);		/* Mellanrummet */
+				eof=fscanf(fp, "%c", tmp);	/* Mellanrum */
+				fscanf(fp, "%[^\"]", (char*)s[i] ); /* L„s till slutet av uttrycket */
+				fscanf(fp, "%c", tmp);	/* Avslutande fnutten */
+				eof=fscanf(fp, "%c", tmp);	/* Mellanrummet */
+	if(posi>strlen(s[n]))	/* Cursorpositionen kan inte vara mer „n radl„ngden */
+	for ( i=0 ; i<synliga_rader ; i++)	/* Fixa undobuffern */
+	if(rad==0) { /* St„ller in attributen p† knapparna */
