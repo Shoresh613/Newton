@@ -1,6 +1,6 @@
 
 /* error_sound(void)
- * Ropar upp GEMjing f”r att spela upp en sampling.
+ * Calls GEMjing to play a sample.
  *******************************************************/
 
 
@@ -30,7 +30,7 @@ void error_sound( int sound )
 		cmdline = (char *) Malloc (256);
 
 	tmp2 = (char *) Malloc (256);
-	if (!tmp2)       /* Om det inte finns tillr„ckligt med minne*/
+	if (!tmp2)       /* If there is not enough memory */
 	    return;
 
 	memset(cmdline, 0, sizeof(cmdline));
@@ -45,17 +45,17 @@ void error_sound( int sound )
 		strcpy(tmp2,tmp_language);
 	if(sound==QUIT_SOUND)
 		strcpy(tmp2,tmp_quit);
-	if(strcmp(tmp2,"kaka")==0 || strcmp(tmp2,"")==0) { /* Ifall ingen fil „r specificerad */
+	if(strcmp(tmp2,"kaka")==0 || strcmp(tmp2,"")==0) { /* If no file is specified */
 		Mfree(cmdline);Mfree(tmp2);
 		return;
 	}
 
-	if( (gemjingid=appl_find("GEMJING ")) < 0) { /* Om det inte redan snurrar */
+	if( (gemjingid=appl_find("GEMJING ")) < 0) { /* If not running already */
 		strcpy(cmdline," -q ");
 		strcat(cmdline,tmp2);
 		
 		env=getenv("GEMJINGPATH");
-		if( env && strlen(env)>0 ) { /* om $GEMJING „r satt */
+		if( env && strlen(env)>0 ) { /* if $GEMJING is set */
 			if (MagX)
 				shel_write(1,1,100, env, cmdline);
 			else
@@ -72,8 +72,8 @@ void error_sound( int sound )
 		msg[6]=0;
 		msg[7]=0;
 
-		if( appl_write( gemjingid, 16, msg ) == 0 ) /* Om det inte funkade */
-			return;                                  /* G”r ingenting.      */
+		if( appl_write( gemjingid, 16, msg ) == 0 ) /* If it didn't work */
+			return;                                  /* Do nothing.      */
 	}
 
 	Mfree(tmp2);Mfree(cmdline);

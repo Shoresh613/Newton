@@ -1,6 +1,6 @@
 
 /* int get_NVDI_cookie(&val)
- * Visar vilken version av NVDI som Ñr installerad
+ * Shows which version of NVDI is installed
  ************************************************/
 
 #include <tos.h>
@@ -14,8 +14,8 @@ typedef struct {
 } COOKIE;
 
 /*typedef struct {
-   UWORD nvdi_version;  /*  z.B. 0x0301 fÅr Version 3.01 */
-   ULONG nvdi_datum;    /*  z.B. 0x18061990L fÅr 18.06.1990 */
+   UWORD nvdi_version;  /*  z.B. 0x0301 for Version 3.01 */
+   ULONG nvdi_datum;    /*  z.B. 0x18061990L for 18.06.1990 */
 } NVDI_STRUC;*/
 
 

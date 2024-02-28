@@ -1,5 +1,5 @@
 
-/* stguide_help() Anropar ST-Guide.
+/* stguide_help() Calls ST-Guide.
  *****************************/
 
 

@@ -1,8 +1,8 @@
 
 
 /* av_sendmesg(key,kstate,message)
- * Skickar vidare tangenttryckningar som Newton inte f”rst†r,
- * skickar „ven de AV meddelanden som Newton f”rst†r.
+ * Forwards keystrokes that Newton does not understand,
+ * also sends the AV messages that Newton do understand.
  ******************************************************/
 
 
@@ -31,20 +31,20 @@ void av_sendmesg(int key, int kstate, int message)
 	AVSERVER=getenv("AVSERVER");
 
 	if(AVSERVER==NULL)
-		return; /* Om det inte finns n†gon, s† skit i det. */
+		return; /* If there isn't one, screw it */
 
 	while (AVSERVER[i]!=0)
 	{	avserver[i]=AVSERVER[i];
 		i++;
 	}
 
-	while(strlen(avserver)!=8) /* G”r den till 8 tecken, f”r appl_find. */
+	while(strlen(avserver)!=8) /* Make it 8 characters, for appl_find. */
 		strcat(avserver," ");
 
 	av_server = appl_find( avserver );
 
 	if(av_server < 0)
-		return; /* Om den inte „r ig†ng, s† skit i det. */
+		return; /* If it's not running, screw it. */
 
 	switch(message)
 	{
@@ -98,11 +98,11 @@ void av_sendmesg(int key, int kstate, int message)
 			else
 				scrp_ptr = (BYTE *) Malloc (256);
 
-			scrp_read( scrp_ptr ); /* Var ligger klippbordet? */
+			scrp_read( scrp_ptr ); /* Where is the clipboard? */
 			msg[0] = AV_PATH_UPDATE;
 			msg[1] = appl_id;
 			msg[2] = 0;
-			AVSTR2MSG(msg,3,scrp_ptr); /* Uppdaterar endast vid kopiering */
+			AVSTR2MSG(msg,3,scrp_ptr); /* Only updates when copying */
 			msg[5] = 0;
 			msg[6] = 0;
 			msg[7] = 0;
@@ -131,16 +131,16 @@ void av_sendmesg(int key, int kstate, int message)
 			break;
 	}
 
-	if( appl_write( av_server, 16, msg ) == 0 ){ /* Om det inte funkade */
-		evnt_timer(100,0);	/* V„nta 100 ms med Mfree s† de hinner l„sa */
+	if( appl_write( av_server, 16, msg ) == 0 ){ /* If it didn't work */
+		evnt_timer(100,0);	/* Wait 100 ms with Mfree so they have time to read */
 		if(Newton!=NULL)
 			Mfree(Newton);
 		if(scrp_ptr!=NULL)
 			Mfree(scrp_ptr);
-		return;                                  /* G”r ingenting.      */
+		return;                                  /* Do nothing.      */
 	}
 	else{
-		evnt_timer(100,0);	/* V„nta 100 ms med Mfree s† de hinner l„sa */
+		evnt_timer(100,0);	/* Wait 100 ms with Mfree so they have time to read */
 		if(Newton!=NULL)
 			Mfree(Newton);
 		if(scrp_ptr!=NULL)

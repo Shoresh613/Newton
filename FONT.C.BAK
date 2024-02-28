@@ -62,8 +62,8 @@ int choose_font(void)
 	char *ExampleString=NULL;
 
 /*	static int chars[] = { ' ', '~',  /* ASCII 32..126 */
-						'û','û', 'ý','ý', 'ã','ã', 'ê','ê', 'ó','ó',
-						'ú','ú', 'þ','þ', '«','«', '¬','¬', 'æ','æ',
+						'ï¿½','ï¿½', 'ï¿½','ï¿½', 'ï¿½','ï¿½', 'ï¿½','ï¿½', 'ï¿½','ï¿½',
+						'ï¿½','ï¿½', 'ï¿½','ï¿½', 'ï¿½','ï¿½', 'ï¿½','ï¿½', 'ï¿½','ï¿½',
 						1,0       /* End of List */
 	};*//* The font must contain these characters. I think I'm doing the right thing according to spec */
 

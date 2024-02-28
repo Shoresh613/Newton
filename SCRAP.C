@@ -1,9 +1,8 @@
 
 
 /* scrap_read(), scrap_write(cut)
- * Klipp och klistra.
+ * Cut and Paste.
  ************************/
-
 
 #include <stdio.h>
 #include <string.h>
@@ -49,29 +48,29 @@ void scrap_read(void)
 		
 	while(eof!=EOF)
 	{
-		eof=fscanf( fp, "%[^\r\n]", clip);	/* L„ser fram till radslut */
+		eof=fscanf( fp, "%[^\r\n]", clip);	/* Reads until end of line */
 		
 		if(eof==EOF)
 			break;
 		if(strlen(clip) || (strcmp(clip,"")==0) ){
-			if( strlen(clip) && ((strlen(clip)+strlen(s[n]))<TECKEN)) /* Om inte tom och inte f”r l†ng */
+			if( strlen(clip) && ((strlen(clip)+strlen(s[n]))<TECKEN)) /* If not empty and not too long */
 				insert(s[n], clip );
 			n++;
 			rowCount++;
 		}
 		if(eof==EOF)
 			break;
-		eof=fscanf( fp, "%c", tmp);			/* L„ser CR*/
+		eof=fscanf( fp, "%c", tmp);			/* Reads CR*/
 		if(eof==EOF)
 			break;
 		if(strcmp(tmp,"\r")==0)
-			eof=fscanf( fp, "%c", tmp);		/* L„ser LF*/		
-		if(n>=synliga_rader-1)					/* Scrollar inf”r ny rad om ska l„sa in ny rad */
+			eof=fscanf( fp, "%c", tmp);		/* Reads LF*/		
+		if(n>=synliga_rader-1)					/* Scrolls to new row if to load new row */
 			scroll();
 	}
 	n--;
 
-	while(rowCount>1) {	/* S„ger vilka rader som sitter ihop */
+	while(rowCount>1) {	/* Tells which rows are connected */
 		scrollVector[n-rowCount+1]=1;
 		rowCount--;
 	}
@@ -81,7 +80,7 @@ void scrap_read(void)
 	fclose(fp);Mfree(tmp);Mfree(clip);
 }
 
-void scrap_write( int cut ) /* cut==1, klipp ist„llet f”r kopiera, 2 kopiera alla synliga rader, 3 klipp alla synliga rader */
+void scrap_write( int cut ) /* cut==1, cut instead of copy, 2 copy all visible lines, 3 cut all visible lines */
 {
 	FILE *fp=NULL;
 
@@ -103,30 +102,30 @@ void scrap_write( int cut ) /* cut==1, klipp ist„llet f”r kopiera, 2 kopiera all
 	if((fp=fopen(scrp_ptr,"w"))== NULL)
 		form_alert( 1,Write_Clipboard);
 
-	if(cut==0 || cut==1) /* Om bara kopiera */
+	if(cut==0 || cut==1) /* If just copy */
 	{
-		if(s[n][0]==0) /* Om raden „r tom */
+		if(s[n][0]==0) /* If the row is empty */
 			return;
 		i=n;
 		if(i>0) {
-			while(scrollVector[i-1] && i>0){	/* Tar reda p† var uttrycket b”rjar */
+			while(scrollVector[i-1] && i>0){	/* Finds where the expression starts */
 				i--;
 			}
 		}
-		fputs( s[i], fp ); /* Skriver f”rsta raden i uttrycket till klippbordet. */
-		fputs("\r\n",fp);	/* B”rja med ny rad. */
-		while(scrollVector[i]){ /* Skriv alla resterande rader (om n†gra) till klippbordet. */
+		fputs( s[i], fp ); /* Writes the first row of the expression to the clipboard. */
+		fputs("\r\n",fp);	/* Start with new row. */
+		while(scrollVector[i]){ /* Write all remaining rows (if any) to the clipboard. */
 			fputs( s[i+1], fp );
 			fputs("\r\n",fp);
 			i++;
 		}
 	}
 
-	if(cut==2 || cut==3) /* Kopiera in alla rader */
+	if(cut==2 || cut==3) /* Copy in all row */
 	{
 		for ( i=0 ;i<synliga_rader ;i++)
 		{
-			if(s[i][0]!=0) /* Om raden inte tom */
+			if(s[i][0]!=0) /* If row not empty */
 				fputs( s[i], fp );
 			
 			fputs("\n",fp);
@@ -136,7 +135,7 @@ void scrap_write( int cut ) /* cut==1, klipp ist„llet f”r kopiera, 2 kopiera all
 	if( cut == 1 )
 		eraseExpression();
 	if( cut == 3){
-		for ( i=0 ;i<synliga_rader ;i++) /* Rensar alla rader */
+		for ( i=0 ;i<synliga_rader ;i++) /* Clears all rows */
 			memset(s[i],0,TECKEN);
 		n=0;
 		posi=0;
@@ -155,10 +154,10 @@ void scrap_write( int cut ) /* cut==1, klipp ist„llet f”r kopiera, 2 kopiera all
 	msg[6]=0;
 	msg[7]=0;
 	
-	if(_GemParBlk.global[0]>=0x400)			/* Broadcast finns bara efter AES v.4 */
+	if(_GemParBlk.global[0]>=0x400)			/* Broadcast only available after AES v.4 */
 		shel_write(7,0,0,NULL,(char*)msg);
-	av_sendmesg(0,0,AV_PATH_UPDATE);		/* Skicka AV-meddelande ocks†, jinnee verkar inte fatta SC_CHANGED */
+	av_sendmesg(0,0,AV_PATH_UPDATE);		/* Send AV message too, jinnee doesn't seem to get SC_CHANGED */
 	
-	evnt_timer(100,0);						/* V„nta lite innan t”mma s† alla hinner l„sa */
+	evnt_timer(100,0);						/* Wait a bit before emptying so everyone has time to read */
 	Mfree(ptr);
 }

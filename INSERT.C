@@ -12,15 +12,15 @@ extern void redraw_window(int pos);
 
 void insert( char* st , char* toBinserted)
 {
-	if(strlen(s[n])==0)	/* Om raden „r tom */
+	if(strlen(s[n])==0)	/* If the line is empty */
 	{
 		memset(s[n],0,TECKEN);
 		strcpy(s[n],toBinserted);
 		posi += (int)strlen(toBinserted);
-		redraw_window(0);	/* rita ut str„ngen */
+		redraw_window(0);	/* draw the string */
 		return;
 	}
-	if(posi==(int)strlen(s[n]))	/* Om man „r p† slutet av raden */
+	if(posi==(int)strlen(s[n]))	/* If you are at the end of the line */
 	{
 		memset(s[n]+posi,0,TECKEN-posi);
 		strcat(s[n],toBinserted);
@@ -50,5 +50,5 @@ void insert( char* st , char* toBinserted)
 		strcpy(s[n],insert_tmp2);
 	}
 	posi += (int)strlen(toBinserted);
-	redraw_window(2);	/* rita ut teckenf”nstret */
+	redraw_window(2);	/* draw the character window */
 }

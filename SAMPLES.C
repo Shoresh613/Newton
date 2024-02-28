@@ -1,3 +1,6 @@
+/* Samples.c
+ * Plays sound samples for different events */
+
 #include <aes.h>
 #include <string.h>
 #include <stdio.h>
@@ -8,7 +11,7 @@
 
 extern OBJECT *samples_tree;
 
-extern int do_dialog(OBJECT *dialog);   /* K”r en dialog med anv„ndaren */
+extern int do_dialog(OBJECT *dialog);   /* Run a dialog with the user */
 extern int MagX, MiNT;
 
 char *file_startup, *path_startup;
@@ -27,7 +30,7 @@ char *file_quit, *path_quit;
 char *strptr_quit,*tmp_quit;
 TEDINFO *obspec_quit;
 
-char *korta_filnamn(char *text); /* Kortar filnamnet s† det f†r plats i f”nstret */
+char *korta_filnamn(char *text); /* Shortens the filename to fit in the window */
 
 void choose_samples(void)
 {
@@ -52,68 +55,68 @@ void choose_samples(void)
 		strcpy(path_quit, "c:\\*.wav" );
 
 	strcpy(tmp,tmp_startup);
-	strcpy(startTrash,tmp_startup); /* S”kv„gen  */
-	if(tmp_startup[0]!=0)    /* St„ller in dialogen, s† alla filnamn st„mmer */
+	strcpy(startTrash,tmp_startup); /* The path  */
+	if(tmp_startup[0]!=0)    /* Sets the dialog so that all filenames are correct */
 	{
-		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Filnamnet */
+		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* The file name */
 		strcpy(file_startup,(tmp+i+1));
 		
 		strcpy(tmp,tmp_startup);
-		tmp=korta_filnamn(tmp); /* Det som visas i dialogen */
+		tmp=korta_filnamn(tmp); /* What is shown in the dialog */
 		strcpy(strptr_startup,tmp);
 		
-		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Tar bort wildcard */
+		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Removes wildcard */
 		tmp[i+1]=0;
 		strcat(tmp,"*.wav");
 		strcpy(path_startup,tmp);
 	}
 
 	strcpy(tmp,tmp_trashcan);
-	strcpy(trashTrash,tmp_trashcan); /* S”kv„gen  */
-	if(tmp_trashcan[0]!=0)    /* St„ller in dialogen, s† alla filnamn st„mmer */
+	strcpy(trashTrash,tmp_trashcan); /* The path  */
+	if(tmp_trashcan[0]!=0)    /* Sets the dialog so that all filenames are correct */
 	{
-		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Filnamnet */
+		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* The file name */
 		strcpy(file_trashcan,(tmp+i+1));
 		
 		strcpy(tmp,tmp_trashcan);
-		tmp=korta_filnamn(tmp); /* Det som visas i dialogen */
+		tmp=korta_filnamn(tmp); /* What is shown in the dialog */
 		strcpy(strptr_trashcan,tmp);
 		
 		strcpy(tmp,tmp_trashcan);
-		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Tar bort wildcard */
+		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Removes wildcard */
 		tmp[i+1]=0;
 		strcat(tmp,"*.wav");
 		strcpy(path_trashcan,tmp);
 	}
 	strcpy(tmp,tmp_language);
-	strcpy(langTrash,tmp_language); /* S”kv„gen  */
-	if(tmp_language[0]!=0)    /* St„ller in dialogen, s† alla filnamn st„mmer */
+	strcpy(langTrash,tmp_language); /* The path  */
+	if(tmp_language[0]!=0)    /* Sets the dialog so that all filenames are correct */
 	{
-		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Filnamnet */
+		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* The file name */
 		strcpy(file_language,(tmp+i+1));
 		
 		strcpy(tmp,tmp_language);
-		tmp=korta_filnamn(tmp); /* Det som visas i dialogen */
+		tmp=korta_filnamn(tmp); /* What is shown in the dialog */
 		strcpy(strptr_language,tmp);
 
 		strcpy(tmp,tmp_language);
-		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Tar bort wildcard */
+		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Removes wildcard */
 		tmp[i+1]=0;
 		strcat(tmp,"*.wav");
 		strcpy(path_language,tmp);
 	}
 	strcpy(tmp,tmp_quit);
-	strcpy(quitTrash,tmp_quit); /* S”kv„gen  */
-	if(tmp_quit[0]!=0)    /* St„ller in dialogen, s† alla filnamn st„mmer */
+	strcpy(quitTrash,tmp_quit); /* The path  */
+	if(tmp_quit[0]!=0)    /* Sets the dialog so that all filenames are correct */
 	{
-		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Filnamnet */
+		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* The file name */
 		strcpy(file_quit,(tmp+i+1));
 		
 		strcpy(tmp,tmp_quit);
-		tmp=korta_filnamn(tmp); /* Det som visas i dialogen */
+		tmp=korta_filnamn(tmp); /* What is shown in the dialog */
 		strcpy(strptr_quit,tmp);
 		
-		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Tar bort wildcard */
+		for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Removes wildcard */
 		tmp[i+1]=0;
 		strcat(tmp,"*.wav");
 		strcpy(path_quit,tmp);
@@ -131,13 +134,13 @@ void choose_samples(void)
 			{
 				strcpy(tmp,path_startup);
 
-				if(file_startup[0]!=0)    /* Om inte ingen fil valdes, men „nd† OK */
+				if(file_startup[0]!=0)    /* If no file was selected, but still OK */
 				{
-					for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Tar bort wildcard */
+					for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Removes wildcard */
 					tmp[i+1]=0;
 					strcat(tmp,file_startup);
 				}
-				strcpy(tmp_startup,tmp); /* tmp_startup visar hela pathen ifall cancel v„ljs sedan */
+				strcpy(tmp_startup,tmp); /* tmp_startup shows the full path if cancel is then selected */
 				tmp=korta_filnamn(tmp);
 				strcpy(strptr_startup,tmp);
 			}
@@ -150,9 +153,9 @@ void choose_samples(void)
 			{
 				strcpy(tmp,path_trashcan);
 
-				if(file_trashcan[0]!=0)    /* Om inte ingen fil valdes, men „nd† OK */
+				if(file_trashcan[0]!=0)    /* If no file was selected, but still OK */
 				{
-					for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Tar bort wildcard */
+					for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Removes wildcard */
 					tmp[i+1]=0;
 					strcat(tmp,file_trashcan);
 				}
@@ -169,9 +172,9 @@ void choose_samples(void)
 			{
 				strcpy(tmp,path_language);
 
-				if(file_language[0]!=0)    /* Om inte ingen fil valdes, men „nd† OK */
+				if(file_language[0]!=0)    /* If no file was selected, but still OK */
 				{
-					for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Tar bort wildcard */
+					for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Removes wildcard */
 					tmp[i+1]=0;
 					strcat(tmp,file_language);
 				}
@@ -188,9 +191,9 @@ void choose_samples(void)
 			{
 				strcpy(tmp,path_quit);
 
-				if(file_language[0]!=0)    /* Om inte ingen fil valdes, men „nd† OK */
+				if(file_language[0]!=0)    /* If no file was selected, but still OK */
 				{
-					for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Tar bort wildcard */
+					for (i=(int)(long)strlen(tmp); tmp[i]!='\\' ; i--); /* Removes wildcard */
 					tmp[i+1]=0;
 					strcat(tmp,file_quit);
 				}
@@ -239,11 +242,11 @@ char *korta_filnamn(char *text)
 	{
 		strrev(text);
 
-		for (i=0; i<29 || text[i]==0 ; i++ ) /* Kopierar ”ver max 29 tecken */
+		for (i=0; i<29 || text[i]==0 ; i++ ) /* Copies max 29 characters */
 			temp[i]=text[i];
 		temp[i]=0;
 
-		strcat(temp,"...");                   /* H„r kommer de sista tre..*/
+		strcat(temp,"...");                   /* Here are the last three.. */
 		strrev(temp);
 		strcpy(text,temp);
 		Mfree(temp);
@@ -255,7 +258,7 @@ char *korta_filnamn(char *text)
 	}
 }
 
-void initSampleDialogue(void) /* Denna k”rs vid start av programmet */
+void initSampleDialogue(void) /* This is run at the start of the program */
 {
 	strptr_startup = (char *) Malloc (256);
 	file_startup = (char *) Malloc (256);

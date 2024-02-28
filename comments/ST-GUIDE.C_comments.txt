@@ -1,2 +1,0 @@
-/* stguide_help() Anropar ST-Guide.
- *****************************/

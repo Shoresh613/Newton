@@ -315,7 +315,7 @@ char* preprocess(char *string)
 
 	for ( i=0 ; i<strlen(string) ; i++ ) /* ý -> ^2 */
 	{
-		if( *(string+i)=='ý' ) /* Square */
+		if( *(string+i)=='ý' ) /* Kvadrat */
 		{
 			memset(tmp,0,sizeof(tmp));
 			strcpy(tmp,(string+i+1));
@@ -330,7 +330,7 @@ char* preprocess(char *string)
 
 	for ( i=0 ; i<strlen(string) ; i++ ) /* þ -> ^3 */
 	{
-		if( *(string+i)=='þ' ) /* Cube */
+		if( *(string+i)=='þ' ) /* Kub */
 		{
 			memset(tmp,0,sizeof(tmp));
 			strcpy(tmp,(string+i+1));
@@ -343,9 +343,9 @@ char* preprocess(char *string)
 		}
 	}
 
-	for ( i=0 ; i<strlen(string) ; i++ ) /* û (square root) -> sqrt */
+	for ( i=0 ; i<strlen(string) ; i++ ) /* û (rot) -> sqrt */
 	{
-		if( *(string+i)=='û' ) /* Square Root */
+		if( *(string+i)=='û' ) /* Rot */
 		{
 			memset(tmp,0,sizeof(tmp));
 			strcpy(tmp,(string+i+1));
@@ -571,7 +571,7 @@ char* preprocess(char *string)
 			i++;
 		}
 	}
-/*	for ( i=0 ; i<strlen(string) ; i++ ) /* " " -> "" Space to spaces, for comparison tests. */
+/*	for ( i=0 ; i<strlen(string) ; i++ ) /* " " -> "" Space till mellanrum, f”r j„mf”relsetest mm. */
 	{
 		if( *(string+i)==' ' )
 		{

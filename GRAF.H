@@ -1,4 +1,4 @@
-/* F”r att underl„tta f”r grafber„kningen */
+/* To aid in the plotting of a graph */
 
 #define XMIN			(tree[MAIN].ob_x + (tree[MAIN].ob_width / 2) - (tree[RUTAN].ob_width / 2) +6)
 #define XMAX			(tree[MAIN].ob_x + (tree[MAIN].ob_width / 2) - (tree[RUTAN].ob_width / 2) + tree[RUTAN].ob_width - 8 )

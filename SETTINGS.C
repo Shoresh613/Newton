@@ -1,7 +1,7 @@
 
 
 /* save_settings(fontid), load_settings(), change_settings()
- * Laddar och sparar font, inst„llningar samt position p† sk„rmen.
+ * Loads and saves font, settings and position on the screen.
  *******************************************************/
 
 
@@ -22,7 +22,7 @@ extern int cursor_blink, moral_check, rad, save_work, show_intro, sendkey, n, he
 extern int tmp_x,tmp_y,tmp_w,tmp_h, iconified, handle, monochrome;
 extern int MagX, MiNT;
 extern int posi;
-extern char *tmp_startup, *tmp_trashcan, *tmp_language, *tmp_quit; /* S”kv„gar till ljudfilerna */
+extern char *tmp_startup, *tmp_trashcan, *tmp_language, *tmp_quit; /* Paths to the audio files */
 extern char undo[RADER][TECKEN];
 extern UWORD nvdi;
 
@@ -47,11 +47,11 @@ void save_settings( int fontid )
 
 	tmp = (BYTE *) Malloc (256);
 
-	if (!tmp)       /* Om det inte finns tillr„ckligt med minne*/
+	if (!tmp)       /* If there is not enough memory */
 	    return;
 
 	home=getenv("HOME");
-	if( home==NULL ) { /* om $HOME inte „r satt */
+	if( home==NULL ) { /* if $HOME is not set */
 		if(!monochrome) {
 			if((fp=fopen("newton.inf","w+"))== NULL)
 			{	form_alert( 1,Save_Info);
@@ -74,15 +74,15 @@ void save_settings( int fontid )
 		if(!monochrome)
 			strcat( tmp, "defaults\\newton.inf" );
 		else
-				strcat( tmp, "defaults\\newtonbw.inf" ); /* Om mappen defaults finns i $HOME */
+				strcat( tmp, "defaults\\newtonbw.inf" ); /* If the defaults folder exists in $HOME */
 
 		if((fp=fopen(tmp,"w+"))== NULL) {
 			strcpy(tmp,home);
 			strcat(tmp,"\\");
 			if(!monochrome)
-				strcat( tmp, "newton.inf" ); /* Om $HOME finns */
+				strcat( tmp, "newton.inf" ); /* If $HOME exists */
 			else
-				strcat( tmp, "newtonbw.inf" ); /* Om $HOME finns */
+				strcat( tmp, "newtonbw.inf" ); /* If $HOME exists */
 			if((fp=fopen(tmp,"w+"))== NULL) {
 				form_alert( 1,Save_Info);
 				Mfree(tmp);
@@ -91,7 +91,7 @@ void save_settings( int fontid )
 		}
 	}	
 
-	fputs( "0.9935 ", fp ); /* 0.975 f”r att den muckar annars, laddar som typ 0.97000003  */
+	fputs( "0.9935 ", fp ); /* 0.975 because otherwise there will be problems, loads as approximately 0.97000003  */
 	itoa( fontid, font_id, 10);
 	fputs( font_id, fp );
 	fputs( " ", fp );
@@ -175,7 +175,7 @@ void save_settings( int fontid )
 	fputs( Posi, fp );
 	fputs( " ", fp );
 
-	itoa( dummy, Posi, 10 );	/* Dummiesar s† l„nge, f”r att spara speciella typsnitt osv f”r graph_mode */
+	itoa( dummy, Posi, 10 );	/* Dummies in the mean time, to save special fonts etc for graph_mode */
 	fputs( Posi, fp );
 	fputs( " ", fp );
 	itoa( dummy, Posi, 10 );
@@ -191,7 +191,7 @@ void save_settings( int fontid )
 	fputs( Posi, fp );
 	fputs( " ", fp );
 
-	itoa( dummy, Posi, 10 );	/* 4 extra poster f”r framtida bruk, s† man slipper g”ra om infofilen hela tiden */
+	itoa( dummy, Posi, 10 );	/* 4 extra entries for future use, so you don't have to redo the info file all the time */
 	fputs( Posi, fp );
 	fputs( " ", fp );
 	itoa( dummy, Posi, 10 );
@@ -205,7 +205,7 @@ void save_settings( int fontid )
 	fputs( " ", fp );
 
 
-	if(tmp_startup[0]==0) /* Ljudfilss”kv„garna */
+	if(tmp_startup[0]==0) /* The audio files' paths */
 		fputs("#", fp);
 	else {
 		fputs("\"" , fp);
@@ -243,11 +243,11 @@ void save_settings( int fontid )
 	fputs( " ", fp );
 
 	if(save_work) {
-		itoa( n, N, 10 ); /* Positionen */
+		itoa( n, N, 10 ); /* Position */
 		fputs( N, fp );
 		fputs( " ", fp );
 		
-		while(i<synliga_rader) { /* Uttrycken */
+		while(i<synliga_rader) { /* Expressions */
 			if(s[i][0]==0)
 				fputs("#", fp);
 			else {
@@ -269,14 +269,14 @@ void load_settings( void )
 	FILE *fp=NULL;
 	char *home=NULL;
 	char *tmp=NULL;
-	int x=0,y=0,wi=0,he=0; /* Kolla om bredden har „ndrats */
+	int x=0,y=0,wi=0,he=0; /* Check if the width has been changed */
 	int gw=0,gh=0,dummy=0;
 	int i=0,eof=0;
 	float ver=0;
 	char *Old_Info_File=NULL;
 
 	tmp = (BYTE *) Malloc (TECKEN);
-	if (!tmp)       /* Om det inte finns tillr„ckligt med minne*/
+	if (!tmp)       /* If there is not enough memory */
 		return;
 	memset(tmp, 0, TECKEN);
 
@@ -299,7 +299,7 @@ void load_settings( void )
 	}
 	else {
 		strcpy(tmp,home);
-		strcat(tmp,"\\"); /* S„tt alltid dit extra slash, det verkar inte g”ra n†t.. */
+		strcat(tmp,"\\"); /* Always put extra slash there */
 		if(!monochrome)
 			strcat( tmp, "defaults\\newton.inf" );
 		else
@@ -318,8 +318,8 @@ void load_settings( void )
 		}	
 	}
 
-	fscanf( fp, "%g", &ver ); /* Kollar s† det „r kompatibel version, infofilen */
-	if( ver<0.993 ) { /* Detta funkar om man bara „ndrar versionnummret som skrivs i infofilen n„r formatet „ndras.*/
+	fscanf( fp, "%g", &ver ); /* Checks if the info file is of a compatible version */
+	if( ver<0.993 ) { /* This works if you only change the version number that is written in the info file when the format is changed.*/
 		form_alert( 1,Old_Info_File);
 		fclose(fp);	Mfree(home); Mfree(tmp); return; 
 	}
@@ -328,15 +328,15 @@ void load_settings( void )
 			&font, &fontsize, &cursor_colour, &text_colour, &bg_colour, &x, &y, &wi, &he, &rad, &cursor_blink, &moral_check, &sendkey, &show_intro, &play_sample, &hex,
 			&bin, &dec, &linewidth, &fontpi, &boxes, &posi, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy, &dummy);
 
-	fscanf( fp, "%c", tmp_startup);			/* Mellanhoppet innan ljudfils”kv„garna */
+	fscanf( fp, "%c", tmp_startup);			/* The space before the audio file paths */
 	fscanf( fp, "%c", tmp_startup);
 	if(strcmp("#",tmp_startup)==0)
 		tmp_startup[0]=0;
 	else {
-		fscanf( fp, "%[^\"]", tmp_startup);	/* L„ser fram till tecknet " */
+		fscanf( fp, "%[^\"]", tmp_startup);	/* Read until character " */
 		fscanf( fp, "%c", tmp);					/* Dummy */
 	}
-	fscanf( fp, "%c", tmp_trashcan);			/* Mellanhoppet */
+	fscanf( fp, "%c", tmp_trashcan);			/* The space */
 	fscanf( fp, "%c", tmp_trashcan);
 	if(strcmp("#",tmp_trashcan)==0)
 		tmp_trashcan[0]=0;
@@ -344,7 +344,7 @@ void load_settings( void )
 		fscanf( fp, "%[^\"]", tmp_trashcan);
 		fscanf( fp, "%c", tmp);
 	}
-	fscanf( fp, "%c", tmp_language);			/* Mellanhoppet */
+	fscanf( fp, "%c", tmp_language);			/* The space */
 	fscanf( fp, "%c", tmp_language);
 	if(strcmp("#",tmp_language)==0)
 		tmp_language[0]=0;
@@ -352,7 +352,7 @@ void load_settings( void )
 		fscanf( fp, "%[^\"]", tmp_language);
 		fscanf( fp, "%c", tmp);
 	}
-	fscanf( fp, "%c", tmp_quit);			/* Mellanhoppet */
+	fscanf( fp, "%c", tmp_quit);			/* The space */
 	fscanf( fp, "%c", tmp_quit);
 	if(strcmp("#",tmp_quit)==0)
 		tmp_quit[0]=0;
@@ -362,46 +362,46 @@ void load_settings( void )
 	}
 
 	fscanf( fp, "%i", &save_work);
-	wind_get( 0, WF_WORKXYWH, &dummy, &dummy, &gw, &gh ); /* Hur stor „r sk„rmen? */
+	wind_get( 0, WF_WORKXYWH, &dummy, &dummy, &gw, &gh ); /* How big is the screen? */
 
-	if( x >= 0 ) /* S† den inte hamnar utanf”r sk„rmen iaf */
+	if( x >= 0 ) /* So that it at least doesn't end up outside of the screen */
 		tree[MAIN].ob_x=x;
 	if( y >= 0 )
 		tree[MAIN].ob_y=y;
-	if( wi > gw )           /* Om st”rre „n sk„rmen */
+	if( wi > gw )           /* If larger than screen */
 		wi = gw;
 	if( he > gh-26 )
 		he = gh-26;
-	if( wi >= tree[MAIN].ob_width ) /* Om st”rre „n minsta storlek */
+	if( wi >= tree[MAIN].ob_width ) /* If greater than minimum size */
 		tree[MAIN].ob_width=wi;
 	if( he >= tree[MAIN].ob_height )
 		tree[MAIN].ob_height=he;
-	if(posi<0)	/* Cursorpositionen f†r inte vara mindre „n 0  */
+	if(posi<0)	/* The cursor position must not be less than 0  */
 		posi=0;
 
 	if(save_work) {
 		fscanf(fp, "%i", &n );
-		fscanf(fp, "%c", tmp);		/* Mellanrummet */
+		fscanf(fp, "%c", tmp);		/* The space */
 		while( i<RADER && eof!=EOF ) {
 			memset(tmp,0,TECKEN);
 			fscanf(fp, "%c", tmp);
 			if(strcmp(tmp,"#")==0){
 				s[i][0]=0;
-				eof=fscanf(fp, "%c", tmp);	/* Mellanrum */
+				eof=fscanf(fp, "%c", tmp);	/* Space */
 			}
 			else {
-				fscanf(fp, "%[^\"]", (char*)s[i] ); /* L„s till slutet av uttrycket */
-				fscanf(fp, "%c", tmp);	/* Avslutande fnutten */
-				eof=fscanf(fp, "%c", tmp);	/* Mellanrummet */
+				fscanf(fp, "%[^\"]", (char*)s[i] ); /* Read to end of expression */
+				fscanf(fp, "%c", tmp);	/* Ending '-sign */
+				eof=fscanf(fp, "%c", tmp);	/* The space */
 			}
 			i++;
 		}
 	}
 
-	if(posi>strlen(s[n]))	/* Cursorpositionen kan inte vara mer „n radl„ngden */
+	if(posi>strlen(s[n]))	/* The cursor position cannot be more than the line length */
 		posi=(int)strlen(s[n]);
 
-	for ( i=0 ; i<synliga_rader ; i++)	/* Fixa undobuffern */
+	for ( i=0 ; i<synliga_rader ; i++)	/* Fix the undo buffer */
 		strcpy(undo[i],s[i]);
 
 	fclose(fp);
@@ -418,7 +418,7 @@ void change_settings(void)
 	strptr1 = obspec1->te_ptext;
 	strptr1[0] = 0;
 
-	if(rad==0) { /* St„ller in attributen p† knapparna */
+	if(rad==0) { /* Sets the attributes of the buttons */
 		settings[RADIANS].ob_state &= ~SELECTED;
 		settings[DEGREES].ob_state |= SELECTED;
 	}

@@ -25,7 +25,7 @@
 /*extern int _app; */						 /* Started as an app or an acc?*/
 /*extern GEMPARBLK _GemParBlk;*/	/* These are available even if not imported */
 
-char	 *Version="v 0.994ž¿½ of ";
+char	 *Version="v 0.994ž of ";
 int whandle = 0;                      /* Handle for the opened window. */
 char* title = NULL;                   /* Window title bar. */
 int gl_wchar = 0,                     /* Character size and width. */

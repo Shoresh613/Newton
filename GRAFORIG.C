@@ -53,31 +53,31 @@ int graph_dialog(void)
 	strptr8 = obspec8->te_ptext;
 	memset(strptr8, 0, 1);
 
-	if(strlen(strptr)==0) { /* Funkar ju inte s† bra eftersom den memsettas ovan */
-		tmp = Malloc(TECKEN*synliga_rader);	/* Anv„nder h„r f”r att bygga upp flerradigt uttryck */
+	if(strlen(strptr)==0) { /* Doesn't work that well because it's memset above */
+		tmp = Malloc(TECKEN*synliga_rader);	/* Use this to build multi-line expression */
 		memset(tmp,0,sizeof(tmp));
 	
 		i=n;
 		if(i>0) {
-			while(scrollVector[i-1] && i>0){	/* Tar reda p† var uttrycket b”rjar */
+			while(scrollVector[i-1] && i>0){	/* Finds where the expression starts */
 				i--;
 			}
 		}
 		strcpy(tmp,s[i]);
-		while(scrollVector[i]){ /* Kopiera in alla rader som h”r till uttrycket i bufferten. */
+		while(scrollVector[i]){ /* Copy all lines belonging to the expression into the buffer. */
 			strcat(tmp, s[i+1] );
 			i++;
 		}
 		strcpy(strptr,tmp);
 	}
-	if(xmin==4038){	/* Den „r detta udda tal vid uppstart, f”r initialisering */
+	if(xmin==4038){	/* It is this odd number at startup, for initialization */
 		strcpy(strptr2,"-10");
 		strcpy(strptr3,"10");
 		strcpy(strptr4,"-10");
 		strcpy(strptr5,"10");
-		strcpy(strptr6,"1"); /* Denna „r gridavst†nd x*/
-		strcpy(strptr7,"1"); /* Denna „r gridavst†nd y*/
-		strcpy(strptr8,"1"); /* Denna „r linjetjocklek */
+		strcpy(strptr6,"1"); /* This is grid distance x*/
+		strcpy(strptr7,"1"); /* This is grid distance y*/
+		strcpy(strptr8,"1"); /* This is line thickness */
 	}
 	else{
 		buf=(char*)Malloc(40);
@@ -86,9 +86,9 @@ int graph_dialog(void)
 		strcpy(strptr3,gcvt(xmax,10,buf));
 		strcpy(strptr4,gcvt(ymin,10,buf));
 		strcpy(strptr5,gcvt(ymax,10,buf));
-		strcpy(strptr6,ltoa(grid_distx,strptr6,10)); /* Denna „r gridavst†nd x */
-		strcpy(strptr7,ltoa(grid_disty,strptr7,10)); /* Denna „r gridavst†nd y */
-		strcpy(strptr8,itoa(linethgraph,strptr8,10)); /* Denna „r linjetjocklek */	
+		strcpy(strptr6,ltoa(grid_distx,strptr6,10)); /* This is grid distance x */
+		strcpy(strptr7,ltoa(grid_disty,strptr7,10)); /* This is grid distance y */
+		strcpy(strptr8,itoa(linethgraph,strptr8,10)); /* This is line thickness */	
 		Mfree(buf);
 	}
 	do{

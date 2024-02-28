@@ -1,9 +1,9 @@
 
 /* get_NVDI_cookie()
- * Visar vilken version av NVDI som Ñr installerad
+ * Shows which version of NVDI is installed
  ************************************************/
 
-/* OBS. Denna kraschade datorer med MMU. Testar nu ny rutin. */
+/* NOTE. This crashed computers with MMU. Now testing new routine in the new file */
 
 #include <tos.h>
 #include <portab.h>
@@ -12,8 +12,8 @@ long nvdi_cookie = 0L;
 
 typedef struct nvdi_struc
 {
-   UWORD nvdi_version;            /*  z.B. 0x0301 fÅr Version 3.01 */
-   ULONG nvdi_datum;    /*  z.B. 0x18061990L fÅr 18.06.1990 */
+   UWORD nvdi_version;            /*  z.B. 0x0301 for Version 3.01 */
+   ULONG nvdi_datum;    /*  z.B. 0x18061990L for 18.06.1990 */
 } NVDI_STRUC;
 
 
